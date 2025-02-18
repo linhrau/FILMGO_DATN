@@ -3,7 +3,7 @@ import "./App.scss";
 function App() {
 	return (
 		<>
-			<h1>Xin chao cac ban, minh la Phecode day!</h1>
+			<h1></h1>
 		</>
 	);
 }
