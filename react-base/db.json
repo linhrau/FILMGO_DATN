@@ -2,24 +2,24 @@
   "users": [
     {
       "email": "thainguyen3424@gmail.com",
-      "password": "$2a$10$gQ.AdCZKvgO7T6HCx8qVduvEiUaQPukPIrUCWlczyMvHfWHMdTv1m",
-      "name": "Nguyễn Thúy Hằng",
+      "password": "$2a$10$Y49KZexMZ8SI3ZGows0lv...n1rhwvclf0fYWTf3VTNXWIkzWiS2m",
+      "name": "Nguyễn Đình Thái",
       "phone": "0908932004",
       "confirm_password": "111111",
-      "gender": "female",
-      "birthday": "2004-10-27T17:00:00.000Z",
+      "gender": "male",
+      "birthday": "2004-04-02T17:00:00.000Z",
       "address": "Hà Nội",
       "id": 1
     },
     {
       "email": "thaind@gmail.com",
-      "password": "$2a$10$rOcEhEmrcsw/qJp3L7tycux8qTDY3F1dNucxVcTZ4elFioriNc.vu",
-      "name": "Nguyễn Đình Thái",
-      "phone": "12345678910",
-      "confirm_password": "111111",
+      "password": "$2a$10$q4DBOQgr4dl96AwfIP.eyuPfteQfILdafKJbO6cv2H10zMda9o1Qe",
+      "name": "abcdadsasd",
+      "phone": "4554654645",
+      "confirm_password": "1111111",
       "gender": "male",
       "birthday": "2004-04-02T17:00:00.000Z",
-      "address": "hà nội",
+      "address": "Hà Nội",
       "id": 2
     }
   ],
@@ -72,7 +72,9 @@
       "brand": "Samsung",
       "category": "smartphones",
       "thumbnail": "https://cdn.dummyjson.com/product-images/3/thumbnail.jpg",
-      "images": ["https://cdn.dummyjson.com/product-images/3/1.jpg"]
+      "images": [
+        "https://cdn.dummyjson.com/product-images/3/1.jpg"
+      ]
     },
     {
       "id": 4,
