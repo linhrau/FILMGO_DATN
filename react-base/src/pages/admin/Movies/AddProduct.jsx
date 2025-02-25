@@ -1,12 +1,14 @@
-// import React from "react";
-
-// const AddProduct = () => {
-//   return <div>AddProduct</div>;
-// };
-
-// export default AddProduct;
 import { useMutation } from "@tanstack/react-query";
-import { Button, Form, Input, InputNumber, Select, Switch, Upload } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Switch,
+  Upload,
+  DatePicker,
+} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import React, { useState } from "react";
@@ -39,8 +41,18 @@ const AddProduct = () => {
   };
 
   const onFinish = (values) => {
-    mutate({ ...values, imageUrl });
+    const formattedValues = {
+      ...values,
+      imageUrl,
+      releaseDate: values.releaseDate
+        ? values.releaseDate.format("YYYY-MM-DD")
+        : null,
+      createdAt: new Date().toISOString().split("T")[0], // Chỉ lấy phần YYYY-MM-DD
+    };
+    console.log("Dữ liệu gửi đi:", formattedValues); // Debug xem có chuẩn không
+    mutate(formattedValues);
   };
+
   return (
     <div>
       <h1 className="text-4xl my-8">Thêm mới sản phẩm</h1>
@@ -61,27 +73,11 @@ const AddProduct = () => {
         <Form.Item
           label="Tên sản phẩm"
           name="name"
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng nhập tên sản phẩm",
-            },
-          ]}
+          rules={[{ required: true, message: "Vui lòng nhập tên sản phẩm" }]}
         >
           <Input />
         </Form.Item>
-        {/* <Form.Item
-          label="Giá sản phẩm"
-          name="price"
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng nhập giá sản phẩm",
-            },
-          ]}
-        >
-          <InputNumber />
-        </Form.Item> */}
+
         <Form.Item
           label="Upload"
           valuePropName="fileList"
@@ -101,31 +97,50 @@ const AddProduct = () => {
               type="button"
             >
               <PlusOutlined />
-              <div
-                style={{
-                  marginTop: 8,
-                }}
-              >
-                Upload
-              </div>
+              <div style={{ marginTop: 8 }}>Upload</div>
             </button>
           </Upload>
         </Form.Item>
-        <Form.Item label="Trạng thái" name="available" initialValue={false}>
-          <Switch />
+
+        <Form.Item
+          label="Năm"
+          name="year"
+          rules={[{ required: true, message: "Vui lòng nhập năm phát hành" }]}
+        >
+          <InputNumber
+            min={1900}
+            max={new Date().getFullYear()}
+            placeholder="Nhập năm phát hành"
+            style={{ width: "100%" }}
+          />
         </Form.Item>
-        <Form.Item label="Mô tả" name="description">
-          <TextArea rows={4} />
-        </Form.Item>
-        <Form.Item label="Danh mục" name="category">
+
+        <Form.Item label="Thể loại" name="category">
           <Select>
             <Select.Option value="Tình cảm">Tình cảm</Select.Option>
-            <Select.Option value="Phiêu lưu">Phiêu lưu </Select.Option>
+            <Select.Option value="Phiêu lưu">Phiêu lưu</Select.Option>
             <Select.Option value="Viễn tưởng">Viễn tưởng</Select.Option>
             <Select.Option value="Kinh dị">Kinh dị</Select.Option>
             <Select.Option value="Hài">Hài</Select.Option>
           </Select>
         </Form.Item>
+
+        <Form.Item label="Trạng thái" name="available" initialValue={false}>
+          <Switch />
+        </Form.Item>
+
+        <Form.Item label="Mô tả" name="description">
+          <TextArea rows={4} />
+        </Form.Item>
+
+        <Form.Item
+          label="Lịch chiếu"
+          name="releaseDate"
+          rules={[{ required: true, message: "Vui lòng chọn ngày chiếu" }]}
+        >
+          <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" />
+        </Form.Item>
+
         <Form.Item>
           <Button htmlType="submit">Submit</Button>
         </Form.Item>

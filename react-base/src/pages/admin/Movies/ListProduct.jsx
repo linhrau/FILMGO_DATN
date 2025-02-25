@@ -45,12 +45,12 @@ const ProductManagement = () => {
   });
 
   const columns = [
-    {
-      title: "STT",
-      dataIndex: "id",
-      key: "id",
-      render: (text) => <a>{text}</a>,
-    },
+    // {
+    //   title: "STT",
+    //   dataIndex: "id",
+    //   key: "id",
+    //   render: (text) => <a>{text}</a>,
+    // },
     {
       title: "Tên sản phẩm",
       dataIndex: "name",
@@ -70,6 +70,12 @@ const ProductManagement = () => {
       },
     },
     {
+      title: "Năm phát hành",
+      dataIndex: "year",
+      key: "year",
+      render: (text) => <a>{text}</a>,
+    },
+    {
       title: "Tình trạng",
       key: "available",
       dataIndex: "available",
@@ -82,9 +88,21 @@ const ProductManagement = () => {
       },
     },
     {
-      title: "Danh mục",
+      title: "Thể loại",
       key: "category",
       dataIndex: "category",
+    },
+    {
+      title: "Lịch chiếu",
+      dataIndex: "releaseDate",
+      key: "releaseDate",
+      render: (text) => <Tag color="blue">{text}</Tag>,
+    },
+    {
+      title: "Ngày tạo",
+      key: "createdAt",
+      dataIndex: "createdAt",
+      render: (text) => <Tag color="purple">{text || "Chưa có"}</Tag>,
     },
     {
       title: "Hành động",
