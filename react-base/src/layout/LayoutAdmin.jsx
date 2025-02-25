@@ -116,12 +116,12 @@ const items = [
   ]),
   getItem("Rạp phim", "3", <VideoCameraTwoTone />, [
     getItem(
-      <Link to="/admin/products">Danh sách</Link>,
+      <Link to="/admin/list-cinema">Danh sách</Link>,
       "3.1",
       <FolderOpenFilled />
     ),
     getItem(
-      <Link to="/admin/products/add">Thêm</Link>,
+      <Link to="/admin/creat-cinema">Thêm</Link>,
       "3.2",
       <FolderAddFilled />
     ),
@@ -179,14 +179,14 @@ const items = [
   ]),
   getItem("Người dùng", "4", <IdcardTwoTone />, [
     getItem(
-      <Link to="/admin/listuser">Danh sách</Link>,
+      <Link to="/admin/list-user">Khách hàng</Link>,
       "4.1",
-      <UnorderedListOutlined />
+      <UserOutlined />
     ),
     getItem(
-      <Link to="/admin/products/add">Thêm</Link>,
+      <Link to="/admin/products/add">Nhân viên</Link>,
       "4.2",
-      <PlusOutlined />
+      <UserOutlined />
     ),
   ]),
 ];
