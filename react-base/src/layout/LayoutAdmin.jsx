@@ -33,7 +33,7 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem(<Link to="/admin">Thống kê</Link>, "1", <PieChartTwoTone />),
+  getItem(<Link to="/admin">Bảng Thồng Kê</Link>, "1", <PieChartTwoTone />),
   getItem("Phim", "2", <PlaySquareTwoTone />, [
     getItem(
       <Link to="/admin/products">Danh sách phim</Link>,
