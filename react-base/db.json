@@ -1,22 +1,20 @@
 {
-  "products": [
+  "cinemas": [
     {
-      "name": "New Product 1",
-      "price": 111111,
-      "available": true,
-      "description": "abcd",
-      "category": "cate1",
-      "imageUrl": "https://res.cloudinary.com/dxhgeg7vi/image/upload/v1728836731/fo6mhlunjqvnpwkhr19x.png",
-      "id": 16
+      "name": "CGV",
+      "address": "bắc từ liêm",
+      "province": "province2",
+      "contact": "0954543555",
+      "imageUrls": "https://res.cloudinary.com/ecommercer2021/image/upload/v1740501073/ra51yvpz26nyhrcbujnj.jpg",
+      "id": 1
     },
     {
-      "name": "New Product 2",
-      "price": 1111,
-      "available": true,
-      "description": "abcd",
-      "category": "cate1",
-      "imageUrl": "https://res.cloudinary.com/dxhgeg7vi/image/upload/v1728913413/bssu0eo9r6rqcj1cnt3i.jpg",
-      "id": 17
+      "name": "Galaxy",
+      "address": "Long Biên",
+      "province": "province2",
+      "contact": "0123852963",
+      "imageUrls": "https://res.cloudinary.com/ecommercer2021/image/upload/v1740501164/yxoxj5nih0tm2uk2ex8e.jpg",
+      "id": 2
     }
   ]
 }

@@ -36,17 +36,17 @@ const items = [
   getItem(<Link to="/admin">Thống kê</Link>, "1", <PieChartTwoTone />),
   getItem("Phim", "2",<PlaySquareTwoTone /> , [
     getItem(
-      <Link to="/admin/products">Danh sách phim</Link>,
+      <Link to="/admin/movie">Danh sách phim</Link>,
       "2.1",
       <FolderOpenFilled />
     ),
     getItem(
-      <Link to="/admin/products/add">Thêm mới </Link>,
+      <Link to="/admin/movie/add">Thêm mới </Link>,
       "2.2",
       <FolderAddFilled />
     ),
     getItem(
-      <Link to="/admin/products/category">Thể loại</Link>,
+      <Link to="/admin/movie/category">Thể loại</Link>,
       "2.3",
       <HddFilled />,[
         getItem(
@@ -108,17 +108,17 @@ const items = [
   ]),
   getItem("Rạp phim", "3", <VideoCameraTwoTone />, [
     getItem(
-      <Link to="/admin/products">Danh sách</Link>,
+      <Link to="/admin/cinemas">Danh sách</Link>,
       "3.1",
       <FolderOpenFilled />
     ),
     getItem(
-      <Link to="/admin/products/add">Thêm</Link>,
+      <Link to="/admin/cinemas/add">Thêm</Link>,
       "3.2",
       <FolderAddFilled />
     ),
     getItem(
-        <Link to="/admin/products/category">Thành phố/Tỉnh thành</Link>,
+        <Link to="/admin/cinemas/category">Thành phố/Tỉnh thành</Link>,
         "3.3"
         ,
         <EnvironmentFilled />,[

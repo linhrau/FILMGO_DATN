@@ -10,9 +10,10 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
-      <CounterContext>
-        <App />
-      </CounterContext>
+      {/* <CounterContext>
+       
+      </CounterContext> */}
+       <App />
     </BrowserRouter>
   </QueryClientProvider>
 );
