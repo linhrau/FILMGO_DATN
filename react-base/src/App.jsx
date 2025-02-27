@@ -1,22 +1,25 @@
 import "./App.scss";
 import { Routes, Route } from "react-router-dom";
-import routers from "@/routers/routers";
+import LayoutAdmin from "@/layouts/admin/LayoutAdmin";
+import Dashboard from "@/pages/admin/Dashboard";
+import Seat from "@/pages/admin/Seat";
 
 function App() {
   return (
-    <div>
+    <>
+      {/* router admin */}
       <Routes>
-        {routers.map((item, index) => {
-          return (
-            <Route
-              path={item.path}
-              element={<item.component />}
-              key={index}
-            ></Route>
-          );
-        })}
+        <Route path="/admin" element={<LayoutAdmin />}>
+          <Route index element={<Dashboard />} />
+          <Route path="seats" element={<Seat />} />
+        </Route>
       </Routes>
-    </div>
+
+      {/* router user */}
+      <Routes>
+        <Route></Route>
+      </Routes>
+    </>
   );
 }
 
