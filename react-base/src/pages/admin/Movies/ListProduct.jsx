@@ -13,128 +13,123 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const ProductManagement = () => {
+const ListProduct = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const queryClient = useQueryClient();
+
   const { mutate } = useMutation({
     mutationFn: async (id) => {
-      await axios.delete(`http://localhost:3000/products/${id}`);
+      await axios.delete(`http://filmgo.io.vn/api/movies/delete/${id}`);
     },
     onSuccess: () => {
       messageApi.open({
         type: "success",
-        content: "Bạn đã xoá thành công",
+        content: "Bạn đã xoá phim thành công",
       });
-      queryClient.invalidateQueries({
-        queryKey: ["products"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["movies"] });
     },
     onError: () => {
       messageApi.open({
         type: "error",
-        content: "Xoá thất baị, vui lòng thử lại sau",
+        content: "Xoá phim thất bại, vui lòng thử lại sau",
       });
     },
   });
+
   const { isLoading, isError, data, error } = useQuery({
-    queryKey: ["products"],
+    queryKey: ["movies"],
     queryFn: async () => {
-      const response = await axios.get(`http://localhost:3000/products`);
-      return response.data.map((product) => ({ ...product, key: product.id }));
+      const response = await axios.get(`http://filmgo.io.vn/api/movies`);
+      return response.data.data.map((movie) => ({
+        ...movie,
+        key: movie.id,
+      }));
     },
   });
 
   const columns = [
-    // {
-    //   title: "STT",
-    //   dataIndex: "id",
-    //   key: "id",
-    //   render: (text) => <a>{text}</a>,
-    // },
     {
-      title: "Tên sản phẩm",
-      dataIndex: "name",
-      key: "name",
+      title: "Tên phim",
+      dataIndex: "title",
+      key: "title",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Ảnh sản phẩm",
-      dataIndex: "imageUrl",
-      key: "imageUrl",
-      render: (_, item) => {
-        return (
-          <>
-            <Image width={50} src={item.imageUrl} />
-          </>
-        );
-      },
+      title: "Ảnh bìa",
+      dataIndex: "poster",
+      key: "poster",
+      render: (poster) => <Image width={50} src={poster} />,
     },
     {
-      title: "Năm phát hành",
-      dataIndex: "year",
-      key: "year",
-      render: (text) => <a>{text}</a>,
+      title: "Trailer",
+      dataIndex: "trailer",
+      key: "trailer",
+      render: (trailer) => (
+        <a href={trailer} target="_blank" rel="noopener noreferrer">
+          Xem trailer
+        </a>
+      ),
     },
     {
-      title: "Tình trạng",
-      key: "available",
-      dataIndex: "available",
-      render: (_, item) => {
-        return item.available ? (
-          <Tag color="green">Còn hàng</Tag>
-        ) : (
-          <Tag color="red">Hết hàng</Tag>
-        );
-      },
-    },
-    {
-      title: "Thể loại",
-      key: "category",
-      dataIndex: "category",
-    },
-    {
-      title: "Lịch chiếu",
-      dataIndex: "releaseDate",
-      key: "releaseDate",
+      title: "Ngày phát hành",
+      dataIndex: "release_date",
+      key: "release_date",
       render: (text) => <Tag color="blue">{text}</Tag>,
     },
     {
-      title: "Ngày tạo",
-      key: "createdAt",
-      dataIndex: "createdAt",
-      render: (text) => <Tag color="purple">{text || "Chưa có"}</Tag>,
+      title: "Thể loại",
+      key: "genres",
+      dataIndex: "genres",
+      render: (genres) => (
+        <>
+          {genres.map((genre) => (
+            <Tag key={genre.genre_id}>{genre.name}</Tag>
+          ))}
+        </>
+      ),
+    },
+    {
+      title: "Diễn viên",
+      key: "actors",
+      dataIndex: "actors",
+      render: (actors) => (
+        <>
+          {actors.map((actor) => (
+            <Tag key={actor.actor_id}>{actor.name}</Tag>
+          ))}
+        </>
+      ),
+    },
+    {
+      title: "Thời lượng",
+      dataIndex: "duration",
+      key: "duration",
+      render: (text) => <Tag color="cyan">{text} phút</Tag>,
+    },
+    {
+      title: "Đánh giá",
+      dataIndex: "rating",
+      key: "rating",
+      render: (text) => <Tag color="gold">{text}</Tag>,
     },
     {
       title: "Hành động",
       key: "action",
-      render: (_, item) => {
-        return (
-          <div>
-            <Popconfirm
-              title="Delete the task"
-              description="Are you sure to delete this task?"
-              onConfirm={() => mutate(item.id)}
-              onCancel={() => {}}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button danger>Delete</Button>
-            </Popconfirm>
-
-            <Popconfirm
-              title="Edit the task"
-              description="Are you sure to edit this task?"
-              onConfirm={() => mutate(item.product)}
-              onCancel={() => {}}
-              okText="Yes"
-            >
-              <Link to={`/admin/products/${item.id}/update`}>
-                <Button danger>Edit</Button>
-              </Link>
-            </Popconfirm>
-          </div>
-        );
-      },
+      render: (_, movie) => (
+        <Space>
+          <Popconfirm
+            title="Bạn có chắc muốn xoá phim này?"
+            onConfirm={() => mutate(movie.id)}
+            okText="Có"
+            cancelText="Không"
+          >
+            <Button danger>Xoá</Button>
+          </Popconfirm>
+          <Link to={`/admin/movies/${movie.id}/update`}>
+            <Button type="primary">Sửa</Button>
+          </Link>
+        </Space>
+      ),
     },
   ];
 
@@ -142,9 +137,9 @@ const ProductManagement = () => {
     <>
       {contextHolder}
       <center>
-        <h1>Product Management</h1>
+        <h1>Quản lý phim</h1>
       </center>
-      <Link to="/admin/products/add" className="btn btn-primary">
+      <Link to="/admin/movies/add" className="btn btn-primary">
         Thêm phim
       </Link>
       <br />
@@ -158,7 +153,4 @@ const ProductManagement = () => {
   );
 };
 
-export default ProductManagement;
-
-// npm i antd
-// tailwindcss
+export default ListProduct;

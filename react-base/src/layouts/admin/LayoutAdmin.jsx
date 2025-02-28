@@ -36,7 +36,7 @@ const items = [
   getItem(<Link to="/admin">Dashboard</Link>, "1", <PieChartTwoTone />),
   getItem("Phim", "2", <PlaySquareTwoTone />, [
     getItem(
-      <Link to="/admin/products">Danh sách phim</Link>,
+      <Link to="/admin/movies">Danh sách phim</Link>,
       "2.1",
       <FolderOpenFilled />
     ),
@@ -63,21 +63,21 @@ const items = [
       // ]
     ),
     getItem(
-      <Link to="/admin/products/category">Diễn viên</Link>,
+      <Link to="/admin/actors">Diễn viên</Link>,
       "2.4",
-      <TeamOutlined />,
-      [
-        getItem(
-          <Link to="/admin/products">Danh sách</Link>,
-          "2.4.1",
-          <UnorderedListOutlined />
-        ),
-        getItem(
-          <Link to="/admin/products">Thêm mới</Link>,
-          "2.4.2",
-          <PlusOutlined />
-        ),
-      ]
+      <TeamOutlined />
+      // [
+      //   getItem(
+      //     <Link to="/admin/products">Danh sách</Link>,
+      //     "2.4.1",
+      //     <UnorderedListOutlined />
+      //   ),
+      //   getItem(
+      //     <Link to="/admin/products">Thêm mới</Link>,
+      //     "2.4.2",
+      //     <PlusOutlined />
+      //   ),
+      // ]
     ),
     getItem(
       <Link to="/admin/products/category">Xuất chiếu</Link>,
