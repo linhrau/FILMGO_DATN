@@ -10,6 +10,11 @@ import ListCinema from "./admin/cinema/ListCinema";
 import CreatCinema from "./admin/cinema/CreatCinema";
 import UpdateCinema from "./admin/cinema/UpdateCinema";
 import CreatRoom from "./admin/cinema/room/CreatRoom";
+import CreatProvince from "./admin/province/CreatProvince";
+import ListProvince from "./admin/province/ListProvince";
+import UpProvince from "./admin/province/UpProvince";
+import ListRoom from "./admin/cinema/room/ListRoom";
+import UpdateRoom from "./admin/cinema/room/UpdateRoom";
 
 function App() {
   return (
@@ -25,6 +30,14 @@ function App() {
             element={<UpdateCinema />}
           ></Route>
           <Route path="/admin/creat-screen" element={<CreatRoom />}></Route>
+          <Route path="/admin/list-screen" element={<ListRoom />}></Route>
+          <Route path="/admin/update-screen" element={<UpdateRoom />}></Route>
+          <Route
+            path="/admin/creat-province"
+            element={<CreatProvince />}
+          ></Route>
+          <Route path="/admin/list-province" element={<ListProvince />}></Route>
+          <Route path="/admin/update-province" element={<UpProvince />}></Route>
         </Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/signin" element={<SignIn />}></Route>

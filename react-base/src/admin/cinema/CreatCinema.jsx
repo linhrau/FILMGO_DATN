@@ -1,14 +1,21 @@
-import React from "react";
-import { Button, Checkbox, Form, Input } from "antd";
-import { useMutation } from "@tanstack/react-query";
+import React, { useEffect, useState } from "react";
+import { Button, Checkbox, Form, Input, message, Select, Upload } from "antd";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+const { Option } = Select;
 
 const CreatCinema = () => {
   const nav = useNavigate();
+  const [provinces, setProvinces] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://filmgo.io.vn/api/provinces")
+      .then((res) => setProvinces(res.data.data));
+  }, []);
   const { mutate } = useMutation({
     mutationFn: async (cinema) => {
-      await axios.post(`http://localhost:3000/cinemas`, cinema);
+      await axios.post(`http://filmgo.io.vn/api/cinemas/create`, cinema);
     },
     onSuccess: () => {
       nav(`/admin/list-cinema`);
@@ -17,6 +24,8 @@ const CreatCinema = () => {
   const onFinish = (values) => {
     mutate(values);
   };
+  // if (isLoading) return <div>Loading...</div>;
+  // if (isError) return <div>{error.message}</div>;
 
   return (
     <Form
@@ -36,6 +45,7 @@ const CreatCinema = () => {
       onFinish={onFinish}
       autoComplete="off"
     >
+      <h1 className="text-3xl mb-5">Thêm rạp phim</h1>
       <Form.Item
         label="Tên rạp"
         name="name"
@@ -47,6 +57,31 @@ const CreatCinema = () => {
         ]}
       >
         <Input placeholder="Nhập tên rạp" />
+      </Form.Item>
+      <Form.Item
+        label="Mã rạp"
+        name="code"
+        rules={[
+          {
+            required: true,
+            message: "Không được bỏ trống!",
+          },
+        ]}
+      >
+        <Input placeholder="Nhập mã rạp" />
+      </Form.Item>
+      <Form.Item
+        name="province_id"
+        label="Khu vuc"
+        rules={[{ required: true, message: "Vui lòng Không bỏ trống" }]}
+      >
+        <Select placeholder="Chọn thể loại">
+          {provinces.map((province) => (
+            <Option key={province.id} value={province.id}>
+              {province.name}
+            </Option>
+          ))}
+        </Select>
       </Form.Item>
       <Form.Item
         label="Nhập địa chỉ"
@@ -73,7 +108,21 @@ const CreatCinema = () => {
       >
         <Input placeholder="Nhập số điện thoại" />
       </Form.Item>
-
+      {/* <Form.Item
+        name="image"
+        label="Ảnh "
+        valuePropName="fileList"
+        getValueFromEvent={(e) => (e && e.fileList ? e.fileList : [])} // Fix lấy fileList đúng
+        rules={[{ required: true, message: "Vui lòng chọn ảnh hợp lệ!" }]}
+      >
+        <Upload
+          beforeUpload={() => false} // Không tự động upload
+          listType="picture-card"
+          accept=".jpg,.jpeg,.png"
+        >
+          <Button>Chọn ảnh</Button>
+        </Upload>
+      </Form.Item> */}
       <Form.Item label={null}>
         <Button type="primary" htmlType="submit">
           Submit

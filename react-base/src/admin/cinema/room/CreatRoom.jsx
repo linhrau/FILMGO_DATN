@@ -1,22 +1,25 @@
-import React from "react";
-import { Button, Checkbox, Form, Input } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Form, Input, Select } from "antd";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const { Option } = Select;
 const CreatRoom = () => {
-  const { cinemaId } = useParams();
-  // const nav = useNavigate();
+  const nav = useNavigate();
+  const [cinemas, setCinemas] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://filmgo.io.vn/api/cinemas")
+      .then((res) => setCinemas(res.data.data));
+  }, []);
   const { mutate } = useMutation({
     mutationFn: async (screen) => {
-      await axios.post(
-        `http://localhost:3000/cinemas/${cinemaId}/screens`,
-        screen
-      );
+      await axios.post(`http://filmgo.io.vn/api/screens/create`, screen);
     },
-    // onSuccess: () => {
-    //   nav(`/admin/list-screens`);
-    // },
+    onSuccess: () => {
+      nav(`/admin/list-screens`);
+    },
   });
   const onFinish = (values) => {
     mutate(values);
@@ -51,6 +54,19 @@ const CreatRoom = () => {
         ]}
       >
         <Input placeholder="Nhập tên phòng" />
+      </Form.Item>
+      <Form.Item
+        name="cinema_id"
+        label="Chọn rạp"
+        rules={[{ required: true, message: "Vui lòng Không bỏ trống" }]}
+      >
+        <Select placeholder="Chọn rạp">
+          {cinemas.map((cinema) => (
+            <Option key={cinema.id} value={cinema.id}>
+              {cinema.name}
+            </Option>
+          ))}
+        </Select>
       </Form.Item>
 
       <Form.Item label={null}>

@@ -111,6 +111,9 @@ const ListCinema = () => {
     <>
       {contextHolder}
       <h1 className="text-3xl mb-5">Quản lý rạp phim</h1>
+      <Link to="/admin/creat-cinema" className="btn btn-primary">
+        Thêm rạp
+      </Link>
       <Skeleton active loading={isLoading}>
         <Table columns={columns} dataSource={data} />
       </Skeleton>
