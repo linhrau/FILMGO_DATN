@@ -8,18 +8,21 @@ import {
   Row,
   Col,
   Radio,
+  Upload,
 } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "./api";
 
 const Signup = () => {
   const nav = useNavigate();
   const [form] = Form.useForm();
   const [messageApi] = message.useMessage();
   const { mutate, isPending } = useMutation({
-    mutationFn: async (formData) => {
-      return await axios.post(`http://localhost:3000/api/signup`, formData);
+    mutationFn: async (data) => {
+      return await api.post(`http://filmgo.io.vn/api/auth/register`, data);
     },
     onSuccess: () => {
       form.resetFields();
@@ -156,7 +159,7 @@ const Signup = () => {
 
             {/* Bên phải */}
             <Col span={12}>
-              <Form.Item
+              {/* <Form.Item
                 label="Giới tính"
                 name="gender"
                 rules={[
@@ -171,7 +174,7 @@ const Signup = () => {
                   <Radio value="female">Nữ</Radio>
                   <Radio value="other">Khác</Radio>
                 </Radio.Group>
-              </Form.Item>
+              </Form.Item> */}
               <Form.Item
                 label="Ngày sinh"
                 name="birthday" //date of birth
@@ -182,7 +185,7 @@ const Signup = () => {
                   },
                 ]}
               >
-                <DatePicker format="DD/MM/YYYY" style={{ width: "100%" }} />
+                <Input format="YYYY-MM-DD" style={{ width: "100%" }} />
               </Form.Item>
 
               <Form.Item
@@ -197,6 +200,26 @@ const Signup = () => {
               >
                 <Input placeholder="Nhập Tỉnh/Thành phố" />
               </Form.Item>
+              {/* <Form.Item
+                label="Avatar"
+                name="avatar"
+                rules={[
+                  {
+                    required: true,
+                    message: "Bắt buộc chọn avatar",
+                  },
+                ]}
+              >
+                <Upload
+                  name="avt"
+                  action="/upload" // Thay "/upload" bằng API thực tế của bạn nếu có
+                  listType="picture-card"
+                  showUploadList={false} // Ẩn danh sách file đã tải lên
+                  beforeUpload={() => false} // Tắt việc tự động upload khi chọn file
+                >
+                  <Button icon={<UploadOutlined />}>Chọn Avatar</Button>
+                </Upload>
+              </Form.Item> */}
             </Col>
           </Row>
 
