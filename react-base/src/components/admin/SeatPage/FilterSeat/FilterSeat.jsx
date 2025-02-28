@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { getProvinces } from "@/apis/provincesService";
 import { getCinemasByProvinceId } from "@/apis/cinemasService";
 import { getScreensByCinemaId } from "@/apis/screensService";
-import { Select } from "antd";
+import { Select, Button } from "antd";
 import { getSeatsByScreenID } from "@/apis/seatsService";
-import SeatLayout from "../../../admin/SeatPage/SeatLayout/SeatLayout"
+import SeatLayout from "@/components/admin/SeatPage/SeatLayout/SeatLayout";
+import AddSeatForm from "@/components/admin/SeatPage/AddSeatForm/AddSeatForm";
+import Modal from "react-modal"; // Import Modal
 
 function FilterSeat() {
   const [selectedProvince, setSelectedProvince] = useState(undefined);
@@ -14,6 +16,7 @@ function FilterSeat() {
   const [screens, setScreens] = useState([]);
   const [selectedScreen, setSelectedScreen] = useState(undefined);
   const [seats, setSeats] = useState([]);
+  const [showAddForm, setShowAddForm] = useState(false);
 
   useEffect(() => {
     getProvinces().then((res) => {
@@ -54,10 +57,10 @@ function FilterSeat() {
           setSeats(res.data);
         }
       });
-    }else{
+    } else {
       setSeats([]);
     }
-  },[selectedScreen]);
+  }, [selectedScreen]);
 
   const handleChangeProvince = (value) => {
     setSelectedProvince(value);
@@ -75,6 +78,10 @@ function FilterSeat() {
 
   const handleChangeScreen = (value) => {
     setSelectedScreen(value);
+  };
+
+  const handleAddClick = () => {
+    setShowAddForm(true);
   };
 
   return (
@@ -113,13 +120,37 @@ function FilterSeat() {
               label: screen.name,
             }))}
             placeholder="Chọn rạp chiếu"
-            style={{ width: "30%" }} // Thêm style
+            style={{ width: "30%", marginRight: "3%" }} // Thêm style
           />
         )}
+        {selectedScreen && (
+          <div>
+            <Button variant="solid" color="primary" onClick={handleAddClick}>
+              Thêm
+            </Button>
+            <Modal
+              isOpen={showAddForm} // Hiển thị modal khi showAddForm là true
+              onRequestClose={() => setShowAddForm(false)} // Đóng modal khi click ra ngoài hoặc nhấn Esc
+              contentLabel="Thêm Ghế Mới" // Nhãn cho modal (cho mục đích trợ năng)
+              ariaHideApp={false}
+              style={{
+                overlay: {
+                  backgroundColor: "rgba(0, 0, 0, 0.5)", // Màu nền tối
+                  zIndex: 1000, // Đảm bảo modal nằm trên các phần tử khác
+                },
+                content: {
+                  width: "600px", // Chiều rộng modal
+                  margin: "auto", // Căn giữa modal
+                  padding: "20px",
+                },
+              }}
+            >
+              <AddSeatForm />
+            </Modal>
+          </div>
+        )}
       </div>
-      {seats.length > 0 && (
-        <SeatLayout seats={seats} screens={screens}/>
-      )}
+      {seats.length > 0 && <SeatLayout seats={seats} />}
     </>
   );
 }
