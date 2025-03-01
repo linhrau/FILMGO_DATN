@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Checkbox, Form, Input, message, Select, Upload } from "antd";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { Button, Form, Input, Select } from "antd";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const { Option } = Select;

@@ -1,118 +1,131 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Button, Form, Input, message, Skeleton } from "antd";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Button, Form, Input, Select } from "antd";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import CreatCinema from "./CreatCinema";
+import axios from "axios";
+const { Option } = Select;
 
 const UpdateCinema = () => {
-  const queryClient = useQueryClient();
-  const [form] = Form.useForm();
-
-  const [messageApi, contextHolder] = message.useMessage();
   const nav = useNavigate();
-  const { id } = useParams(); //lấy dữ liệu của rạp từ data
-  const { data, isLoading } = useQuery({
-    queryKey: ["cinemas", id],
-    queryFn: async () => {
-      const response = await axios.get(`http://localhost:3000/cinemas/${id}`);
-      return response.data;
-    },
-  });
-  const { mutate, isPending } = useMutation({
+  const { id } = useParams(); // Lấy ID từ URL
+  const [provinces, setProvinces] = useState([]);
+  const [cinemaData, setCinemaData] = useState(null); // State để lưu dữ liệu rạp phim cần cập nhật
+
+  useEffect(() => {
+    axios
+      .get("http://filmgo.io.vn/api/provinces")
+      .then((res) => setProvinces(res.data.data));
+  }, []);
+
+  useEffect(() => {
+    if (id) {
+      axios.get(`http://filmgo.io.vn/api/cinemas/show/${id}`).then((res) => {
+        setCinemaData(res.data.data); // Lưu dữ liệu rạp phim vào state
+      });
+    }
+  }, [id]);
+
+  const { mutate } = useMutation({
     mutationFn: async (cinema) => {
-      return await axios.put(`http://localhost:3000/cinemas/${id}`, cinema);
+      await axios.put(`http://filmgo.io.vn/api/cinemas/update/${id}`, cinema); // Sử dụng PUT để cập nhật
     },
     onSuccess: () => {
-      messageApi.open({
-        type: "success",
-        content: "Cập nhật sản phẩm thành công!",
-      });
-      setTimeout(() => {
-        nav("/admin/list-cinema"); // redirect về trang danh sách sản phẩm
-      }, 2000);
-
-      queryClient.invalidateQueries({
-        queryKey: ["products", id],
-      });
-    },
-    onError: (error) => {
-      messageApi.error({
-        type: "error",
-        content: `Thêm sản phẩm thất bại, ${error}`,
-      });
+      nav(`/admin/list-cinema`);
     },
   });
+
   const onFinish = (values) => {
     mutate(values);
   };
-  if (isLoading) return <Skeleton active />;
+
+  if (!cinemaData && id) return <div>Loading...</div>; // Hiển thị loading nếu đang tải dữ liệu
 
   return (
-    <div>
-      {contextHolder}
-
-      <Form
-        name="basic"
-        form={form}
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
-        style={{
-          maxWidth: 600,
-        }}
-        onFinish={onFinish}
-        initialValues={data}
-        disabled={isPending}
+    <Form
+      name="basic"
+      labelCol={{
+        span: 8,
+      }}
+      wrapperCol={{
+        span: 16,
+      }}
+      style={{
+        maxWidth: 600,
+      }}
+      initialValues={cinemaData || {}} // Sử dụng dữ liệu rạp phim làm initialValues
+      onFinish={onFinish}
+      autoComplete="off"
+    >
+      <h1 className="text-3xl mb-5">Cập nhật rạp phim</h1>
+      <Form.Item
+        label="Tên rạp"
+        name="name"
+        rules={[
+          {
+            required: true,
+            message: "Không được bỏ trống!",
+          },
+        ]}
       >
-        <Form.Item
-          label="Tên rạp"
-          name="name"
-          rules={[
-            {
-              required: true,
-              message: "Bắt buộc nhập",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Nhập địa chỉ"
-          name="address"
-          rules={[
-            {
-              required: true,
-              message: "Bắt buộc nhập",
-            },
-          ]}
-        >
-          <Input placeholder="Nhập địa chỉ" />
-        </Form.Item>
+        <Input placeholder="Nhập tên rạp" />
+      </Form.Item>
+      <Form.Item
+        label="Mã rạp"
+        name="code"
+        rules={[
+          {
+            required: true,
+            message: "Không được bỏ trống!",
+          },
+        ]}
+      >
+        <Input placeholder="Nhập mã rạp" />
+      </Form.Item>
+      <Form.Item
+        name="province_id"
+        label="Khu vực"
+        rules={[{ required: true, message: "Vui lòng Không bỏ trống" }]}
+      >
+        <Select placeholder="Chọn khu vực loại">
+          {provinces.map((province) => (
+            <Option key={province.id} value={province.id}>
+              {province.name}
+            </Option>
+          ))}
+        </Select>
+      </Form.Item>
+      <Form.Item
+        label="Nhập địa chỉ"
+        name="address"
+        rules={[
+          {
+            required: true,
+            message: "Bắt buộc nhập",
+          },
+        ]}
+      >
+        <Input placeholder="Nhập địa chỉ" />
+      </Form.Item>
 
-        <Form.Item
-          label="Nhập số điện thoại"
-          name="contact"
-          rules={[
-            {
-              required: true,
-              message: "Bắt buộc nhập",
-            },
-          ]}
-        >
-          <Input placeholder="Nhập số điện thoại" />
-        </Form.Item>
+      <Form.Item
+        label="Nhập số điện thoại"
+        name="contact"
+        rules={[
+          {
+            required: true,
+            message: "Bắt buộc nhập",
+          },
+        ]}
+      >
+        <Input placeholder="Nhập số điện thoại" />
+      </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Thêm
-          </Button>
-        </Form.Item>
-      </Form>
-    </div>
+      <Form.Item label={null}>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
-
 export default UpdateCinema;

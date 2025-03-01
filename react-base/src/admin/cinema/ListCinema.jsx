@@ -1,108 +1,79 @@
+import { Button, message, Popconfirm, Skeleton, Space, Table } from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  Button,
-  Image,
-  message,
-  Popconfirm,
-  Skeleton,
-  Space,
-  Table,
-} from "antd";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
 const ListCinema = () => {
-  const queryClient = useQueryClient();
   const [messageApi, contextHolder] = message.useMessage();
-  const { data, isLoading } = useQuery({
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: async (id) => {
+      await axios.delete(`http://filmgo.io.vn/api/cinemas/delete/${id}`);
+    },
+    onSuccess: () => {
+      messageApi.open({
+        type: "success",
+        content: "Bạn đã xoá rạp phim thành công",
+      });
+      queryClient.invalidateQueries({ queryKey: ["cinemas"] });
+    },
+    onError: () => {
+      messageApi.open({
+        type: "error",
+        content: "Xoá rạp phim thất bại, vui lòng thử lại sau",
+      });
+    },
+  });
+
+  const { isLoading, data } = useQuery({
     queryKey: ["cinemas"],
     queryFn: async () => {
-      const response = await axios.get(`http://localhost:3000/cinemas`);
-      return response.data.map((cinema) => ({
-        key: cinema.id,
+      const response = await axios.get(`http://filmgo.io.vn/api/cinemas`);
+      return response.data.data.map((cinema) => ({
         ...cinema,
+        key: cinema.id,
       }));
     },
   });
-  const { mutate } = useMutation({
-    mutationFn: async (id) => {
-      return await axios.delete(`http://localhost:3000/cinemas/${id}`);
-    },
-    onSuccess: () => {
-      messageApi.success("Xóa rạp thành công");
-      queryClient.invalidateQueries({
-        queryKey: ["cinemas"],
-      });
-    },
-    onError: (error) => {
-      messageApi.error("Xóa rạp dùng không thành công", error.message);
-    },
-  });
-  const onHandleRemove = (id) => {
-    mutate(id);
-  };
+
   const columns = [
-    // {
-    //   title: "Ảnh đại diện",
-    //   dataIndex: "avatar",
-    //   key: "avatar",
-    //   render: (_, item) => {
-    //     return (
-    //       <Space>
-    //         <Image
-    //           key={item.avatar}
-    //           src={item.avatar}
-    //           width={70}
-    //           className="rounded border"
-    //         />
-    //       </Space>
-    //     );
-    //   },
-    // },
     {
       title: "Tên rạp",
       dataIndex: "name",
       key: "name",
+      render: (text) => <a>{text}</a>,
     },
+
     {
       title: "Địa chỉ",
       dataIndex: "address",
       key: "address",
+      render: (text) => <a>{text}</a>,
     },
     {
-      title: "Số điện thoại",
+      title: "Liên hệ",
       dataIndex: "contact",
       key: "contact",
+      render: (text) => <a>{text}</a>,
     },
     {
-      title: "Số phòng",
-      dataIndex: "room",
-      key: "room",
-    },
-
-    {
+      title: "",
       key: "action",
-      render: (_, item) => (
-        <div className="w-20">
-          <Space width="150">
-            <Popconfirm
-              title="Xóa người dùng"
-              description="Bạn có chắc chắn muốn xóa người dùng này không?"
-              onConfirm={() => onHandleRemove(item.id)}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button variant="solid" color="danger">
-                Xóa
-              </Button>
-            </Popconfirm>
-            <Link to={`/admin/update-cinema/${item.id}`}>
-              <Button variant="solid" color="primary">
-                Cập nhật
-              </Button>
-            </Link>
-          </Space>
-        </div>
+      render: (_, cinema) => (
+        <Space>
+          <Popconfirm
+            title="Bạn có chắc muốn xoá phim này?"
+            onConfirm={() => mutate(cinema.id)}
+            okText="Có"
+            cancelText="Không"
+          >
+            <Button danger>Xoá</Button>
+          </Popconfirm>
+          <Link to={`/admin/update-cinema/${cinema.id}`}>
+            <Button type="primary">Sửa</Button>
+          </Link>
+        </Space>
       ),
     },
   ];
@@ -110,23 +81,21 @@ const ListCinema = () => {
   return (
     <>
       {contextHolder}
-      <h1 className="text-3xl mb-5">Quản lý rạp phim</h1>
+      <center>
+        <h1 className="text-3xl mb-5">Quản lý rạp phim</h1>
+      </center>
       <Link to="/admin/creat-cinema" className="btn btn-primary">
-        Thêm rạp
+        Thêm rạp phim
       </Link>
-      <Skeleton active loading={isLoading}>
+      <br />
+      <br />
+      {isLoading ? (
+        <Skeleton active />
+      ) : (
         <Table columns={columns} dataSource={data} />
-      </Skeleton>
+      )}
     </>
   );
 };
-export default ListCinema;
 
-/**
- * Xóa người dùng:
- * Bước 1: Click vào button, lấy được id người dùng
- * Bước 2: Hiển thị confirm xác nhận xóa người dùng
- * Bước 3: Sử dụng useMutation để gọi API xóa người dùng dựa trên id vừa có
- * Bước 4: Nếu thành công thì hiển thị message, ngược lại hiển thị message lỗi
- * Bước 5: Cập nhật lại (refetching) danh sách người dùng
- */
+export default ListCinema;

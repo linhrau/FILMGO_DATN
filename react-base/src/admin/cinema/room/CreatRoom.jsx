@@ -43,6 +43,7 @@ const CreatRoom = () => {
       onFinish={onFinish}
       autoComplete="off"
     >
+      <h1 className="text-3xl mb-5">Thêm phòng chiếu</h1>
       <Form.Item
         label="Tên phòng"
         name="name"

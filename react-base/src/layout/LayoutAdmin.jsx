@@ -143,17 +143,17 @@ const items = [
       ]
     ),
     getItem(
-      <Link to="/admin/products/category">Phòng chiếu</Link>,
+      <Link to="/admin/list-screen">Phòng chiếu</Link>,
       "3.4",
       <AlertFilled />,
       [
         getItem(
-          <Link to="/admin/products">Danh sách</Link>,
+          <Link to="/admin/list-screen">Danh sách</Link>,
           "3.4.1",
           <UnorderedListOutlined />
         ),
         getItem(
-          <Link to="/admin/products">Thêm mới</Link>,
+          <Link to="/admin/creat-screen">Thêm mới</Link>,
           "3.4.2",
           <PlusOutlined />
         ),

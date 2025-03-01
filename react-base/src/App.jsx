@@ -31,7 +31,10 @@ function App() {
           ></Route>
           <Route path="/admin/creat-screen" element={<CreatRoom />}></Route>
           <Route path="/admin/list-screen" element={<ListRoom />}></Route>
-          <Route path="/admin/update-screen" element={<UpdateRoom />}></Route>
+          <Route
+            path="/admin/update-screen/:id"
+            element={<UpdateRoom />}
+          ></Route>
           <Route
             path="/admin/creat-province"
             element={<CreatProvince />}
