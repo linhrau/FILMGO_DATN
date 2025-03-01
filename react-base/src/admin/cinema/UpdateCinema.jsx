@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Input, Select } from "antd";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,7 +14,7 @@ const UpdateCinema = () => {
   useEffect(() => {
     axios
       .get("http://filmgo.io.vn/api/provinces")
-      .then((res) => setProvinces(res.data.data));
+      .then((res) => setProvinces(res.data.data)); //cập nhập giá trị của province sau khi nhân dữ liệu
   }, []);
 
   useEffect(() => {

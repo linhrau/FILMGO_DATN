@@ -1,11 +1,22 @@
-import { Button, message, Popconfirm, Skeleton, Space, Table } from "antd";
+import {
+  Button,
+  message,
+  Popconfirm,
+  Skeleton,
+  Space,
+  Table,
+  Select,
+} from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const ListRoom = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const queryClient = useQueryClient();
+
+  const [selectedCinema, setSelectedCinema] = useState(null); // State để lưu rạp phim đã chọn
 
   const { mutate } = useMutation({
     mutationFn: async (id) => {
@@ -21,7 +32,7 @@ const ListRoom = () => {
     onError: () => {
       messageApi.open({
         type: "error",
-        content: "Xoá rạp phim thất bại, vui lòng thử lại sau",
+        content: "Xoá phòng chiếu thất bại, vui lòng thử lại sau",
       });
     },
   });
@@ -37,6 +48,22 @@ const ListRoom = () => {
     },
   });
 
+  const { isLoading: isCinemaLoading, data: cinemas } = useQuery({
+    queryKey: ["cinemas"],
+    queryFn: async () => {
+      const response = await axios.get(`http://filmgo.io.vn/api/cinemas`);
+      return response.data.data.map((cinema) => ({
+        ...cinema,
+        key: cinema.id,
+      }));
+    },
+  });
+
+  // Lọc dữ liệu phòng chiếu theo cinema_id
+  const filteredData = selectedCinema
+    ? data?.filter((screen) => screen.cinema_id === selectedCinema)
+    : data;
+
   const columns = [
     {
       title: "Tên phòng chiếu",
@@ -44,14 +71,13 @@ const ListRoom = () => {
       key: "name",
       render: (text) => <a>{text}</a>,
     },
-
     {
       title: "",
       key: "action",
       render: (_, screen) => (
         <Space>
           <Popconfirm
-            title="Bạn có chắc muốn xoá phim này?"
+            title="Bạn có chắc muốn xoá phòng chiếu này?"
             onConfirm={() => mutate(screen.id)}
             okText="Có"
             cancelText="Không"
@@ -77,10 +103,28 @@ const ListRoom = () => {
       </Link>
       <br />
       <br />
+
+      {/* Dropdown lọc rạp phim */}
+      <div style={{ marginBottom: "20px" }}>
+        <Select
+          placeholder="Chọn rạp phim"
+          style={{ width: 200 }}
+          onChange={(value) => setSelectedCinema(value)}
+          allowClear
+          loading={isCinemaLoading}
+        >
+          {cinemas?.map((cinema) => (
+            <Select.Option key={cinema.key} value={cinema.id}>
+              {cinema.name} {/* Hiển thị tên rạp phim */}
+            </Select.Option>
+          ))}
+        </Select>
+      </div>
+
       {isLoading ? (
         <Skeleton active />
       ) : (
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={filteredData} rowKey="key" />
       )}
     </>
   );

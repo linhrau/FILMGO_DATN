@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Input, Select } from "antd";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ const CreatCinema = () => {
       .get("http://filmgo.io.vn/api/provinces")
       .then((res) => setProvinces(res.data.data));
   }, []);
+
   const { mutate } = useMutation({
     mutationFn: async (cinema) => {
       await axios.post(`http://filmgo.io.vn/api/cinemas/create`, cinema);

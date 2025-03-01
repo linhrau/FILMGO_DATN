@@ -126,17 +126,17 @@ const items = [
       <FolderAddFilled />
     ),
     getItem(
-      <Link to="/admin/products/category">Thành phố/Tỉnh thành</Link>,
+      <Link to="/admin/list-province">Thành phố/Tỉnh thành</Link>,
       "3.3",
       <EnvironmentFilled />,
       [
         getItem(
-          <Link to="/admin/products">Danh sách</Link>,
+          <Link to="/admin/list-province">Danh sách</Link>,
           "3.3.1",
           <UnorderedListOutlined />
         ),
         getItem(
-          <Link to="/admin/products">Thêm mới</Link>,
+          <Link to="/admin/creat-province">Thêm mới</Link>,
           "3.3.2",
           <PlusOutlined />
         ),

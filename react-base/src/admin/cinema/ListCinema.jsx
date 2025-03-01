@@ -1,11 +1,22 @@
-import { Button, message, Popconfirm, Skeleton, Space, Table } from "antd";
+import {
+  Button,
+  message,
+  Popconfirm,
+  Skeleton,
+  Space,
+  Table,
+  Select,
+} from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const ListCinema = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const queryClient = useQueryClient();
+
+  const [selectedProvince, setSelectedProvince] = useState(null); // State để lưu khu vực đã chọn
 
   const { mutate } = useMutation({
     mutationFn: async (id) => {
@@ -37,6 +48,11 @@ const ListCinema = () => {
     },
   });
 
+  // Lọc dữ liệu theo province_id
+  const filteredData = selectedProvince
+    ? data?.filter((cinema) => cinema.province_id === selectedProvince)
+    : data;
+
   const columns = [
     {
       title: "Tên rạp",
@@ -44,7 +60,6 @@ const ListCinema = () => {
       key: "name",
       render: (text) => <a>{text}</a>,
     },
-
     {
       title: "Địa chỉ",
       dataIndex: "address",
@@ -57,6 +72,7 @@ const ListCinema = () => {
       key: "contact",
       render: (text) => <a>{text}</a>,
     },
+
     {
       title: "",
       key: "action",
@@ -78,6 +94,14 @@ const ListCinema = () => {
     },
   ];
 
+  // Lấy danh sách các khu vực để tạo dropdown (Select)
+  const provinceOptions = Array.from(
+    new Set(data?.map((cinema) => cinema.province_id)) // Tạo danh sách khu vực duy nhất
+  ).map((province) => ({
+    value: province,
+    label: `Khu vực ${province}`, // Tùy chỉnh tên khu vực nếu cần
+  }));
+
   return (
     <>
       {contextHolder}
@@ -89,10 +113,32 @@ const ListCinema = () => {
       </Link>
       <br />
       <br />
+
+      {/* Dropdown lọc khu vực */}
+      <div style={{ marginBottom: "20px" }}>
+        <Select
+          placeholder="Chọn khu vực"
+          style={{ width: 200 }}
+          onChange={(value) => setSelectedProvince(value)}
+          allowClear
+        >
+          {provinceOptions.map((option) => (
+            <Select.Option key={option.value} value={option.value}>
+              {option.label}
+            </Select.Option>
+          ))}
+        </Select>
+      </div>
+
       {isLoading ? (
         <Skeleton active />
       ) : (
-        <Table columns={columns} dataSource={data} />
+        <Table
+          columns={columns}
+          dataSource={filteredData} // Hiển thị dữ liệu đã lọc
+          rowKey="key"
+          pagination={false}
+        />
       )}
     </>
   );

@@ -40,7 +40,10 @@ function App() {
             element={<CreatProvince />}
           ></Route>
           <Route path="/admin/list-province" element={<ListProvince />}></Route>
-          <Route path="/admin/update-province" element={<UpProvince />}></Route>
+          <Route
+            path="/admin/update-province/:id"
+            element={<UpProvince />}
+          ></Route>
         </Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/signin" element={<SignIn />}></Route>
