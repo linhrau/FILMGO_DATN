@@ -7,6 +7,9 @@ import Dashboard from "./pages/admin/Dashboard";
 import CinemaList from "./pages/admin/Cinemas/CinemaList";
 import CinemaAdd from "./pages/admin/Cinemas/CinemaAdd";
 import CinemaEdit from "./pages/admin/Cinemas/CinemaEdit";
+import PromoCodeList from "./pages/admin/PromoCodes/PromoCodeList";
+import PromoCodeAdd from "./pages/admin/PromoCodes/PromoCodeAdd";
+import PromoCodeEdit from "./pages/admin/PromoCodes/PromoCodeEdit";
 // import './App.css'
 
 function App() {
@@ -15,9 +18,17 @@ function App() {
     <Routes>
       <Route path="/admin" element={<LayoutAdmin />}>
         <Route index element={<Dashboard />} />
+
+        {/* CINEMA */}
         <Route path="cinemas" element={<CinemaList />} />
         <Route path="cinemas/add" element={<CinemaAdd />} />
         <Route path="cinemas/edit/:id" element={<CinemaEdit />} />
+
+        {/* PROMO CODE */}
+        <Route path="promocodes" element={<PromoCodeList />} />
+        <Route path="promocodes/add" element={<PromoCodeAdd />} />
+        <Route path="promocodes/update/:id" element={<PromoCodeEdit />} />
+
       </Route>
     </Routes>
 

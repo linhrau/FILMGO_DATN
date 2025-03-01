@@ -1,24 +1,18 @@
 import React, { useState } from "react";
 import {
-    AlertFilled,
-  ClockCircleFilled,
-  DesktopOutlined,
-  EnvironmentFilled,
-  FileOutlined,
-  FolderAddFilled,
-  FolderOpenFilled,
-  HddFilled,
+  CalendarTwoTone,
+  ClockCircleTwoTone,
+  ContactsTwoTone,
+  DollarTwoTone,
+  FireTwoTone,
   IdcardTwoTone,
-  PieChartOutlined,
+  LikeTwoTone,
+  PictureTwoTone,
   PieChartTwoTone,
   PlaySquareTwoTone,
   PlusOutlined,
-  ReadOutlined,
-  RocketFilled,
-  ScheduleFilled,
-  TeamOutlined,
+  TagTwoTone,
   UnorderedListOutlined,
-  UserOutlined,
   VideoCameraTwoTone,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
@@ -34,151 +28,35 @@ function getItem(label, key, icon, children) {
 }
 const items = [
   getItem(<Link to="/admin">Thống kê</Link>, "1", <PieChartTwoTone />),
-  getItem("Phim", "2",<PlaySquareTwoTone /> , [
+  getItem(" Phim", "2",<PlaySquareTwoTone /> , ),
+  getItem(" Rạp phim", "3", <VideoCameraTwoTone />, ),
+  getItem(" Lịch chiếu", "4", <CalendarTwoTone />, ),
+  getItem(" Suất chiếu", "5", <ClockCircleTwoTone />,),
+  getItem(" Giá vé", "6", <DollarTwoTone />, ),
+  getItem(" Vé", "7", <TagTwoTone />,),
+  getItem(<Link to="/admin/promocodes">Khuyến mãi</Link>, "8", <FireTwoTone />, ),
+  getItem(" Combo", "9", <LikeTwoTone />, ),
+  getItem(" Bài viết", "10", <PictureTwoTone />, [
     getItem(
-      <Link to="/admin/movie">Danh sách phim</Link>,
-      "2.1",
-      <FolderOpenFilled />
-    ),
-    getItem(
-      <Link to="/admin/movie/add">Thêm mới </Link>,
-      "2.2",
-      <FolderAddFilled />
-    ),
-    getItem(
-      <Link to="/admin/movie/category">Thể loại</Link>,
-      "2.3",
-      <HddFilled />,[
-        getItem(
-          <Link to="/admin/products">Danh sách</Link>,
-          "2.3.1",
-         <UnorderedListOutlined />
-        ),
-        getItem(
-            <Link to="/admin/products">Thêm mới</Link>,
-            "2.3.2",
-            <PlusOutlined />
-          ),
-      ]),
-      getItem(
-        <Link to="/admin/products/category">Diễn viên</Link>,
-        "2.4",
-        <TeamOutlined />,[
-          getItem(
-            <Link to="/admin/products">Danh sách</Link>,
-            "2.4.1",
-           <UnorderedListOutlined />
-          ),
-          getItem(
-              <Link to="/admin/products">Thêm mới</Link>,
-              "2.4.2",
-              <PlusOutlined />
-            ),
-        ]),
-        getItem(
-            <Link to="/admin/products/category">Xuất chiếu</Link>,
-            "2.5",
-            <ClockCircleFilled />,[
-              getItem(
-                <Link to="/admin/products">Danh sách</Link>,
-                "2.5.1",
-               <UnorderedListOutlined />
-              ),
-              getItem(
-                  <Link to="/admin/products">Thêm mới</Link>,
-                  "2.5.2",
-                  <PlusOutlined />
-                ),
-            ]),
-        getItem(
-            <Link to="/admin/products/category">Vé </Link>,
-            "2.6",
-            <ScheduleFilled />,[
-                getItem(
-                <Link to="/admin/products">Danh sách</Link>,
-                "2.6.1",
-                <UnorderedListOutlined />
-                ),
-                getItem(
-                    <Link to="/admin/products">Thêm mới</Link>,
-                    "2.6.2",
-                    <PlusOutlined />
-                ),
-            ]),
-  ]),
-  getItem("Rạp phim", "3", <VideoCameraTwoTone />, [
-    getItem(
-      <Link to="/admin/cinemas">Danh sách</Link>,
-      "3.1",
-      <FolderOpenFilled />
-    ),
-    getItem(
-      <Link to="/admin/cinemas/add">Thêm</Link>,
-      "3.2",
-      <FolderAddFilled />
-    ),
-    getItem(
-        <Link to="/admin/cinemas/category">Thành phố/Tỉnh thành</Link>,
-        "3.3"
-        ,
-        <EnvironmentFilled />,[
-          getItem(
-            <Link to="/admin/products">Danh sách</Link>,
-            "3.3.1",
-           <UnorderedListOutlined />
-          ),
-          getItem(
-              <Link to="/admin/products">Thêm mới</Link>,
-              "3.3.2",
-              <PlusOutlined />
-            ),
-        ]),
-    getItem(
-      <Link to="/admin/products/category">Phòng chiếu</Link>,
-      "3.4"
-      ,
-      <AlertFilled />,[
-        getItem(
-          <Link to="/admin/products">Danh sách</Link>,
-          "3.4.1",
-         <UnorderedListOutlined />
-        ),
-        getItem(
-            <Link to="/admin/products">Thêm mới</Link>,
-            "3.4.2",
-            <PlusOutlined />
-          ),
-      ]),
-      getItem(
-        <Link to="/admin/products/category">Ghế</Link>,
-        "3.5"
-        ,
-        <RocketFilled />,[
-          getItem(
-            <Link to="/admin/products">Danh sách</Link>,
-            "3.5.1",
-           <UnorderedListOutlined />
-          ),
-          getItem(
-              <Link to="/admin/products">Thêm mới</Link>,
-              "3.5.2",
-              <PlusOutlined />
-            ),
-        ]),
-  ]),
-  getItem("Người dùng", "4", <IdcardTwoTone />, [
-    getItem(
-      <Link to="/admin/products">Danh sách</Link>,
-      "4.1",
+      <Link to="/admin/products">Tất cả bài viết</Link>,
+      "10.1",
       <UnorderedListOutlined />
     ),
     getItem(
-      <Link to="/admin/products/add">Thêm</Link>,
-      "4.2",
+      <Link to="/admin/products/add">Bài viết của tôi</Link>,
+      "10.2",
+      <PlusOutlined />
+    ),
+    getItem(
+      <Link to="/admin/products/add">Tạo bài viết</Link>,
+      "10.3",
       <PlusOutlined />
     ),
    
   ]),
+  getItem(" Người dùng", "11", <IdcardTwoTone />, ),
+  getItem(" Nhân viên", "12", <ContactsTwoTone />, ),
+  
 ];
 
 const LayoutAdmin = () => {
