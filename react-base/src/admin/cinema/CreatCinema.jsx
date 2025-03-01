@@ -72,10 +72,10 @@ const CreatCinema = () => {
       </Form.Item>
       <Form.Item
         name="province_id"
-        label="Khu vuc"
+        label="Khu vực"
         rules={[{ required: true, message: "Vui lòng Không bỏ trống" }]}
       >
-        <Select placeholder="Chọn thể loại">
+        <Select placeholder="Chọn khu vực">
           {provinces.map((province) => (
             <Option key={province.id} value={province.id}>
               {province.name}
