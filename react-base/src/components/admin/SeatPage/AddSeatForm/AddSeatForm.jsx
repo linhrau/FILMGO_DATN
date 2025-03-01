@@ -1,4 +1,4 @@
-import { Button, Form, Input, message } from "antd";
+import { Button, Form, Input, message, Select } from "antd";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -7,16 +7,6 @@ import axios from "axios";
 const AddSeatForm = ({ screenId, setShowAddForm, refetchSeats }) => {
   const nav = useNavigate();
   const [form] = Form.useForm();
-
-  const validateSeatType = (_, value) => {
-    if (value && !["Ghế thường", "Ghế VIP", "Ghế đôi"].includes(value)) {
-      return Promise.reject(
-        "Kiểu ghế không hợp lệ. Chỉ được nhập Ghế thường, Ghế VIP hoặc Ghế đôi."
-      );
-    }
-    return Promise.resolve();
-  };
-
   const { mutate } = useMutation({
     mutationFn: async (seat) => {
       await axios.post(`http://filmgo.io.vn/api/seats/create`, seat, {
@@ -68,7 +58,16 @@ const AddSeatForm = ({ screenId, setShowAddForm, refetchSeats }) => {
           },
         ]}
       >
-        <Input placeholder="Số hàng ghế" />
+        <Select placeholder="Chọn hàng ghế">
+          <Select.Option value="A">A</Select.Option>
+          <Select.Option value="B">B</Select.Option>
+          <Select.Option value="C">C</Select.Option>
+          <Select.Option value="D">D</Select.Option>
+          <Select.Option value="E">E</Select.Option>
+          <Select.Option value="F">F</Select.Option>
+          <Select.Option value="G">G</Select.Option>
+          <Select.Option value="H">H</Select.Option>
+        </Select>
       </Form.Item>
       <Form.Item
         label="Số lượng ghế"
@@ -84,14 +83,15 @@ const AddSeatForm = ({ screenId, setShowAddForm, refetchSeats }) => {
       </Form.Item>
 
       <Form.Item
-        label="Kiểu ghế"
+        label="Loại ghế"
         name="type"
-        rules={[
-          { required: true, message: "Vui lòng nhập kiểu ghế" },
-          { validator: validateSeatType },
-        ]}
+        rules={[{ required: true, message: "Vui lòng chọn loại ghế!" }]}
       >
-        <Input placeholder="Ghế thường,VIP,đôi" />
+        <Select placeholder="Chọn loại ghế">
+          <Select.Option value="Ghế VIP">Ghế VIP</Select.Option>
+          <Select.Option value="Ghế thường">Ghế thường</Select.Option>
+          <Select.Option value="Ghế đôi">Ghế đôi</Select.Option>
+        </Select>
       </Form.Item>
 
       <Form.Item

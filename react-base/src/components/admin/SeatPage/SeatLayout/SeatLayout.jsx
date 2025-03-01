@@ -1,6 +1,7 @@
 import Seat from "@/components/admin/SeatPage/Seat/Seat";
 import PropTypes from "prop-types"; // Import PropTypes
 import setScreenImage from "@/assets/images/ic-screen.png";
+import SeatTypePanel from "@/components/admin/SeatPage/SeatTypePanel/SeatTypePanel";
 
 const SeatLayout = ({ seats, refetchSeats }) => {
   // Nhóm ghế theo row
@@ -15,7 +16,7 @@ const SeatLayout = ({ seats, refetchSeats }) => {
   return (
     <div className="w-full mx-auto mt-5">
       <div className="grid place-items-center">
-        <img src={setScreenImage} alt="Seat" className="w-[900px]" />
+        <img src={setScreenImage} alt="Seat" className="w-full" />
       </div>
       {Object.keys(groupedSeats).map((row) => (
         <div key={row} className="flex justify-center flex-wrap">
@@ -24,6 +25,7 @@ const SeatLayout = ({ seats, refetchSeats }) => {
           ))}
         </div>
       ))}
+      <SeatTypePanel></SeatTypePanel>
     </div>
   );
 };

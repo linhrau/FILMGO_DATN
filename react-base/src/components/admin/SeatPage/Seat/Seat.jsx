@@ -1,20 +1,31 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import seatVIPImage from "@/assets/images/Seat.png";
-import setNormalImage from "@/assets/images/seatnormal.png";
-import setCoupleImage from "@/assets/images/seatcouple.png";
+import seatVIPImageErr from "@/assets/images/seat-error-vip.png";
+import seatNormalImage from "@/assets/images/seatnormal.png";
+import seatNormalImageErr from "@/assets/images/seat-error-normal.png";
+import seatCoupleImage from "@/assets/images/seatcouple.png";
+import seatCoupleImageErr from "@/assets/images/seat-error-double.png";
 import UpdateSeatForm from "@/components/admin/SeatPage/UpdateSeatForm/UpdateSeatForm";
 import { updateSeat } from "@/apis/seatsService";
+import { deleteSeat } from "@/apis/seatsService";
+import { message } from 'antd'; // Import message
 
 const Seat = ({ seat, refetchSeats }) => {
   const [showUpdateForm, setShowUpdateForm] = useState(false);
 
   let seatLabel = `${seat.row}${seat.number}`;
-  let seatImage = setNormalImage;
-  if (seat.type === "Ghế VIP") {
+  let seatImage = seatNormalImage;
+  if (seat.type === "Ghế VIP" && seat.status === "available") {
     seatImage = seatVIPImage;
-  } else if (seat.type === "Ghế đôi") {
-    seatImage = setCoupleImage;
+  } else if (seat.type === "Ghế đôi" && seat.status === "available") {
+    seatImage = seatCoupleImage;
+  } else if (seat.type === "Ghế VIP" && seat.status === "reserved") {
+    seatImage = seatVIPImageErr;
+  } else if (seat.type === "Ghế đôi" && seat.status === "reserved") {
+    seatImage = seatCoupleImageErr;
+  } else if (seat.type === "Ghế thường" && seat.status === "reserved") {
+    seatImage = seatNormalImageErr;
   }
 
   const handleClick = () => {
@@ -24,14 +35,23 @@ const Seat = ({ seat, refetchSeats }) => {
     setShowUpdateForm(false);
   };
 
+  const handleDelete = async () => {
+    try {
+      await deleteSeat(seat.id);
+      refetchSeats();
+      message.success("Xóa ghế thành công!");
+    } catch (error) {
+      console.error("Lỗi khi xóa ghế:", error);
+    }
+  };
+
   const handleUpdate = async (updatedSeat) => {
     try {
-      const response = await updateSeat(updatedSeat.id,updatedSeat);
-      console.log("Update successful:", response.data);
+      await updateSeat(updatedSeat.id, updatedSeat);
       setShowUpdateForm(false);
       refetchSeats();
     } catch (error) {
-      console.error("Update failed:", error);
+      console.error("Cập nhật thất bại:", error);
     }
   };
 
@@ -45,17 +65,13 @@ const Seat = ({ seat, refetchSeats }) => {
         <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-[10px]">
           {seatLabel}
         </span>
-        {seat.status === "reserved" && (
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-[30px]">
-            X
-          </div>
-        )}
       </span>
       <UpdateSeatForm
         seat={seat}
         visible={showUpdateForm}
         onCancel={handleCancel}
         onUpdate={handleUpdate}
+        onDelete={handleDelete}
       />
     </>
   );

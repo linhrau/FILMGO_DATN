@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, Select } from "antd";
+import { Modal, Form, Input, Select, message, Button } from "antd";
 import PropTypes from "prop-types"; // Import PropTypes
 
-const UpdateSeatForm = ({ seat, visible, onCancel, onUpdate }) => {
+const UpdateSeatForm = ({ seat, visible, onCancel, onUpdate,onDelete }) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -15,6 +15,8 @@ const UpdateSeatForm = ({ seat, visible, onCancel, onUpdate }) => {
     form
       .validateFields()
       .then((values) => {
+        // Hiển thị thông báo thành công
+        message.success("Cập nhật ghế thành công!");
         onUpdate(values);
         form.resetFields();
       })
@@ -27,8 +29,18 @@ const UpdateSeatForm = ({ seat, visible, onCancel, onUpdate }) => {
     <Modal
       title="Cập nhật ghế"
       visible={visible}
-      onOk={handleUpdate}
       onCancel={onCancel}
+      footer={[
+        <Button key="delete" onClick={onDelete} type="danger" className="float-left" style={{ backgroundColor: 'red' }}>
+          Xóa
+        </Button>,
+        <Button key="cancel" onClick={onCancel}>
+          Hủy bỏ
+        </Button>,
+        <Button key="update" type="primary" onClick={handleUpdate}>
+          Cập nhập
+        </Button>,
+      ]}
     >
       <Form form={form} layout="vertical" onFinish={handleUpdate}>
         <Form.Item
@@ -37,7 +49,7 @@ const UpdateSeatForm = ({ seat, visible, onCancel, onUpdate }) => {
           name="id"
           rules={[{ required: true, message: "Vui lòng nhập id!" }]}
         >
-          <Input disabled/>
+          <Input disabled />
         </Form.Item>
 
         <Form.Item
@@ -91,6 +103,7 @@ const UpdateSeatForm = ({ seat, visible, onCancel, onUpdate }) => {
           label="Số phòng"
           name="screen_id"
           rules={[{ required: true, message: "Vui lòng nhập số phòng!" }]}
+          hidden
         >
           <Input disabled />
         </Form.Item>
@@ -104,6 +117,7 @@ UpdateSeatForm.propTypes = {
   visible: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default UpdateSeatForm;
