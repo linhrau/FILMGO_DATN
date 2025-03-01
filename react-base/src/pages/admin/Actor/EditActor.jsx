@@ -13,29 +13,15 @@ const EditActor = () => {
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
   const [actor, setActor] = useState(null);
-
-  // Lấy dữ liệu diễn viên từ API
   useEffect(() => {
     const fetchActor = async () => {
       try {
         const response = await fetch(`${API_GET_ACTOR}${id}`);
         const result = await response.json();
+        console.log("Dữ liệu diễn viên:", result);
 
         if (response.ok) {
-          setActor(result);
-          form.setFieldsValue({ name: result.name });
-
-          // Nếu có ảnh, hiển thị ảnh cũ
-          if (result.avatar) {
-            setFileList([
-              {
-                uid: "-1",
-                name: "avatar.jpg",
-                status: "done",
-                url: `http://filmgo.io.vn/storage/${result.avatar}`,
-              },
-            ]);
-          }
+          setActor(result.data); // Lưu dữ liệu vào state actor
         } else {
           message.error("Không tìm thấy diễn viên!");
           nav("/admin/actors");
@@ -46,7 +32,23 @@ const EditActor = () => {
     };
 
     if (id) fetchActor();
-  }, [id, form, nav]);
+  }, [id, nav]);
+  useEffect(() => {
+    if (actor) {
+      form.setFieldsValue({ name: actor.name });
+
+      if (actor.avatar) {
+        setFileList([
+          {
+            uid: "-1",
+            name: "avatar.jpg",
+            status: "done",
+            url: actor.avatar, // Đường dẫn ảnh đã đúng từ API
+          },
+        ]);
+      }
+    }
+  }, [actor, form]);
 
   // Kiểm tra file hợp lệ
   const beforeUpload = (file) => {
@@ -68,24 +70,60 @@ const EditActor = () => {
   const handleChange = ({ fileList }) => setFileList(fileList);
 
   // Gửi dữ liệu lên API
+  // const handleSubmit = async (values) => {
+  //   const formData = new FormData();
+  //   formData.append("_method", "PUT"); // Quan trọng!
+  //   formData.append("name", values.name);
+
+  //   // Nếu có ảnh mới thì gửi lên, nếu không giữ nguyên
+  //   if (fileList.length > 0 && fileList[0].originFileObj) {
+  //     formData.append("avatar", fileList[0].originFileObj);
+  //   }
+
+  //   try {
+  //     setLoading(true);
+  //     const response = await fetch(`${API_UPDATE_ACTOR}${id}`, {
+  //       method: "POST", // Laravel yêu cầu dùng POST với _method=PUT
+  //       body: formData,
+  //     });
+
+  //     const result = await response.json();
+  //     if (response.ok) {
+  //       message.success("Cập nhật diễn viên thành công!");
+  //       nav("/admin/actors");
+  //     } else {
+  //       message.error(result.message || "Cập nhật thất bại!");
+  //     }
+  //   } catch (error) {
+  //     message.error("Lỗi kết nối API!");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const handleSubmit = async (values) => {
     const formData = new FormData();
-    formData.append("_method", "PUT"); // Quan trọng!
+    formData.append("_method", "PUT");
     formData.append("name", values.name);
 
-    // Nếu có ảnh mới thì gửi lên, nếu không giữ nguyên
     if (fileList.length > 0 && fileList[0].originFileObj) {
       formData.append("avatar", fileList[0].originFileObj);
+    }
+
+    // Kiểm tra dữ liệu trước khi gửi
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
     }
 
     try {
       setLoading(true);
       const response = await fetch(`${API_UPDATE_ACTOR}${id}`, {
-        method: "POST", // Laravel yêu cầu dùng POST với _method=PUT
+        method: "POST", // Laravel yêu cầu POST + _method=PUT
         body: formData,
       });
 
       const result = await response.json();
+      console.log("Kết quả API:", result);
+
       if (response.ok) {
         message.success("Cập nhật diễn viên thành công!");
         nav("/admin/actors");

@@ -1,0 +1,208 @@
+// import { useState, useEffect } from "react";
+// import { Card, Form, Input, Button, message } from "antd";
+// import { useNavigate, useParams } from "react-router-dom";
+// import { useQueryClient } from "@tanstack/react-query";
+
+// const EditGenres = () => {
+//   const [form] = Form.useForm();
+//   const [loading, setLoading] = useState(false);
+//   const queryClient = useQueryClient();
+//   const navigate = useNavigate();
+//   const { id } = useParams(); // Lấy ID từ URL
+
+//   useEffect(() => {
+//     // Gọi API để lấy dữ liệu cũ
+//     const fetchGenre = async () => {
+//       try {
+//         const res = await fetch(`http://filmgo.io.vn/api/genres/show/${id}`);
+//         const data = await res.json();
+//         if (res.ok) {
+//           form.setFieldsValue({ name: data.name }); // Hiển thị tên thể loại cũ
+//         } else {
+//           message.error("Không tìm thấy thể loại!");
+//           navigate("/admin/genres");
+//         }
+//       } catch (error) {
+//         message.error("Có lỗi xảy ra khi tải dữ liệu!");
+//       }
+//     };
+
+//     fetchGenre();
+//   }, [id, form, navigate]);
+
+//   const handleSubmit = async (values) => {
+//     setLoading(true);
+//     const formData = new FormData();
+//     formData.append("_method", "PUT"); // Laravel yêu cầu _method=PUT
+//     formData.append("name", values.name);
+
+//     try {
+//       const response = await fetch(
+//         `http://filmgo.io.vn/api/genres/update/${id}`,
+//         {
+//           method: "POST", // Dùng POST + _method=PUT
+//           body: formData,
+//         }
+//       );
+
+//       const data = await response.json();
+//       if (response.ok) {
+//         message.success("Cập nhật thể loại thành công!");
+//         queryClient.invalidateQueries({ queryKey: ["genres"] });
+
+//         setTimeout(() => {
+//           navigate("/admin/genres");
+//         }, 1000);
+//       } else {
+//         message.error(`Lỗi: ${data.message || "Không thể cập nhật!"}`);
+//       }
+//     } catch (error) {
+//       message.error("Có lỗi xảy ra, vui lòng thử lại!");
+//     }
+//     setLoading(false);
+//   };
+
+//   return (
+//     <Card
+//       title="Chỉnh sửa thể loại phim"
+//       style={{ maxWidth: 500, margin: "auto" }}
+//     >
+//       <Form form={form} onFinish={handleSubmit} layout="vertical">
+//         <Form.Item
+//           label="Tên thể loại"
+//           name="name"
+//           rules={[{ required: true, message: "Vui lòng nhập tên thể loại!" }]}
+//         >
+//           <Input placeholder="Nhập tên thể loại" />
+//         </Form.Item>
+
+//         <Form.Item>
+//           <Button type="primary" htmlType="submit" loading={loading}>
+//             Cập nhật thể loại
+//           </Button>
+//         </Form.Item>
+//       </Form>
+//     </Card>
+//   );
+// };
+
+// export default EditGenres;
+import { useState, useEffect } from "react";
+import { Card, Form, Input, Button, message } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+
+const EditGenres = () => {
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const [genre, setGenre] = useState(null);
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  // useEffect(() => {
+  //   const fetchGenre = async () => {
+  //     try {
+  //       const res = await fetch(`http://filmgo.io.vn/api/genres/show/${id}`);
+  //       const data = await res.json();
+  //       console.log("Dữ liệu API:", data); // Kiểm tra dữ liệu trả về
+
+  //       if (res.ok) {
+  //         setGenre(data); // Lưu dữ liệu vào state
+  //         form.setFieldsValue({ name: data.name }); // Cập nhật form
+  //       } else {
+  //         message.error("Không tìm thấy thể loại!");
+  //         navigate("/admin/genres");
+  //       }
+  //     } catch (error) {
+  //       console.error("Lỗi tải dữ liệu:", error);
+  //       message.error("Có lỗi xảy ra khi tải dữ liệu!");
+  //     }
+  //   };
+
+  //   fetchGenre();
+  // }, [id, form, navigate]);
+  useEffect(() => {
+    const fetchGenre = async () => {
+      try {
+        const res = await fetch(`http://filmgo.io.vn/api/genres/show/${id}`);
+        const result = await res.json();
+        console.log("Dữ liệu API:", result); // Kiểm tra API trả về
+
+        if (res.ok && result.data) {
+          setGenre(result.data); // Lưu vào state
+          form.setFieldsValue({ name: result.data.name }); // Cập nhật form
+        } else {
+          message.error("Không tìm thấy thể loại!");
+          navigate("/admin/genres");
+        }
+      } catch (error) {
+        console.error("Lỗi tải dữ liệu:", error);
+        message.error("Có lỗi xảy ra khi tải dữ liệu!");
+      }
+    };
+
+    fetchGenre();
+  }, [id, form, navigate]);
+
+  const handleSubmit = async (values) => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("_method", "PUT");
+    formData.append("name", values.name);
+
+    try {
+      const response = await fetch(
+        `http://filmgo.io.vn/api/genres/update/${id}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+      if (response.ok) {
+        message.success("Cập nhật thể loại thành công!");
+        queryClient.invalidateQueries({ queryKey: ["genres"] });
+
+        setTimeout(() => {
+          navigate("/admin/genres");
+        }, 1000);
+      } else {
+        message.error(`Lỗi: ${data.message || "Không thể cập nhật!"}`);
+      }
+    } catch (error) {
+      message.error("Có lỗi xảy ra, vui lòng thử lại!");
+    }
+    setLoading(false);
+  };
+
+  return (
+    <Card
+      title="Chỉnh sửa thể loại phim"
+      style={{ maxWidth: 500, margin: "auto" }}
+    >
+      {genre ? ( // Chỉ hiển thị form khi có dữ liệu
+        <Form form={form} onFinish={handleSubmit} layout="vertical">
+          <Form.Item
+            label="Tên thể loại"
+            name="name"
+            rules={[{ required: true, message: "Vui lòng nhập tên thể loại!" }]}
+          >
+            <Input placeholder="Nhập tên thể loại" />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit" loading={loading}>
+              Cập nhật thể loại
+            </Button>
+          </Form.Item>
+        </Form>
+      ) : (
+        <p>Đang tải dữ liệu...</p>
+      )}
+    </Card>
+  );
+};
+
+export default EditGenres;

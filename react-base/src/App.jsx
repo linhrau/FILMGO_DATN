@@ -12,6 +12,9 @@ import AddMovies from "./pages/admin/Movies/AddMovies";
 import ListActor from "./pages/admin/Actor/ListActor";
 import AddActor from "./pages/admin/Actor/AddActor";
 import EditActor from "./pages/admin/Actor/EditActor";
+import ListGenres from "./pages/admin/Genres/ListGenres";
+import AddGenres from "./pages/admin/Genres/AddGenres";
+import EditGenres from "./pages/admin/Genres/EditGenres";
 
 // import './App.css'
 
@@ -29,6 +32,9 @@ function App() {
           <Route path="actors" element={<ListActor />} />
           <Route path="actors/add" element={<AddActor />} />
           <Route path="actors/:id/edit" element={<EditActor />} />
+          <Route path="genres" element={<ListGenres />} />
+          <Route path="genres/add" element={<AddGenres />} />
+          <Route path="genres/:id/update" element={<EditGenres />} />
         </Route>
       </Routes>
 
