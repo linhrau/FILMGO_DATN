@@ -39,24 +39,37 @@ const PromoCodeList = () => {
 
   const columns = [
     {
-      title: "Tên rạp",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => <a>{text}</a>,
+      title: "Mã",
+      dataIndex: "code",
+      key: "code",
     },
 
     {
-      title: "Địa chỉ",
-      dataIndex: "address",
-      key: "address",
-      render: (text) => <a>{text}</a>,
+      title: "Mô tả",
+      dataIndex: "description",
+      key: "description",
     },
     {
-      title: "Liên hệ",
-      dataIndex: "contact",
-      key: "contact",
-      render: (text) => <a>{text}</a>,
+      title: "Phần trăm giảm giá ",
+      dataIndex: "discount_amount",
+      key: "discount_amount",
     },
+    {
+        title: "Số lượng ",
+        dataIndex: "end_date",
+        key: "end_date",
+    },
+    {
+        title: "Thời gian bắt đầu ",
+        dataIndex: "status",
+        key: "status",
+    },
+    {
+        title: "Thời gian kết thúc ",
+        dataIndex: "end_date",
+        key: "end_date",
+    },
+   
     {
       title: "",
       key: "action",
