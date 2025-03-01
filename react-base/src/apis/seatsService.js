@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient"
 
-const getSeatsByScreenID = async (screen_id) => {
+const getSeatsByScreenId = async (screen_id) => {
     try{
         const res = await axiosClient.post('/seats', { screen_id });
         return res.data;
@@ -9,9 +9,9 @@ const getSeatsByScreenID = async (screen_id) => {
     }
 }
 
-const updateSeat = async (id) => {
+const updateSeat = async (id,seatData) => {
     try {
-      const response = await axiosClient.put(`/seats/${id}`); // Hoặc patch nếu API dùng PATCH
+      const response = await axiosClient.put(`/seats/update/${id}`,seatData); // Hoặc patch nếu API dùng PATCH
       return response.data;
     } catch (error) {
       console.error("Lỗi khi cập nhật ghế:", error);
@@ -19,4 +19,4 @@ const updateSeat = async (id) => {
     }
   };
 
-export { getSeatsByScreenID, updateSeat }
+export { getSeatsByScreenId, updateSeat }

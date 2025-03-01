@@ -3,7 +3,7 @@ import { getProvinces } from "@/apis/provincesService";
 import { getCinemasByProvinceId } from "@/apis/cinemasService";
 import { getScreensByCinemaId } from "@/apis/screensService";
 import { Select, Button } from "antd";
-import { getSeatsByScreenID } from "@/apis/seatsService";
+import { getSeatsByScreenId } from "@/apis/seatsService";
 import SeatLayout from "@/components/admin/SeatPage/SeatLayout/SeatLayout";
 import AddSeatForm from "@/components/admin/SeatPage/AddSeatForm/AddSeatForm";
 import Modal from "react-modal"; // Import Modal
@@ -22,6 +22,7 @@ function FilterSeat() {
     getProvinces().then((res) => {
       if (res && res.data && res.data.length > 0) {
         setProvinces(res.data);
+        // console.log(res.data)
       }
     });
   }, []);
@@ -31,6 +32,7 @@ function FilterSeat() {
       getCinemasByProvinceId(selectedProvince).then((res) => {
         if (res && res.data) {
           setCinemas(res.data);
+          // console.log(res.data)
         }
       });
     } else {
@@ -43,6 +45,7 @@ function FilterSeat() {
       getScreensByCinemaId(selectedCinema).then((res) => {
         if (res && res.data) {
           setScreens(res.data);
+          // console.log(res.data)
         }
       });
     } else {
@@ -52,15 +55,16 @@ function FilterSeat() {
 
   useEffect(() => {
     if (selectedScreen) {
-      getSeatsByScreenID(selectedScreen).then((res) => {
+      getSeatsByScreenId(selectedScreen).then((res) => {
         if (res && res.data) {
           setSeats(res.data);
+          // console.log(res.data)
         }
       });
     } else {
       setSeats([]);
     }
-  }, [selectedScreen]);
+  }, [selectedScreen]); // Gọi lại useEffect khi selectedScreen thay đổi
 
   const handleChangeProvince = (value) => {
     setSelectedProvince(value);
@@ -68,6 +72,16 @@ function FilterSeat() {
     setScreens([]); // Reset screen
     setSelectedScreen(undefined); // Reset selectedScreen
     setSeats([]); // Reset seats
+  };
+
+  const refetchSeats = () => {
+      getSeatsByScreenId(selectedScreen).then((res) => {
+        if (res && res.data) {
+          setSeats(res.data);
+        } else {
+          setSeats([]);
+        }
+      });
   };
 
   const handleChangeCinema = (value) => {
@@ -145,12 +159,12 @@ function FilterSeat() {
                 },
               }}
             >
-              <AddSeatForm />
+              <AddSeatForm screenId={selectedScreen} setShowAddForm={setShowAddForm} refetchSeats={refetchSeats}/>
             </Modal>
           </div>
         )}
       </div>
-      {seats.length > 0 && <SeatLayout seats={seats} />}
+      {seats.length > 0 && <SeatLayout seats={seats} refetchSeats={refetchSeats}/>}
     </>
   );
 }
