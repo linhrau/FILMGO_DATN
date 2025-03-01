@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import api from "./api";
 
 const Signup = () => {
+  const phoneRegex = /^098\d{7}$/;
   const nav = useNavigate();
   const [form] = Form.useForm();
   const [messageApi] = message.useMessage();
@@ -99,6 +100,11 @@ const Signup = () => {
                   {
                     required: true,
                     message: "Bắt buộc nhập",
+                  },
+
+                  {
+                    pattern: phoneRegex,
+                    message: "Số điện thoại phải bắt đầu bằng 098 và có 10 số",
                   },
                 ]}
               >
