@@ -9,7 +9,7 @@ import seatCoupleImageErr from "@/assets/images/seat-error-double.png";
 import UpdateSeatForm from "@/components/admin/SeatPage/UpdateSeatForm/UpdateSeatForm";
 import { updateSeat } from "@/apis/seatsService";
 import { deleteSeat } from "@/apis/seatsService";
-import { message } from 'antd'; // Import message
+import { message } from "antd"; // Import message
 
 const Seat = ({ seat, refetchSeats }) => {
   const [showUpdateForm, setShowUpdateForm] = useState(false);
@@ -62,9 +62,16 @@ const Seat = ({ seat, refetchSeats }) => {
         onClick={() => handleClick()}
       >
         <img src={seatImage} alt="Seat" className="w-full h-full" />
-        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-[10px]">
-          {seatLabel}
-        </span>
+        {seat.status === "available" && (
+          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-[10px]">
+            {seatLabel}
+          </span>
+        )}
+        {seat.status === "reserved" && (
+          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-[10px] text-white">
+            {seatLabel}
+          </span>
+        )}
       </span>
       <UpdateSeatForm
         seat={seat}

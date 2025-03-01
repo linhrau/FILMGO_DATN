@@ -28,95 +28,98 @@ const AddSeatForm = ({ screenId, setShowAddForm, refetchSeats }) => {
   };
 
   return (
-    <Form
-      form={form}
-      className="m-auto"
-      name="basic"
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 16,
-      }}
-      style={{
-        maxWidth: 300,
-      }}
-      initialValues={{
-        remember: true,
-        screen_id: screenId,
-      }}
-      onFinish={onFinish}
-      autoComplete="off"
-    >
-      <Form.Item
-        label="Hàng ghế"
-        name="row"
-        rules={[
-          {
-            required: true,
-            message: "Không được bỏ trống!",
-          },
-        ]}
+    <>
+      <h4 className="text-center mb-3">Tạo sơ đồ ghế</h4>
+      <Form
+        form={form}
+        className="m-auto"
+        name="basic"
+        labelCol={{
+          span: 8,
+        }}
+        wrapperCol={{
+          span: 16,
+        }}
+        style={{
+          maxWidth: 300,
+        }}
+        initialValues={{
+          remember: true,
+          screen_id: screenId,
+        }}
+        onFinish={onFinish}
+        autoComplete="off"
       >
-        <Select placeholder="Chọn hàng ghế">
-          <Select.Option value="A">A</Select.Option>
-          <Select.Option value="B">B</Select.Option>
-          <Select.Option value="C">C</Select.Option>
-          <Select.Option value="D">D</Select.Option>
-          <Select.Option value="E">E</Select.Option>
-          <Select.Option value="F">F</Select.Option>
-          <Select.Option value="G">G</Select.Option>
-          <Select.Option value="H">H</Select.Option>
-        </Select>
-      </Form.Item>
-      <Form.Item
-        label="Số lượng ghế"
-        name="number"
-        rules={[
-          {
-            required: true,
-            message: "Không được bỏ trống",
-          },
-        ]}
-      >
-        <Input placeholder="Nhập số lượng ghế" type="number" />
-      </Form.Item>
+        <Form.Item
+          label="Hàng ghế"
+          name="row"
+          rules={[
+            {
+              required: true,
+              message: "Không được bỏ trống!",
+            },
+          ]}
+        >
+          <Select placeholder="Chọn hàng ghế">
+            <Select.Option value="A">A</Select.Option>
+            <Select.Option value="B">B</Select.Option>
+            <Select.Option value="C">C</Select.Option>
+            <Select.Option value="D">D</Select.Option>
+            <Select.Option value="E">E</Select.Option>
+            <Select.Option value="F">F</Select.Option>
+            <Select.Option value="G">G</Select.Option>
+            <Select.Option value="H">H</Select.Option>
+          </Select>
+        </Form.Item>
+        <Form.Item
+          label="Số lượng ghế"
+          name="number"
+          rules={[
+            {
+              required: true,
+              message: "Không được bỏ trống",
+            },
+          ]}
+        >
+          <Input placeholder="Nhập số lượng ghế" type="number" max={20} min={1}/>
+        </Form.Item>
 
-      <Form.Item
-        label="Loại ghế"
-        name="type"
-        rules={[{ required: true, message: "Vui lòng chọn loại ghế!" }]}
-      >
-        <Select placeholder="Chọn loại ghế">
-          <Select.Option value="Ghế VIP">Ghế VIP</Select.Option>
-          <Select.Option value="Ghế thường">Ghế thường</Select.Option>
-          <Select.Option value="Ghế đôi">Ghế đôi</Select.Option>
-        </Select>
-      </Form.Item>
+        <Form.Item
+          label="Loại ghế"
+          name="type"
+          rules={[{ required: true, message: "Vui lòng chọn loại ghế!" }]}
+        >
+          <Select placeholder="Chọn loại ghế">
+            <Select.Option value="Ghế VIP">Ghế VIP</Select.Option>
+            <Select.Option value="Ghế thường">Ghế thường</Select.Option>
+            <Select.Option value="Ghế đôi">Ghế đôi</Select.Option>
+          </Select>
+        </Form.Item>
 
-      <Form.Item
-        label="Nhập giá ghế"
-        name="price"
-        rules={[
-          {
-            required: true,
-            message: "Không được bỏ trống",
-          },
-        ]}
-      >
-        <Input placeholder="Nhập giá" />
-      </Form.Item>
+        <Form.Item
+          label="Nhập giá ghế"
+          name="price"
+          rules={[
+            {
+              required: true,
+              message: "Không được bỏ trống",
+            },
+          ]}
+        >
+          <Input placeholder="Nhập giá" />
+        </Form.Item>
 
-      <Form.Item label="Phòng" name="screen_id" hidden>
-        <Input placeholder={screenId} value={screenId} disabled />
-      </Form.Item>
+        <Form.Item label="Phòng" name="screen_id" hidden>
+          <Input placeholder={screenId} value={screenId} disabled />
+        </Form.Item>
 
-      <Form.Item label={null}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item label={null}>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    </>
   );
 };
 
