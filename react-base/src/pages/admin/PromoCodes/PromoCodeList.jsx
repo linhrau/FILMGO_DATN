@@ -1,4 +1,4 @@
-import { Button, message, Popconfirm, Skeleton, Space, Table } from "antd";
+import { Button, message, Popconfirm, Skeleton, Space, Table, Tag } from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -55,14 +55,21 @@ const PromoCodeList = () => {
       key: "discount_amount",
     },
     {
-        title: "Số lượng ",
-        dataIndex: "end_date",
-        key: "end_date",
+        title: "Trạng thái ",
+        dataIndex: "status",
+        key: "status",
+        render: (_, item) => {
+            return item.status ? (
+              <Tag color="green">Online</Tag>
+            ) : (
+              <Tag color="red">Offline</Tag>
+            );
+          },
     },
     {
         title: "Thời gian bắt đầu ",
-        dataIndex: "status",
-        key: "status",
+        dataIndex: "start_date",
+        key: "start_date",
     },
     {
         title: "Thời gian kết thúc ",
