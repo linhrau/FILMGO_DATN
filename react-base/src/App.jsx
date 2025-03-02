@@ -9,12 +9,12 @@ import UserList from "./admin/user/UserList";
 import ListCinema from "./admin/cinema/ListCinema";
 import CreatCinema from "./admin/cinema/CreatCinema";
 import UpdateCinema from "./admin/cinema/UpdateCinema";
-import CreatRoom from "./admin/cinema/room/CreatRoom";
+import CreatRoom from "./admin/room/CreatRoom";
 import CreatProvince from "./admin/province/CreatProvince";
 import ListProvince from "./admin/province/ListProvince";
 import UpProvince from "./admin/province/UpProvince";
-import ListRoom from "./admin/cinema/room/ListRoom";
-import UpdateRoom from "./admin/cinema/room/UpdateRoom";
+import ListRoom from "./admin/room/ListRoom";
+import UpdateRoom from "./admin/room/UpdateRoom";
 
 function App() {
   return (
