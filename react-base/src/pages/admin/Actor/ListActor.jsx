@@ -78,7 +78,8 @@ const ApiList = () => {
         Thêm dien vien
       </Link>
       <Card title={<Title level={2}>Actors List</Title>}>
-        <Table columns={columns} dataSource={actors} rowKey="id" />
+        <Table columns={columns} dataSource={actors} />
+        {/* rowKey="id" */}
       </Card>
     </div>
   );

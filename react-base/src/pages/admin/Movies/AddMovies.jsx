@@ -54,7 +54,7 @@ const AddMovie = () => {
       });
 
       message.success("Thêm phim thành công!");
-      navigate("/admin/movies");
+      navigate("/admin/list-movies");
     } catch (error) {
       console.error("❌ Lỗi API:", error.response?.data || error.message);
       message.error(error.response?.data?.message || "Thêm phim thất bại!");

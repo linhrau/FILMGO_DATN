@@ -48,6 +48,19 @@ const EditMovie = () => {
   }, []);
 
   useEffect(() => {
+    // if (movie) {
+    //   console.log("📌 Đang cập nhật form với dữ liệu:", movie);
+    //   form.setFieldsValue({
+    //     title: movie.title || "",
+    //     description: movie.description || "",
+    //     trailer: movie.trailer || "",
+    //     duration: movie.duration || "",
+    //     rating: movie.rating || "",
+    //     release_date: movie.release_date || "",
+    //     genres: movie.genres?.map((g) => g.name) || [], // Nếu có genres
+    //     actors: movie.actors?.map((a) => a.name) || [], // Nếu có actors
+    //   });
+    // }
     if (movie) {
       console.log("📌 Đang cập nhật form với dữ liệu:", movie);
       form.setFieldsValue({
@@ -57,8 +70,8 @@ const EditMovie = () => {
         duration: movie.duration || "",
         rating: movie.rating || "",
         release_date: movie.release_date || "",
-        genres: movie.genres?.map((g) => g.name) || [], // Nếu có genres
-        actors: movie.actors?.map((a) => a.name) || [], // Nếu có actors
+        genres: movie.genres?.map((g) => g.genre_id) || [], // Sử dụng id thay vì name
+        actors: movie.actors?.map((a) => a.id) || [], // Sử dụng id thay vì name
       });
     }
   }, [movie]);

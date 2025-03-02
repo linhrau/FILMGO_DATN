@@ -55,7 +55,7 @@ const AddActor = () => {
     } finally {
       setLoading(false);
     }
-    nav("/admin/actors");
+    nav("/admin/list-actors");
   };
 
   return (
