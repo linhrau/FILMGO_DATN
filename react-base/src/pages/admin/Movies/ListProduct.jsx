@@ -125,7 +125,8 @@ const ListProduct = () => {
           >
             <Button danger>Xoá</Button>
           </Popconfirm>
-          <Link to={`/admin/movies/${movie.id}/update`}>
+          {/* <Link to={`/admin/movies/${movie.id}/update`}> */}
+          <Link to={`/admin/update-movies/${movie.id}`}>
             <Button type="primary">Sửa</Button>
           </Link>
         </Space>
@@ -139,7 +140,7 @@ const ListProduct = () => {
       <center>
         <h1>Quản lý phim</h1>
       </center>
-      <Link to="/admin/movies/add" className="btn btn-primary">
+      <Link to="/admin/create-movies" className="btn btn-primary">
         Thêm phim
       </Link>
       <br />

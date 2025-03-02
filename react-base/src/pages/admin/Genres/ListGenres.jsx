@@ -73,7 +73,7 @@ const ListGenres = () => {
           >
             <Button danger>Xoá</Button>
           </Popconfirm>
-          <Link to={`/admin/genres/${genre.id}/update`}>
+          <Link to={`/admin/update-genres/${genre.id}`}>
             <Button type="primary">Sửa</Button>
           </Link>
         </Space>
@@ -87,7 +87,7 @@ const ListGenres = () => {
       <center>
         <h1>Quản lý thể loại</h1>
       </center>
-      <Link to="/admin/genres/add" className="btn btn-primary">
+      <Link to="/admin/create-genres" className="btn btn-primary">
         Thêm
       </Link>
       <br />

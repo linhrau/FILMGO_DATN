@@ -64,7 +64,7 @@ const ApiList = () => {
           cancelText="Không"
         >
           <Button danger>Xoá</Button>
-          <Link to={`/admin/actors/${actor.id}/edit`}>
+          <Link to={`/admin/update-actors/${actor.id}`}>
             <Button type="primary">Sửa</Button>
           </Link>
         </Popconfirm>
@@ -74,7 +74,7 @@ const ApiList = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <Link to="/admin/actors/add" className="btn btn-primary">
+      <Link to="/admin/create-actors" className="btn btn-primary">
         Thêm dien vien
       </Link>
       <Card title={<Title level={2}>Actors List</Title>}>

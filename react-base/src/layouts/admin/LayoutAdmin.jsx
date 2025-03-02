@@ -28,9 +28,13 @@ function getItem(label, key, icon, children) {
 }
 const items = [
   getItem(<Link to="/admin">Thống kê</Link>, "1", <PieChartTwoTone />),
-  getItem(<Link to="/admin/movies">Phim</Link>, "2", <PlaySquareTwoTone />),
   getItem(
-    <Link to="/admin/genres">Thể loại</Link>,
+    <Link to="/admin/list-movies">Phim</Link>,
+    "2",
+    <PlaySquareTwoTone />
+  ),
+  getItem(
+    <Link to="/admin/list-genres">Thể loại</Link>,
     "13",
     <PlaySquareTwoTone />
   ),
@@ -60,7 +64,11 @@ const items = [
   ]),
   getItem(" Người dùng", "11", <IdcardTwoTone />),
   // getItem(" Diễn viên", "12", <ContactsTwoTone />),
-  getItem(<Link to="/admin/actors">Diễn viên</Link>, "12", <ContactsTwoTone />),
+  getItem(
+    <Link to="/admin/list-actors">Diễn viên</Link>,
+    "12",
+    <ContactsTwoTone />
+  ),
 ];
 
 const LayoutAdmin = () => {
