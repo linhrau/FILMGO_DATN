@@ -17,8 +17,8 @@ const USerList = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const response = await axios.get(`http://localhost:3000/users`);
-      return response.data.map((user) => ({
+      const response = await axios.get(`http://filmgo.io.vn/api/users`);
+      return response.data.data.map((user) => ({
         key: user.id,
         ...user,
       }));
@@ -76,7 +76,7 @@ const USerList = () => {
     },
     {
       title: "Vai trò",
-      dataIndex: "role",
+      dataIndex: "role_name",
       key: "role",
     },
 

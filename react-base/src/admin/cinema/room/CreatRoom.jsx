@@ -18,7 +18,7 @@ const CreatRoom = () => {
       await axios.post(`http://filmgo.io.vn/api/screens/create`, screen);
     },
     onSuccess: () => {
-      nav(`/admin/list-screens`);
+      nav(`/admin/list-screen`);
     },
   });
   const onFinish = (values) => {

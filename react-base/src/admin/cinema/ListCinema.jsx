@@ -47,8 +47,18 @@ const ListCinema = () => {
       }));
     },
   });
+  const { isLoading: isProvinceLoading, data: provinces } = useQuery({
+    queryKey: ["provinces"],
+    queryFn: async () => {
+      const response = await axios.get(`http://filmgo.io.vn/api/provinces`);
+      return response.data.data.map((province) => ({
+        ...province,
+        key: province.id,
+      }));
+    },
+  });
 
-  // Lọc dữ liệu theo province_id
+  // Lọc dữ liệu phòng chiếu theo province_id
   const filteredData = selectedProvince
     ? data?.filter((cinema) => cinema.province_id === selectedProvince)
     : data;
@@ -94,14 +104,6 @@ const ListCinema = () => {
     },
   ];
 
-  // Lấy danh sách các khu vực để tạo dropdown (Select)
-  const provinceOptions = Array.from(
-    new Set(data?.map((cinema) => cinema.province_id)) // Tạo danh sách khu vực duy nhất
-  ).map((province) => ({
-    value: province,
-    label: `Khu vực ${province}`, // Tùy chỉnh tên khu vực nếu cần
-  }));
-
   return (
     <>
       {contextHolder}
@@ -121,10 +123,11 @@ const ListCinema = () => {
           style={{ width: 200 }}
           onChange={(value) => setSelectedProvince(value)}
           allowClear
+          loading={isProvinceLoading}
         >
-          {provinceOptions.map((option) => (
-            <Select.Option key={option.value} value={option.value}>
-              {option.label}
+          {provinces?.map((province) => (
+            <Select.Option key={province.key} value={province.id}>
+              {province.name} {/* Hiển thị tên rạp phim */}
             </Select.Option>
           ))}
         </Select>
