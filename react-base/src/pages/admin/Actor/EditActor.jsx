@@ -69,37 +69,6 @@ const EditActor = () => {
   // Xử lý khi chọn ảnh mới
   const handleChange = ({ fileList }) => setFileList(fileList);
 
-  // Gửi dữ liệu lên API
-  // const handleSubmit = async (values) => {
-  //   const formData = new FormData();
-  //   formData.append("_method", "PUT"); // Quan trọng!
-  //   formData.append("name", values.name);
-
-  //   // Nếu có ảnh mới thì gửi lên, nếu không giữ nguyên
-  //   if (fileList.length > 0 && fileList[0].originFileObj) {
-  //     formData.append("avatar", fileList[0].originFileObj);
-  //   }
-
-  //   try {
-  //     setLoading(true);
-  //     const response = await fetch(`${API_UPDATE_ACTOR}${id}`, {
-  //       method: "POST", // Laravel yêu cầu dùng POST với _method=PUT
-  //       body: formData,
-  //     });
-
-  //     const result = await response.json();
-  //     if (response.ok) {
-  //       message.success("Cập nhật diễn viên thành công!");
-  //       nav("/admin/actors");
-  //     } else {
-  //       message.error(result.message || "Cập nhật thất bại!");
-  //     }
-  //   } catch (error) {
-  //     message.error("Lỗi kết nối API!");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
   const handleSubmit = async (values) => {
     const formData = new FormData();
     formData.append("_method", "PUT");
@@ -126,7 +95,7 @@ const EditActor = () => {
 
       if (response.ok) {
         message.success("Cập nhật diễn viên thành công!");
-        nav("/admin/actors");
+        nav("/admin/list-actors");
       } else {
         message.error(result.message || "Cập nhật thất bại!");
       }

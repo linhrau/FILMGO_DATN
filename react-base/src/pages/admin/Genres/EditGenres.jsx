@@ -166,7 +166,7 @@ const EditGenres = () => {
         queryClient.invalidateQueries({ queryKey: ["genres"] });
 
         setTimeout(() => {
-          navigate("/admin/genres");
+          navigate("/admin/list-genres");
         }, 1000);
       } else {
         message.error(`Lỗi: ${data.message || "Không thể cập nhật!"}`);

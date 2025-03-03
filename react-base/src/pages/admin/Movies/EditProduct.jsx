@@ -71,7 +71,7 @@ const EditMovie = () => {
         rating: movie.rating || "",
         release_date: movie.release_date || "",
         genres: movie.genres?.map((g) => g.genre_id) || [], // Sử dụng id thay vì name
-        actors: movie.actors?.map((a) => a.id) || [], // Sử dụng id thay vì name
+        actors: movie.actors?.map((a) => a.actor_id) || [], // Sử dụng id thay vì name
       });
     }
   }, [movie]);
