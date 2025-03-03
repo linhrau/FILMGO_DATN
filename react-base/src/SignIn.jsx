@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Signin = () => {
   const nav = useNavigate();
   const [form] = Form.useForm();
-  const [messageApi] = message.useMessage();
+  const [messageApi, contextHolder] = message.useMessage();
   const { mutate, isPending } = useMutation({
     mutationFn: async (formData) => {
       return await axios.post(`http://filmgo.io.vn/api/auth/login`, formData);
@@ -17,8 +17,13 @@ const Signin = () => {
         type: "success",
         content: "Đăng nhập thành công!",
       });
-
       nav(`/`);
+    },
+    onError: () => {
+      messageApi.open({
+        type: "error",
+        content: "Email hoặc mật khẩu không đúng",
+      });
     },
   });
 
@@ -30,6 +35,7 @@ const Signin = () => {
     <div
       style={{ display: "flex", justifyContent: "center", marginTop: "50px" }}
     >
+      {contextHolder}
       <Card
         title="ĐĂNG NHẬP"
         bordered={false}

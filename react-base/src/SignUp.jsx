@@ -8,7 +8,7 @@ const Signup = () => {
   const phoneRegex = /^0\d{9,10}$/;
   const nav = useNavigate();
   const [form] = Form.useForm();
-  const [messageApi] = message.useMessage();
+  const [messageApi, contextHolder] = message.useMessage();
   const { mutate, isPending } = useMutation({
     mutationFn: async (data) => {
       return await axios.post(`http://filmgo.io.vn/api/auth/register`, data);
@@ -24,6 +24,12 @@ const Signup = () => {
         content: "Đăng ký thành công!",
       });
       nav(`/signin`);
+    },
+    onError: () => {
+      messageApi.open({
+        type: "error",
+        content: "Đăng ký thất bại kiểm tra lại thông tin đăng ký",
+      });
     },
   });
 
@@ -42,6 +48,7 @@ const Signup = () => {
     <div
       style={{ display: "flex", justifyContent: "center", marginTop: "50px" }}
     >
+      {contextHolder}
       <Card
         title="ĐĂNG KÝ TÀI KHOẢN"
         bordered={false}
