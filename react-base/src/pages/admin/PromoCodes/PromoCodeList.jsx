@@ -43,47 +43,46 @@ const PromoCodeList = () => {
       dataIndex: "code",
       key: "code",
     },
-
     {
       title: "Mô tả",
       dataIndex: "description",
       key: "description",
     },
     {
-      title: "Phần trăm giảm giá ",
+      title: "Phần trăm giảm giá",
       dataIndex: "discount_amount",
       key: "discount_amount",
+      render: (text) => `${Math.round(text)}%`, // Round to whole number
     },
     {
-        title: "Trạng thái ",
-        dataIndex: "status",
-        key: "status",
-        render: (_, item) => {
-            return item.status ? (
-              <Tag color="green">Online</Tag>
-            ) : (
-              <Tag color="red">Offline</Tag>
-            );
-          },
+      title: "Trạng thái",
+      dataIndex: "status",
+      key: "status",
+      render: (_, item) => {
+        return item.status ? (
+          <Tag color="green">Online</Tag>
+        ) : (
+          <Tag color="red">Offline</Tag>
+        );
+      },
     },
     {
-        title: "Thời gian bắt đầu ",
-        dataIndex: "start_date",
-        key: "start_date",
+      title: "Thời gian bắt đầu",
+      dataIndex: "start_date",
+      key: "start_date",
     },
     {
-        title: "Thời gian kết thúc ",
-        dataIndex: "end_date",
-        key: "end_date",
+      title: "Thời gian kết thúc",
+      dataIndex: "end_date",
+      key: "end_date",
     },
-   
     {
       title: "",
       key: "action",
       render: (_, promocode) => (
         <Space>
           <Popconfirm
-            title="Bạn có chắc muốn xoá phim này?"
+            title="Bạn có chắc muốn xoá mã khuyến mãi này?"
             onConfirm={() => mutate(promocode.id)}
             okText="Có"
             cancelText="Không"

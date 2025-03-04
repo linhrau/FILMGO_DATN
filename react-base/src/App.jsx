@@ -10,6 +10,9 @@ import CinemaEdit from "./pages/admin/Cinemas/CinemaEdit";
 import PromoCodeList from "./pages/admin/PromoCodes/PromoCodeList";
 import PromoCodeAdd from "./pages/admin/PromoCodes/PromoCodeAdd";
 import PromoCodeEdit from "./pages/admin/PromoCodes/PromoCodeEdit";
+import ListProduct from "./pages/admin/Products/ListProduct";
+import CreateProduct from "./pages/admin/Products/CreateProduct";
+import UpdateProduct from "./pages/admin/Products/UpdateProduct";
 // import './App.css'
 
 function App() {
@@ -28,6 +31,11 @@ function App() {
         <Route path="promocodes" element={<PromoCodeList />} />
         <Route path="promocodes/add" element={<PromoCodeAdd />} />
         <Route path="promocodes/update/:id" element={<PromoCodeEdit />} />
+
+        {/* PRODUCT */}
+        <Route path="products" element={<ListProduct />} />
+        <Route path="products/add" element={<CreateProduct />} />
+        <Route path="products/update/:id" element={<UpdateProduct />} />
 
       </Route>
     </Routes>

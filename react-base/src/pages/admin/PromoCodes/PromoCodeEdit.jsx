@@ -44,23 +44,27 @@ const PromoCodeEdit = () => {
         throw error;
       }
     },
-    onSuccess: () => {
-      navigate("/admin/promocodes");
-    },
-  });
-  
+});
 
   const onFinish = (values) => {
     const formattedValues = {
-      id, 
+      id,
       ...values,
       start_date: values.start_date ? values.start_date.format("YYYY-MM-DD") : null,
       end_date: values.end_date ? values.end_date.format("YYYY-MM-DD") : null,
-      status: values.status ? 1 : 0, 
-      discount_amount: Number(values.discount_amount),
+      status: values.status ? 1 : 0,
+      discount_amount: Number(values.discount_amount), // Ensure this is a number
     };
   
+    // Log the data being sent to the API for debugging
     console.log("🛠 Dữ liệu gửi lên API:", formattedValues);
+  
+    // Validate discount_amount
+    if (formattedValues.discount_amount < 0) {
+      message.error("Giá trị giảm không hợp lệ!");
+      return;
+    }
+  
     mutate(formattedValues);
   };
   
