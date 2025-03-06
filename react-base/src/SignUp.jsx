@@ -1,4 +1,4 @@
-import { Form, Input, Button, message, Card, Row, Col, Upload } from "antd";
+import { Form, Input, Button, message, Card, Row, Col } from "antd";
 
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -15,10 +15,6 @@ const Signup = () => {
     },
     onSuccess: () => {
       form.resetFields();
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ ...form.getFieldsValue() })
-      );
       messageApi.open({
         type: "success",
         content: "Đăng ký thành công!",

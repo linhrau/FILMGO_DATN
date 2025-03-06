@@ -11,7 +11,12 @@ const Signin = () => {
     mutationFn: async (formData) => {
       return await axios.post(`http://filmgo.io.vn/api/auth/login`, formData);
     },
-    onSuccess: () => {
+
+    onSuccess: (data) => {
+      const { access_token } = data.data; // Tùy thuộc vào API, có thể thay đổi theo cách trả về của server
+      localStorage.setItem("access_token", access_token); // Lưu token vào localStorage
+      localStorage.setItem("user", JSON.stringify({ ...data.data.user }));
+
       form.resetFields();
       messageApi.open({
         type: "success",

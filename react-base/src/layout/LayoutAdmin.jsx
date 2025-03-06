@@ -1,19 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   AlertFilled,
   ClockCircleFilled,
-  DesktopOutlined,
   EnvironmentFilled,
-  FileOutlined,
   FolderAddFilled,
   FolderOpenFilled,
   HddFilled,
   IdcardTwoTone,
-  PieChartOutlined,
   PieChartTwoTone,
   PlaySquareTwoTone,
   PlusOutlined,
-  ReadOutlined,
   RocketFilled,
   ScheduleFilled,
   TeamOutlined,
@@ -196,6 +192,16 @@ const LayoutAdmin = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  if (!user || user.role_name !== "admin") {
+    return (
+      <>
+        <h1>Ban khong co quyen vao trang nay!</h1>
+        <Link to="/">Quay lai trang mua sam!</Link>
+      </>
+    );
+  }
+
   return (
     <Layout
       style={{
