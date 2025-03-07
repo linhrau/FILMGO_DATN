@@ -192,16 +192,18 @@ const LayoutAdmin = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  if (!user || user.role_name !== "admin") {
+
+  const user = JSON.parse(localStorage.getItem("user") || "[]");
+  console.log(user);
+  const role = user[0].role_name;
+  console.log(role);
+  if (role !== "admin") {
     return (
       <>
-        <h1>Ban khong co quyen vao trang nay!</h1>
-        <Link to="/">Quay lai trang mua sam!</Link>
+        <h1>Bạn không có quyền truy cập trang web này</h1>
       </>
     );
   }
-
   return (
     <Layout
       style={{
