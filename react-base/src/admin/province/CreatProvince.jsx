@@ -41,7 +41,11 @@ const CreatProvince = () => {
         rules={[
           {
             required: true,
-            message: "Please input your province!",
+            message: "Không được bỏ trống!",
+          },
+          {
+            min: 5,
+            message: "Tên khu vực không được dưới 5 kí tự",
           },
         ]}
       >

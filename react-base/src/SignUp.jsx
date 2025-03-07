@@ -166,7 +166,11 @@ const Signup = () => {
                   },
                 ]}
               >
-                <Input format="YYYY-MM-DD" style={{ width: "100%" }} />
+                <Input
+                  type="date"
+                  format="YYYY-MM-DD"
+                  style={{ width: "100%" }}
+                />
               </Form.Item>
 
               <Form.Item

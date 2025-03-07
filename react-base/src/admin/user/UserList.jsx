@@ -1,15 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  Button,
-  Image,
-  message,
-  Popconfirm,
-  Skeleton,
-  Space,
-  Table,
-} from "antd";
+import { Button, message, Popconfirm, Skeleton, Space, Table } from "antd";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
 const USerList = () => {
   const queryClient = useQueryClient();
@@ -42,23 +33,6 @@ const USerList = () => {
     mutate(id);
   };
   const columns = [
-    // {
-    //   title: "Ảnh đại diện",
-    //   dataIndex: "avatar",
-    //   key: "avatar",
-    //   render: (_, item) => {
-    //     return (
-    //       <Space>
-    //         <Image
-    //           key={item.avatar}
-    //           src={item.avatar}
-    //           width={70}
-    //           className="rounded border"
-    //         />
-    //       </Space>
-    //     );
-    //   },
-    // },
     {
       title: "Tên người dùng",
       dataIndex: "name",

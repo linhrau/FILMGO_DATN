@@ -1,10 +1,11 @@
 import { Button, Form, Input, Skeleton } from "antd";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const UpProvince = () => {
   const nav = useNavigate();
+  const queryClient = useQueryClient();
   const { id } = useParams(); // Lấy ID từ URL
 
   const { data, isLoading } = useQuery({
@@ -25,6 +26,9 @@ const UpProvince = () => {
     },
     onSuccess: () => {
       nav(`/admin/list-province`);
+      queryClient.invalidateQueries({
+        queryKey: ["provinces", id],
+      });
     },
   });
 
@@ -57,9 +61,13 @@ const UpProvince = () => {
             required: true,
             message: "Không được bỏ trống!",
           },
+          {
+            min: 5,
+            message: "Tên khu vực không được dưới 5 kí tự",
+          },
         ]}
       >
-        <Input placeholder="Nhập tên rạp" />
+        <Input placeholder="Nhập tên khu vực" />
       </Form.Item>
 
       <Form.Item label={null}>

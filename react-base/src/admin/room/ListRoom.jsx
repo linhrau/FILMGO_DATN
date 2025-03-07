@@ -15,7 +15,6 @@ import { useState } from "react";
 const ListRoom = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const queryClient = useQueryClient();
-
   const [selectedCinema, setSelectedCinema] = useState(null); // State để lưu rạp phim đã chọn
 
   const { mutate } = useMutation({
@@ -66,11 +65,21 @@ const ListRoom = () => {
 
   const columns = [
     {
-      title: "Tên phòng chiếu",
+      title: "Phòng chiếu",
       dataIndex: "name",
       key: "name",
       render: (text) => <a>{text}</a>,
     },
+    {
+      title: "Rạp phim", // Cột tên rạp
+      dataIndex: "cinema_id",
+      key: "cinema_id",
+      render: (cinemaId) => {
+        const cinema = cinemas?.find((cinema) => cinema.id === cinemaId);
+        return cinema ? cinema.name : "Rạp không xác định"; // Hiển thị tên rạp nếu tìm thấy
+      },
+    },
+
     {
       title: "",
       key: "action",
