@@ -19,6 +19,7 @@ import {
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { Link, Outlet } from "react-router-dom";
+import PageNotFound from "./../PageNotFound";
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -194,13 +195,13 @@ const LayoutAdmin = () => {
   } = theme.useToken();
 
   const user = JSON.parse(localStorage.getItem("user") || "[]");
-  console.log(user);
+  // console.log(user);
   const role = user[0].role_name;
-  console.log(role);
+  // console.log(role);
   if (role !== "admin") {
     return (
       <>
-        <h1>Bạn không có quyền truy cập trang web này</h1>
+        <PageNotFound />
       </>
     );
   }

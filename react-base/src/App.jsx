@@ -15,6 +15,7 @@ import ListProvince from "./admin/province/ListProvince";
 import UpProvince from "./admin/province/UpProvince";
 import ListRoom from "./admin/room/ListRoom";
 import UpdateRoom from "./admin/room/UpdateRoom";
+import PageNotFound from "./PageNotFound";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
         </Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/signin" element={<SignIn />}></Route>
+        <Route path="/pagenot" element={<PageNotFound />}></Route>
       </Routes>
     </>
   );

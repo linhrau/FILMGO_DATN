@@ -26,7 +26,7 @@ const USerList = () => {
   });
   const { mutate } = useMutation({
     mutationFn: async (id) => {
-      return await axios.delete(`http://localhost:3000/users/${id}`);
+      return await axios.delete(`http://filmgo.io.vn/api/users/delete/${id}`);
     },
     onSuccess: () => {
       messageApi.success("Xóa người dùng thành công");
