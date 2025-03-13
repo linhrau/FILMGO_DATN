@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const { Option } = Select;
 
-const EditMovie = () => {
+const EditMovies = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -74,6 +74,7 @@ const EditMovie = () => {
         actors: movie.actors?.map((a) => a.actor_id) || [], // Sử dụng id thay vì name
       });
     }
+    console.log("📌 Dữ liệu diễn viên từ API:", movie?.actors);
   }, [movie]);
 
   const onFinish = async (values) => {
@@ -217,6 +218,28 @@ const EditMovie = () => {
         </Select>
       </Form.Item>
 
+      {/* <Form.Item label="Diễn viên" name="actors">
+        <Select mode="multiple" placeholder="Chọn diễn viên">
+          {actors.map((actor) => (
+            <Select.Option key={actor.id} value={actor.id}>
+              {actor.name}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item> */}
+      {/* <Form.Item label="Diễn viên" name="actors">
+        <Select
+          mode="multiple"
+          placeholder="Chọn diễn viên"
+          value={form.getFieldValue("actors")}
+        >
+          {actors.map((actor) => (
+            <Select.Option key={actor.id} value={actor.id}>
+              {actor.name}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item> */}
       <Form.Item label="Diễn viên" name="actors">
         <Select mode="multiple" placeholder="Chọn diễn viên">
           {actors.map((actor) => (
@@ -230,8 +253,14 @@ const EditMovie = () => {
       <Button type="primary" htmlType="submit" loading={loading}>
         Cập nhật phim
       </Button>
+      <Button
+        onClick={() => window.location.reload()}
+        style={{ marginLeft: 10 }}
+      >
+        Refresh trang
+      </Button>
     </Form>
   );
 };
 
-export default EditMovie;
+export default EditMovies;

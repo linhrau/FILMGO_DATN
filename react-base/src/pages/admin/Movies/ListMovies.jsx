@@ -13,7 +13,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const ListProduct = () => {
+const ListMovies = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const queryClient = useQueryClient();
 
@@ -48,6 +48,12 @@ const ListProduct = () => {
   });
 
   const columns = [
+    {
+      title: "STT",
+      dataIndex: "id",
+      key: "id",
+      render: (text) => <a>{text}</a>,
+    },
     {
       title: "Tên phim",
       dataIndex: "title",
@@ -154,4 +160,4 @@ const ListProduct = () => {
   );
 };
 
-export default ListProduct;
+export default ListMovies;
