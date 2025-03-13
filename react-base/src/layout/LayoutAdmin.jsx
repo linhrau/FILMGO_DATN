@@ -196,9 +196,9 @@ const LayoutAdmin = () => {
 
   const user = JSON.parse(localStorage.getItem("user") || "[]");
   // console.log(user);
-  const role = user[0].role_name;
+  // const role = user[0].role_name;
   // console.log(role);
-  if (role !== "admin") {
+  if (!user || user[0].role_name !== "admin") {
     return (
       <>
         <PageNotFound />

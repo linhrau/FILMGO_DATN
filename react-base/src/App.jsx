@@ -16,6 +16,8 @@ import UpProvince from "./admin/province/UpProvince";
 import ListRoom from "./admin/room/ListRoom";
 import UpdateRoom from "./admin/room/UpdateRoom";
 import PageNotFound from "./PageNotFound";
+import CreateShow from "./admin/showtimes/CreateShow";
+import UpdateShow from "./admin/showtimes/UpdateShow";
 
 function App() {
   return (
@@ -44,6 +46,11 @@ function App() {
           <Route
             path="/admin/update-province/:id"
             element={<UpProvince />}
+          ></Route>
+          <Route path="/admin/creat-showtime" element={<CreateShow />}></Route>
+          <Route
+            path="/admin/update-showtime/:id"
+            element={<UpdateShow />}
           ></Route>
         </Route>
         <Route path="/signup" element={<SignUp />}></Route>
