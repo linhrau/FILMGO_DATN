@@ -23,7 +23,7 @@ const CreateShow = () => {
   }, []);
   const { mutate } = useMutation({
     mutationFn: async (showtime) => {
-      await axios.post(`http://filmgo.io.vn/api/showtimes/create`, showtime);
+      await axios.post(`http://localhost:3000/showtime`, showtime);
     },
     onSuccess: () => {
       nav(`/admin/list-showtime`);
