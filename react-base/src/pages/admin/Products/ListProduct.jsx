@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
-import {
-  Table,
-  Typography,
-  Button,
-  Popconfirm,
-  message,
-  Image,
-} from "antd";
+import { Table, Typography, Button, Popconfirm, message, Image } from "antd";
 import { Link } from "react-router-dom";
 
 const { Title } = Typography;
-
 const API_PRODUCTS = "http://filmgo.io.vn/api/products";
 
 const ListProduct = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(API_PRODUCTS)
       .then((res) => res.json())
-      .then((data) => setProducts(data.data))
-      .catch((error) => console.error("Error fetching products:", error));
+      .then((data) => {
+        if (data.data) {
+          setProducts(data.data);
+        } else {
+          message.error("Không có dữ liệu sản phẩm!");
+        }
+      })
+      .catch(() => message.error("Lỗi khi tải sản phẩm!"))
+      .finally(() => setLoading(false));
   }, []);
 
   const handleDelete = (id) => {
@@ -28,29 +28,19 @@ const ListProduct = () => {
       .then((res) => res.json())
       .then(() => {
         message.success("Combo đã được xoá thành công");
-        setProducts((prevProducts) =>
-          prevProducts.filter((product) => product.id !== id)
-        );
+        setProducts((prev) => prev.filter((p) => p.id !== id));
       })
       .catch(() => message.error("Xoá combo thất bại"));
   };
 
   const columns = [
-    {
-      title: "Mã",
-      dataIndex: "code",
-      key: "code",
-    },
-    {
-      title: "Combo",
-      dataIndex: "name",
-      key: "name",
-    },
+    { title: "Mã", dataIndex: "code", key: "code" },
+    { title: "Combo", dataIndex: "name", key: "name" },
     {
       title: "Hình ảnh",
       dataIndex: "image",
       key: "image",
-      render: (image) => <Image src={image} width={111} />,
+      render: (image) => <Image src={image} width={100} />,
     },
     {
       title: "Giá combo",
@@ -62,17 +52,19 @@ const ListProduct = () => {
       title: "Actions",
       key: "actions",
       render: (_, product) => (
-        <Popconfirm
-          title="Bạn có chắc muốn xoá combo này?"
-          onConfirm={() => handleDelete(product.id)}
-          okText="Có"
-          cancelText="Không"
-        >
-          <Button danger>Xoá</Button>
-          <Link to={`/admin/products/update/${product.id}`}>
+        <>
+          <Popconfirm
+            title="Bạn có chắc muốn xoá combo này?"
+            onConfirm={() => handleDelete(product.id)}
+            okText="Có"
+            cancelText="Không"
+          >
+            <Button danger>Xoá</Button>
+          </Popconfirm>
+          <Link to={`/admin/update-product/${product.id}`}>
             <Button type="primary">Sửa</Button>
           </Link>
-        </Popconfirm>
+        </>
       ),
     },
   ];
@@ -80,12 +72,12 @@ const ListProduct = () => {
   return (
     <div style={{ padding: "20px" }}>
       <center>
-        <h1 className="text-3xl mb-5">Quản lý Combo</h1>
+        <Title level={2}>Quản lý Combo</Title>
       </center>
-      <Link to="/admin/products/add" className="btn btn-primary">
-        <Button  type="primary">Thêm Combo</Button>
+      <Link to="/admin/creat-product">
+        <Button type="primary">Thêm Combo</Button>
       </Link>
-      <Table columns={columns} dataSource={products} rowKey="id" /> {/* Set rowKey here */}
+      <Table columns={columns} dataSource={products} rowKey="id" loading={loading} />
     </div>
   );
 };

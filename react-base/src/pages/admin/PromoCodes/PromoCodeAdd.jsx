@@ -2,15 +2,14 @@ import { useMutation } from "@tanstack/react-query";
 import { Button, DatePicker, Form, Input, InputNumber, Switch } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const PromoCodeAdd = () => {
   const navigate = useNavigate();
-  
+
   const { mutate } = useMutation({
     mutationFn: async (promocode) => {
-      await axios.post('http://filmgo.io.vn/api/promocodes/create', promocode);
+      await axios.post("http://filmgo.io.vn/api/promocodes/create", promocode);
     },
     onSuccess: () => {
       navigate("/admin/promocodes");
@@ -23,6 +22,7 @@ const PromoCodeAdd = () => {
   const onFinish = (values) => {
     const formattedValues = {
       ...values,
+      status: values.status ? "active" : "inactive", // ✅ Chuyển đổi giá trị status
       start_date: values.start_date ? values.start_date.format("YYYY-MM-DD") : null,
       end_date: values.end_date ? values.end_date.format("YYYY-MM-DD") : null,
     };
@@ -41,6 +41,7 @@ const PromoCodeAdd = () => {
         layout="horizontal"
         style={{ maxWidth: 600 }}
         onFinish={onFinish}
+        initialValues={{ status: false }} // ✅ Mặc định trạng thái là "inactive"
       >
         <Form.Item
           label="Mã khuyến mãi"
@@ -67,7 +68,7 @@ const PromoCodeAdd = () => {
         </Form.Item>
 
         <Form.Item label="Trạng thái" name="status" valuePropName="checked">
-          <Switch />
+          <Switch checkedChildren="Active" unCheckedChildren="Inactive" />
         </Form.Item>
 
         <Form.Item
@@ -87,7 +88,7 @@ const PromoCodeAdd = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button htmlType="submit">ADD</Button>
+          <Button type="primary" htmlType="submit">Thêm mới</Button>
         </Form.Item>
       </Form>
     </div>

@@ -34,8 +34,8 @@ const items = [
   getItem(" Suất chiếu", "5", <ClockCircleTwoTone />,),
   getItem(" Giá vé", "6", <DollarTwoTone />, ),
   getItem(" Vé", "7", <TagTwoTone />,),
-  getItem(<Link to="/admin/promocodes">Khuyến mãi</Link>, "8", <FireTwoTone />, ),
-  getItem(<Link to="/admin/products">Combo</Link>, "9", <LikeTwoTone />, ),
+  getItem(<Link to="/admin/list-promocode">Khuyến mãi</Link>, "8", <FireTwoTone />, ),
+  getItem(<Link to="/admin/list-product">Combo</Link>, "9", <LikeTwoTone />, ),
   getItem(" Bài viết", "10", <PictureTwoTone />, [
     getItem(
       <Link to="/admin/products">Tất cả bài viết</Link>,

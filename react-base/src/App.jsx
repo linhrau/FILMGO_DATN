@@ -28,14 +28,14 @@ function App() {
         <Route path="cinemas/edit/:id" element={<CinemaEdit />} />
 
         {/* PROMO CODE */}
-        <Route path="promocodes" element={<PromoCodeList />} />
-        <Route path="promocodes/add" element={<PromoCodeAdd />} />
-        <Route path="promocodes/update/:id" element={<PromoCodeEdit />} />
+        <Route path="list-promocode" element={<PromoCodeList />} />
+        <Route path="create-promocode" element={<PromoCodeAdd />} />
+        <Route path="update-promocode/:id" element={<PromoCodeEdit />} />
 
         {/* PRODUCT */}
-        <Route path="products" element={<ListProduct />} />
-        <Route path="products/add" element={<CreateProduct />} />
-        <Route path="products/update/:id" element={<UpdateProduct />} />
+        <Route path="list-product" element={<ListProduct />} />
+        <Route path="creat-product" element={<CreateProduct />} />
+        <Route path="update-product/:id" element={<UpdateProduct />} />
 
       </Route>
     </Routes>

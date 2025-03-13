@@ -30,6 +30,7 @@ const PromoCodeList = () => {
     queryKey: ["promocodes"],
     queryFn: async () => {
       const response = await axios.get(`http://filmgo.io.vn/api/promocodes`);
+      console.log("Dữ liệu từ API:", response.data); // Kiểm tra dữ liệu
       return response.data.data.map((promocode) => ({
         ...promocode,
         key: promocode.id,
@@ -52,18 +53,23 @@ const PromoCodeList = () => {
       title: "Phần trăm giảm giá",
       dataIndex: "discount_amount",
       key: "discount_amount",
-      render: (text) => `${Math.round(text)}%`, // Round to whole number
+      render: (text) => `${Math.round(text)}%`, // Làm tròn giá trị
     },
     {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
-      render: (_, item) => {
-        return item.status ? (
-          <Tag color="green">Online</Tag>
-        ) : (
-          <Tag color="red">Offline</Tag>
-        );
+      render: (status) => {
+        if (typeof status === "boolean") {
+          return status ? <Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>;
+        }
+        if (typeof status === "number") {
+          return status === 1 ? <Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>;
+        }
+        if (typeof status === "string") {
+          return status.toLowerCase() === "active" ? <Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>;
+        }
+        return <Tag color="gray">Unknown</Tag>;
       },
     },
     {
@@ -77,7 +83,7 @@ const PromoCodeList = () => {
       key: "end_date",
     },
     {
-      title: "",
+      title: "Hành động",
       key: "action",
       render: (_, promocode) => (
         <Space>
@@ -87,10 +93,10 @@ const PromoCodeList = () => {
             okText="Có"
             cancelText="Không"
           >
-            <Button danger>Xoá</Button>
+            <Button danger type="primary">Xoá</Button> {/* Nút Xoá có màu đỏ */}
           </Popconfirm>
-          <Link to={`/admin/promocodes/update/${promocode.id}`}>
-            <Button type="primary">Sửa</Button>
+          <Link to={`/admin/update-promocode/${promocode.id}`}>
+            <Button type="default" style={{ backgroundColor: "#1890ff", color: "#fff" }}>Sửa</Button> {/* Nút Sửa có màu xanh */}
           </Link>
         </Space>
       ),
@@ -103,8 +109,10 @@ const PromoCodeList = () => {
       <center>
         <h1 className="text-3xl mb-5">Quản lý mã khuyến mãi</h1>
       </center>
-      <Link to="/admin/promocodes/add" className="btn btn-primary">
-        Thêm mã khuyến mãi
+      <Link to="/admin/create-promocode">
+        <Button type="default" style={{ backgroundColor: "#52c41a", color: "#fff" }}>
+          Thêm mã khuyến mãi
+        </Button> {/* Nút Thêm có màu xanh lá */}
       </Link>
       <br />
       <br />
