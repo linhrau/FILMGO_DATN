@@ -48,19 +48,6 @@ const EditMovies = () => {
   }, []);
 
   useEffect(() => {
-    // if (movie) {
-    //   console.log("📌 Đang cập nhật form với dữ liệu:", movie);
-    //   form.setFieldsValue({
-    //     title: movie.title || "",
-    //     description: movie.description || "",
-    //     trailer: movie.trailer || "",
-    //     duration: movie.duration || "",
-    //     rating: movie.rating || "",
-    //     release_date: movie.release_date || "",
-    //     genres: movie.genres?.map((g) => g.name) || [], // Nếu có genres
-    //     actors: movie.actors?.map((a) => a.name) || [], // Nếu có actors
-    //   });
-    // }
     if (movie) {
       console.log("📌 Đang cập nhật form với dữ liệu:", movie);
       form.setFieldsValue({
@@ -130,20 +117,6 @@ const EditMovies = () => {
         <Input.TextArea />
       </Form.Item>
 
-      {/* <Form.Item
-        name="poster"
-        label="Ảnh bìa"
-        valuePropName="fileList"
-        getValueFromEvent={(e) => (e && e.fileList ? e.fileList : [])}
-      >
-        <Upload
-          beforeUpload={() => false}
-          listType="picture-card"
-          accept=".jpg,.jpeg,.png"
-        >
-          <Button>Chọn ảnh</Button>
-        </Upload>
-      </Form.Item> */}
       <Form.Item name="poster" label="Ảnh bìa">
         <Upload
           beforeUpload={() => false}
@@ -188,27 +161,12 @@ const EditMovies = () => {
       >
         <Input type="date" />
       </Form.Item>
-      {/* <Form.Item label="Thể loại" name="genres">
-        <Select mode="multiple" placeholder="Chọn thể loại">
-          {movie?.genres?.map((genre) => (
-            <Select.Option key={genre.genre_id} value={genre.name}>
-              {genre.name}
-            </Select.Option>
-          ))}
-        </Select>
-      </Form.Item>
 
-      <Form.Item label="Diễn viên" name="actors">
-        <Select mode="multiple" placeholder="Chọn diễn viên">
-          {movie?.actors?.map((actor) => (
-            <Select.Option key={actor.actor_id} value={actor.name}>
-              {actor.name}
-            </Select.Option>
-          ))}
-        </Select>
-      </Form.Item> */}
-
-      <Form.Item label="Thể loại" name="genres">
+      <Form.Item
+        label="Thể loại"
+        name="genres"
+        rules={[{ required: true, message: "Vui lòng chọn thể loại" }]}
+      >
         <Select mode="multiple" placeholder="Chọn thể loại">
           {genres.map((genre) => (
             <Select.Option key={genre.id} value={genre.id}>
@@ -218,29 +176,11 @@ const EditMovies = () => {
         </Select>
       </Form.Item>
 
-      {/* <Form.Item label="Diễn viên" name="actors">
-        <Select mode="multiple" placeholder="Chọn diễn viên">
-          {actors.map((actor) => (
-            <Select.Option key={actor.id} value={actor.id}>
-              {actor.name}
-            </Select.Option>
-          ))}
-        </Select>
-      </Form.Item> */}
-      {/* <Form.Item label="Diễn viên" name="actors">
-        <Select
-          mode="multiple"
-          placeholder="Chọn diễn viên"
-          value={form.getFieldValue("actors")}
-        >
-          {actors.map((actor) => (
-            <Select.Option key={actor.id} value={actor.id}>
-              {actor.name}
-            </Select.Option>
-          ))}
-        </Select>
-      </Form.Item> */}
-      <Form.Item label="Diễn viên" name="actors">
+      <Form.Item
+        label="Diễn viên"
+        name="actors"
+        rules={[{ required: true, message: "Vui lòng chọn diễn viên" }]}
+      >
         <Select mode="multiple" placeholder="Chọn diễn viên">
           {actors.map((actor) => (
             <Select.Option key={actor.id} value={actor.id}>
