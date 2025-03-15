@@ -23,7 +23,7 @@ const CreateShow = () => {
   }, []);
   const { mutate } = useMutation({
     mutationFn: async (showtime) => {
-      await axios.post(`http://localhost:3000/showtime`, showtime);
+      await axios.post(`http://filmgo.io.vn/api/showtimes/create`, showtime);
     },
     onSuccess: () => {
       nav(`/admin/list-showtime`);
@@ -80,64 +80,41 @@ const CreateShow = () => {
         </Select>
       </Form.Item>
 
-      {/* Add DatePicker with time selection */}
       <Form.Item
-        name="start_time"
-        label="Chọn giờ bắt đầu"
+        label="Chọn giờ chiếu"
+        name="start_time" //date of birth
         rules={[
           {
             required: true,
-            message: "Vui lòng chọn giờ bắt đầu!",
+            message: "Bắt buộc chọn giờ chiếu",
           },
         ]}
       >
-        <DatePicker
-          showTime={{
-            format: "HH:mm:ss", // Time format in 24-hour
-            minuteStep: 5, // Time step in 5-minute intervals
-          }}
-          format="YYYY-MM-DD HH:mm:ss" // Combined date and time format
-          // defaultValue={moment()} // Set the default value to the current date and time
-          style={{ width: "100%" }}
-        />
+        <Input type="time" />
       </Form.Item>
-
       <Form.Item
-        name="end_time"
         label="Chọn giờ kết thúc"
+        name="end_time" //date of birth
         rules={[
           {
             required: true,
-            message: "Vui lòng chọn giờ kết thúc!",
+            message: "Bắt buộc chọn giờ kết thúc",
           },
         ]}
       >
-        <DatePicker
-          showTime={{
-            format: "HH:mm:ss", // Time format in 24-hour
-            minuteStep: 5, // Time step in 5-minute intervals
-          }}
-          format="YYYY-MM-DD HH:mm:ss" // Combined date and time format
-          // defaultValue={moment()} // Set the default value to the current date and time
-          style={{ width: "100%" }}
-        />
+        <Input type="time" />
       </Form.Item>
-
       <Form.Item
-        name="date"
         label="Chọn ngày chiếu"
+        name="date" //date of birth
         rules={[
           {
             required: true,
-            message: "Vui lòng chọn ngày chiếu!",
+            message: "Bắt buộc chọn ngày chiếu",
           },
         ]}
       >
-        <DatePicker
-          format="YYYY-MM-DD " // Combined date and time format
-          // defaultValue={moment()} // Set the default value to the current date and time
-          style={{ width: "100%" }}
-        />
+        <Input type="date" format="yyyy-mm-dd" style={{ width: "100%" }} />
       </Form.Item>
 
       <Form.Item label={null}>

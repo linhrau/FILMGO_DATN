@@ -18,6 +18,7 @@ import UpdateRoom from "./admin/room/UpdateRoom";
 import PageNotFound from "./PageNotFound";
 import CreateShow from "./admin/showtimes/CreateShow";
 import UpdateShow from "./admin/showtimes/UpdateShow";
+import ListShow from "./admin/showtimes/ListShow";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
             element={<UpProvince />}
           ></Route>
           <Route path="/admin/creat-showtime" element={<CreateShow />}></Route>
+          <Route path="/admin/list-showtime" element={<ListShow />}></Route>
           <Route
             path="/admin/update-showtime/:id"
             element={<UpdateShow />}
