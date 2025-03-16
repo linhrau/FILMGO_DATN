@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Input, Select, DatePicker } from "antd";
+import { Button, Form, Input, Select } from "antd";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -24,7 +24,7 @@ const UpdateShow = () => {
   }, []);
   useEffect(() => {
     if (id) {
-      axios.get(`http://filmgo.io.vn/api/showtimes/show/${id}`).then((res) => {
+      axios.get(`http://filmgo.io.vn/api/showtime/show/${id}`).then((res) => {
         setShowtimeData(res.data.data); // Lưu dữ liệu rạp phim vào state
       });
     }
@@ -43,6 +43,7 @@ const UpdateShow = () => {
   const onFinish = (values) => {
     mutate(values);
   };
+  if (!showtimeData && id) return <div>Loading...</div>;
 
   return (
     <Form
@@ -60,7 +61,7 @@ const UpdateShow = () => {
       onFinish={onFinish}
       autoComplete="off"
     >
-      <h1 className="text-3xl mb-5">Sửa xuất chiếu</h1>
+      <h1 className="text-3xl mb-5">Thêm xuất chiếu</h1>
 
       <Form.Item
         name="movie_id"
@@ -89,64 +90,41 @@ const UpdateShow = () => {
         </Select>
       </Form.Item>
 
-      {/* Add DatePicker with time selection */}
       <Form.Item
-        name="start_time"
-        label="Chọn giờ bắt đầu"
+        label="Chọn giờ chiếu"
+        name="start_time" //date of birth
         rules={[
           {
             required: true,
-            message: "Vui lòng chọn giờ bắt đầu!",
+            message: "Bắt buộc chọn giờ chiếu",
           },
         ]}
       >
-        <DatePicker
-          showTime={{
-            format: "HH:mm:ss", // Time format in 24-hour
-            minuteStep: 5, // Time step in 5-minute intervals
-          }}
-          format="YYYY-MM-DD HH:mm:ss" // Combined date and time format
-          // defaultValue={moment()} // Set the default value to the current date and time
-          style={{ width: "100%" }}
-        />
+        <Input type="time" />
       </Form.Item>
-
       <Form.Item
-        name="end_time"
         label="Chọn giờ kết thúc"
+        name="end_time" //date of birth
         rules={[
           {
             required: true,
-            message: "Vui lòng chọn giờ kết thúc!",
+            message: "Bắt buộc chọn giờ kết thúc",
           },
         ]}
       >
-        <DatePicker
-          showTime={{
-            format: "HH:mm:ss", // Time format in 24-hour
-            minuteStep: 5, // Time step in 5-minute intervals
-          }}
-          format="YYYY-MM-DD HH:mm:ss" // Combined date and time format
-          // defaultValue={moment()} // Set the default value to the current date and time
-          style={{ width: "100%" }}
-        />
+        <Input type="time" />
       </Form.Item>
-
       <Form.Item
-        name="date"
         label="Chọn ngày chiếu"
+        name="date" //date of birth
         rules={[
           {
             required: true,
-            message: "Vui lòng chọn ngày chiếu!",
+            message: "Bắt buộc chọn ngày chiếu",
           },
         ]}
       >
-        <DatePicker
-          format="YYYY-MM-DD " // Combined date and time format
-          // defaultValue={moment()} // Set the default value to the current date and time
-          style={{ width: "100%" }}
-        />
+        <Input type="date" format="yyyy-mm-dd" style={{ width: "100%" }} />
       </Form.Item>
 
       <Form.Item label={null}>

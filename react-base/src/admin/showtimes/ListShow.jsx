@@ -1,97 +1,170 @@
-import React, { useEffect, useState } from "react";
-import { Table, Button } from "antd";
+import {
+  Button,
+  message,
+  Popconfirm,
+  Skeleton,
+  Space,
+  Table,
+  DatePicker,
+} from "antd";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import moment from "moment";
+import moment from "moment"; // Để xử lý ngày tháng dễ dàng hơn
+import { useState } from "react";
 
 const ListShow = () => {
-  const [showtimes, setShowtimes] = useState([]);
-  const [movies, setMovies] = useState([]);
-  const [screens, setScreens] = useState([]);
+  const [messageApi, contextHolder] = message.useMessage();
+  const queryClient = useQueryClient();
+  const [selectedDate, setSelectedDate] = useState(null); // Trạng thái lưu trữ ngày được chọn
 
-  // Lấy danh sách xuất chiếu
-  useEffect(() => {
-    axios
-      .get("http://filmgo.io.vn/api/showtimes")
-      .then((res) => setShowtimes(res.data.data))
-      .catch((error) => console.error("Error fetching showtimes:", error));
-  }, []);
+  const { mutate } = useMutation({
+    mutationFn: async (id) => {
+      await axios.delete(`http://filmgo.io.vn/api/showtimes/delete/${id}`);
+    },
+    onSuccess: () => {
+      messageApi.open({
+        type: "success",
+        content: "Bạn đã xóa suất chiếu thành công",
+      });
+      queryClient.invalidateQueries({ queryKey: ["showtimes"] });
+    },
+    onError: () => {
+      messageApi.open({
+        type: "error",
+        content: "Xóa suất thất bại, vui lòng thử lại sau",
+      });
+    },
+  });
 
-  // Lấy danh sách phim
-  useEffect(() => {
-    axios
-      .get("http://filmgo.io.vn/api/movies")
-      .then((res) => setMovies(res.data.data))
-      .catch((error) => console.error("Error fetching movies:", error));
-  }, []);
+  const { isLoading, data } = useQuery({
+    queryKey: ["showtimes"],
+    queryFn: async () => {
+      const response = await axios.get(`http://filmgo.io.vn/api/showtimes`);
+      return response.data.data.map((showtime) => ({
+        ...showtime,
+        key: showtime.id,
+      }));
+    },
+  });
 
-  // Lấy danh sách phòng chiếu
-  useEffect(() => {
-    axios
-      .get("http://filmgo.io.vn/api/screens")
-      .then((res) => setScreens(res.data.data))
-      .catch((error) => console.error("Error fetching screens:", error));
-  }, []);
+  const { data: movies } = useQuery({
+    queryKey: ["movies"],
+    queryFn: async () => {
+      const response = await axios.get(`http://filmgo.io.vn/api/movies`);
+      return response.data.data.map((movie) => ({
+        ...movie,
+        key: movie.id,
+      }));
+    },
+  });
 
-  // Tạo cột cho bảng
+  const { data: screens } = useQuery({
+    queryKey: ["screens"],
+    queryFn: async () => {
+      const response = await axios.get(`http://filmgo.io.vn/api/screens`);
+      return response.data.data.map((screen) => ({
+        ...screen,
+        key: screen.id,
+      }));
+    },
+  });
+
+  const handleDateChange = (date, dateString) => {
+    setSelectedDate(dateString); // Cập nhật ngày đã chọn
+  };
+
+  // Lọc dữ liệu showtimes theo ngày được chọn
+  const filteredData = selectedDate
+    ? data.filter((showtime) =>
+        moment(showtime.date).isSame(selectedDate, "day")
+      )
+    : data;
+
   const columns = [
     {
-      title: "Phim",
-      dataIndex: "movie_id", // ID của phim
+      title: "Tên phim",
+      dataIndex: "movie_id",
       key: "movie_id",
       render: (movieId) => {
-        const movie = movies.find((m) => m.id === movieId);
-        return movie ? movie.title : "Không có dữ liệu"; // Hiển thị tên phim
+        const movie = movies?.find((movie) => movie.id === movieId);
+        return movie ? movie.title : "Rạp không xác định"; // Hiển thị tên rạp nếu tìm thấy
       },
     },
     {
       title: "Phòng chiếu",
-      dataIndex: "screen_id", // ID của phòng chiếu
+      dataIndex: "screen_id",
       key: "screen_id",
       render: (screenId) => {
-        const screen = screens.find((s) => s.id === screenId);
-        return screen ? screen.name : "Không có dữ liệu"; // Hiển thị tên phòng chiếu
+        const screen = screens?.find((screen) => screen.id === screenId);
+        return screen ? screen.name : "Rạp không xác định";
       },
     },
     {
-      title: "Ngày chiếu",
-      dataIndex: "date",
-      key: "date",
-      render: (text) => moment(text).format("DD-MM-YYYY"), // Định dạng ngày
-    },
-    {
-      title: "Giờ chiếu",
+      title: "Giờ bắt đầu",
       dataIndex: "start_time",
       key: "start_time",
-      render: (text) => moment(text).format("HH:mm"),
+      render: (text) => <a>{text}</a>,
     },
     {
       title: "Giờ kết thúc",
       dataIndex: "end_time",
       key: "end_time",
-      render: (text) => moment(text).format("HH:mm"), // Định dạng giờ kết thúc
+      render: (text) => <a>{text}</a>,
     },
     {
-      title: "Hành động",
+      title: "Ngày chiếu",
+      dataIndex: "date",
+      key: "date",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "",
       key: "action",
-      render: (_, record) => (
-        <Link to={`/admin/edit-showtime/${record.id}`}>
-          <Button type="primary">Sửa</Button>
-        </Link>
+      render: (_, showtime) => (
+        <Space>
+          <Popconfirm
+            title="Bạn có chắc muốn xoá phòng chiếu này?"
+            onConfirm={() => mutate(showtime.id)}
+            okText="Có"
+            cancelText="Không"
+          >
+            <Button danger>Xoá</Button>
+          </Popconfirm>
+          <Link to={`/admin/update-showtime/${showtime.id}`}>
+            <Button type="primary">Sửa</Button>
+          </Link>
+        </Space>
       ),
     },
   ];
 
   return (
-    <div>
-      <h1 className="text-3xl mb-5">Danh sách xuất chiếu</h1>
-      <Table
-        columns={columns}
-        dataSource={showtimes}
-        rowKey="id"
-        pagination={{ pageSize: 10 }}
+    <>
+      {contextHolder}
+      <center>
+        <h1 className="text-3xl mb-5">Quản lý suất chiếu</h1>
+      </center>
+      <Link to="/admin/creat-showtime" className="btn btn-primary">
+        Thêm suất chiếu
+      </Link>
+      <br />
+      <br />
+      {/* Thêm DatePicker để chọn ngày */}
+      <DatePicker
+        value={selectedDate ? moment(selectedDate, "YYYY-MM-DD") : null}
+        onChange={handleDateChange}
+        format="YYYY-MM-DD"
+        placeholder="Chọn ngày"
       />
-    </div>
+      <br />
+      <br />
+      {isLoading ? (
+        <Skeleton active />
+      ) : (
+        <Table columns={columns} dataSource={filteredData} rowKey="key" />
+      )}
+    </>
   );
 };
 
