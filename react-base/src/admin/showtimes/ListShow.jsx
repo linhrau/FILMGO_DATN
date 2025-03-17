@@ -6,6 +6,9 @@ import {
   Space,
   Table,
   DatePicker,
+  Select,
+  Row,
+  Col, // Import thêm Row và Col từ Ant Design để sắp xếp layout
 } from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -13,10 +16,13 @@ import { Link } from "react-router-dom";
 import moment from "moment"; // Để xử lý ngày tháng dễ dàng hơn
 import { useState } from "react";
 
+const { Option } = Select;
+
 const ListShow = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const queryClient = useQueryClient();
   const [selectedDate, setSelectedDate] = useState(null); // Trạng thái lưu trữ ngày được chọn
+  const [selectedMovie, setSelectedMovie] = useState(null); // Trạng thái lưu trữ phim được chọn
 
   const { mutate } = useMutation({
     mutationFn: async (id) => {
@@ -74,12 +80,22 @@ const ListShow = () => {
     setSelectedDate(dateString); // Cập nhật ngày đã chọn
   };
 
-  // Lọc dữ liệu showtimes theo ngày được chọn
-  const filteredData = selectedDate
-    ? data.filter((showtime) =>
-        moment(showtime.date).isSame(selectedDate, "day")
-      )
-    : data;
+  const handleMovieChange = (movieId) => {
+    setSelectedMovie(movieId); // Cập nhật phim đã chọn
+  };
+
+  // Lọc dữ liệu showtimes theo ngày và phim được chọn
+  const filteredData = data
+    ? data.filter((showtime) => {
+        const isSameDate = selectedDate
+          ? moment(showtime.date).isSame(selectedDate, "day")
+          : true;
+        const isSameMovie = selectedMovie
+          ? showtime.movie_id === selectedMovie
+          : true;
+        return isSameDate && isSameMovie;
+      })
+    : [];
 
   const columns = [
     {
@@ -88,7 +104,7 @@ const ListShow = () => {
       key: "movie_id",
       render: (movieId) => {
         const movie = movies?.find((movie) => movie.id === movieId);
-        return movie ? movie.title : "Rạp không xác định"; // Hiển thị tên rạp nếu tìm thấy
+        return movie ? movie.title : "Rạp không xác định"; // Hiển thị tên phim nếu tìm thấy
       },
     },
     {
@@ -104,13 +120,13 @@ const ListShow = () => {
       title: "Giờ bắt đầu",
       dataIndex: "start_time",
       key: "start_time",
-      render: (text) => <a>{text}</a>,
+      render: (text) => moment(text).format("HH:mm"), // Định dạng lại giờ theo 'HH:mm'
     },
     {
       title: "Giờ kết thúc",
       dataIndex: "end_time",
       key: "end_time",
-      render: (text) => <a>{text}</a>,
+      render: (text) => moment(text).format("HH:mm"), // Định dạng lại giờ theo 'HH:mm'
     },
     {
       title: "Ngày chiếu",
@@ -150,14 +166,35 @@ const ListShow = () => {
       </Link>
       <br />
       <br />
-      {/* Thêm DatePicker để chọn ngày */}
-      <DatePicker
-        value={selectedDate ? moment(selectedDate, "YYYY-MM-DD") : null}
-        onChange={handleDateChange}
-        format="YYYY-MM-DD"
-        placeholder="Chọn ngày"
-      />
-      <br />
+      {/* Sử dụng Row và Col để đặt các nút cạnh nhau */}
+      <Row gutter={16}>
+        <Col span={3}>
+          {/* Thêm DatePicker để chọn ngày */}
+          <DatePicker
+            value={selectedDate ? moment(selectedDate, "YYYY-MM-DD") : null}
+            onChange={handleDateChange}
+            format="YYYY-MM-DD"
+            placeholder="Chọn ngày"
+            style={{ width: "100%" }}
+          />
+        </Col>
+        <Col span={5}>
+          {/* Thêm Select để chọn tên phim */}
+          <Select
+            value={selectedMovie}
+            onChange={handleMovieChange}
+            placeholder="Chọn phim"
+            style={{ width: "100%" }}
+          >
+            <Option value={null}>Tất cả</Option>
+            {movies?.map((movie) => (
+              <Option key={movie.id} value={movie.id}>
+                {movie.title}
+              </Option>
+            ))}
+          </Select>
+        </Col>
+      </Row>
       <br />
       {isLoading ? (
         <Skeleton active />

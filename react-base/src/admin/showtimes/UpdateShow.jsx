@@ -10,7 +10,7 @@ const UpdateShow = () => {
   const nav = useNavigate();
   const [screens, setScreens] = useState([]);
   const [movies, setMovies] = useState([]);
-  const [showtimeData, setShowtimeData] = useState([]);
+  const [showtimeData, setShowTime] = useState([]);
 
   useEffect(() => {
     axios
@@ -24,8 +24,8 @@ const UpdateShow = () => {
   }, []);
   useEffect(() => {
     if (id) {
-      axios.get(`http://filmgo.io.vn/api/showtime/show/${id}`).then((res) => {
-        setShowtimeData(res.data.data); // Lưu dữ liệu rạp phim vào state
+      axios.get(`http://filmgo.io.vn/api/showtimes/show/${id}`).then((res) => {
+        setShowTime(res.data.data); // Lưu dữ liệu rạp phim vào state
       });
     }
   }, [id]);
@@ -43,7 +43,7 @@ const UpdateShow = () => {
   const onFinish = (values) => {
     mutate(values);
   };
-  if (!showtimeData && id) return <div>Loading...</div>;
+  console.log(showtimeData);
 
   return (
     <Form
@@ -61,7 +61,7 @@ const UpdateShow = () => {
       onFinish={onFinish}
       autoComplete="off"
     >
-      <h1 className="text-3xl mb-5">Thêm xuất chiếu</h1>
+      <h1 className="text-3xl mb-5">Cập nhật suất chiếu</h1>
 
       <Form.Item
         name="movie_id"
