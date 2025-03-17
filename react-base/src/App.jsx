@@ -14,6 +14,8 @@ import AddGenres from "./pages/admin/Genres/AddGenres";
 import EditGenres from "./pages/admin/Genres/EditGenres";
 import ListMovies from "./pages/admin/Movies/ListMovies";
 import EditMovies from "./pages/admin/Movies/EditMovies";
+import ListBanners from "./pages/admin/Bannners/ListBanners";
+import AddBanners from "./pages/admin/Bannners/AddBanners";
 
 // import './App.css'
 
@@ -33,6 +35,8 @@ function App() {
           <Route path="list-genres" element={<ListGenres />} />
           <Route path="create-genres" element={<AddGenres />} />
           <Route path="update-genres/:id" element={<EditGenres />} />
+          <Route path="list-banners" element={<ListBanners />} />
+          <Route path="create-banners" element={<AddBanners />} />
         </Route>
       </Routes>
 

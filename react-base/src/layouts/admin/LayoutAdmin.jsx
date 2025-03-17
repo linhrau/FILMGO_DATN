@@ -45,23 +45,8 @@ const items = [
   getItem(" Vé", "7", <TagTwoTone />),
   getItem(<Link to="/admin/promocodes">Khuyến mãi</Link>, "8", <FireTwoTone />),
   getItem(<Link to="/admin/list-combos">Combo</Link>, "9", <LikeTwoTone />),
-  getItem(" Bài viết", "10", <PictureTwoTone />, [
-    getItem(
-      <Link to="/admin/products">Tất cả bài viết</Link>,
-      "10.1",
-      <UnorderedListOutlined />
-    ),
-    getItem(
-      <Link to="/admin/products/add">Bài viết của tôi</Link>,
-      "10.2",
-      <PlusOutlined />
-    ),
-    getItem(
-      <Link to="/admin/products/add">Tạo bài viết</Link>,
-      "10.3",
-      <PlusOutlined />
-    ),
-  ]),
+  getItem(<Link to="/admin/list-banners">Banners</Link>, "10", <LikeTwoTone />),
+  // getItem(" Bài viết", "10", <PictureTwoTone />, []),
   getItem(" Người dùng", "11", <IdcardTwoTone />),
   // getItem(" Diễn viên", "12", <ContactsTwoTone />),
   getItem(
