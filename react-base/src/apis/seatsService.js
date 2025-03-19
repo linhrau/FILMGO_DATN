@@ -2,7 +2,7 @@ import axiosClient from "./axiosClient";
 
 const getSeatsByScreenId = async (screen_id) => {
   try {
-    const res = await axiosClient.post("/seats", { screen_id });
+    const res = await axiosClient.post("/get-seat-by-screen", { screen_id });
     return res.data;
   } catch (error) {
     console.error("Lỗi khi gọi Api seats", error);
