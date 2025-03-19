@@ -1,8 +1,16 @@
-import { Button, Form, Input, InputNumber, message, Switch, DatePicker } from "antd";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Switch,
+} from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const PromoCodeEdit = () => {
   const { id } = useParams();
@@ -68,7 +76,11 @@ const PromoCodeEdit = () => {
           <Input.TextArea rows={3} />
         </Form.Item>
 
-        <Form.Item label="Giá trị giảm" name="discount_amount" rules={[{ required: true, message: "Vui lòng nhập giá trị giảm!" }]}>
+        <Form.Item
+          label="Giá trị giảm"
+          name="discount_amount"
+          rules={[{ required: true, message: "Vui lòng nhập giá trị giảm!" }]}
+        >
           <InputNumber min={1} max={100} addonAfter="%" />
         </Form.Item>
 
@@ -76,11 +88,19 @@ const PromoCodeEdit = () => {
           <Switch checkedChildren="Active" unCheckedChildren="Inactive" />
         </Form.Item>
 
-        <Form.Item label="Ngày bắt đầu" name="start_date" rules={[{ required: true, message: "Vui lòng chọn ngày bắt đầu!" }]}>
+        <Form.Item
+          label="Ngày bắt đầu"
+          name="start_date"
+          rules={[{ required: true, message: "Vui lòng chọn ngày bắt đầu!" }]}
+        >
           <DatePicker format="YYYY-MM-DD" />
         </Form.Item>
 
-        <Form.Item label="Ngày kết thúc" name="end_date" rules={[{ required: true, message: "Vui lòng chọn ngày kết thúc!" }]}>
+        <Form.Item
+          label="Ngày kết thúc"
+          name="end_date"
+          rules={[{ required: true, message: "Vui lòng chọn ngày kết thúc!" }]}
+        >
           <DatePicker format="YYYY-MM-DD" />
         </Form.Item>
 

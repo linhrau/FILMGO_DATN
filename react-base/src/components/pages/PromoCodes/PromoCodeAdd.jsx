@@ -23,7 +23,9 @@ const PromoCodeAdd = () => {
     const formattedValues = {
       ...values,
       status: values.status ? "active" : "inactive", // ✅ Chuyển đổi giá trị status
-      start_date: values.start_date ? values.start_date.format("YYYY-MM-DD") : null,
+      start_date: values.start_date
+        ? values.start_date.format("YYYY-MM-DD")
+        : null,
       end_date: values.end_date ? values.end_date.format("YYYY-MM-DD") : null,
     };
 
@@ -54,7 +56,9 @@ const PromoCodeAdd = () => {
         <Form.Item
           label="Mô tả"
           name="description"
-          rules={[{ required: true, message: "Vui lòng nhập mô tả mã khuyến mãi" }]}
+          rules={[
+            { required: true, message: "Vui lòng nhập mô tả mã khuyến mãi" },
+          ]}
         >
           <TextArea rows={4} />
         </Form.Item>
@@ -88,7 +92,9 @@ const PromoCodeAdd = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">Thêm mới</Button>
+          <Button type="primary" htmlType="submit">
+            Thêm mới
+          </Button>
         </Form.Item>
       </Form>
     </div>

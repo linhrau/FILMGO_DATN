@@ -1,10 +1,9 @@
+import { PlusOutlined } from "@ant-design/icons";
 import { useMutation } from "@tanstack/react-query";
-import { Button, Form, Input, InputNumber, Rate, Select, Switch, Upload } from "antd";
-import TextArea from "antd/es/input/TextArea";
+import { Button, Form, Input, Select, Upload } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PlusOutlined } from "@ant-design/icons";
 
 const CinemaAdd = () => {
   const [imageUrl, setImageUrl] = useState("");
@@ -14,7 +13,6 @@ const CinemaAdd = () => {
       await axios.post("http://localhost:3000/cinemas", cinema);
     },
     onSuccess: () => {
-      
       navigate("/admin/cinemas");
     },
   });
@@ -74,7 +72,7 @@ const CinemaAdd = () => {
             },
           ]}
         >
-         <Input />
+          <Input />
         </Form.Item>
         <Form.Item label="Thành phố" name="province">
           <Select>
@@ -124,11 +122,10 @@ const CinemaAdd = () => {
               message: "Số điện thoại phải có 10 chữ số",
             },
           ]}
-          >
+        >
           <Input />
         </Form.Item>
-        
-       
+
         <Form.Item>
           <Button htmlType="submit">ADD</Button>
         </Form.Item>

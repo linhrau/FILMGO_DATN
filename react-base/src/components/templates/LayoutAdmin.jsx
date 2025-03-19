@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   CalendarTwoTone,
   ClockCircleTwoTone,
@@ -16,6 +15,7 @@ import {
   VideoCameraTwoTone,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
+import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -28,14 +28,18 @@ function getItem(label, key, icon, children) {
 }
 const items = [
   getItem(<Link to="/admin">Thống kê</Link>, "1", <PieChartTwoTone />),
-  getItem(" Phim", "2",<PlaySquareTwoTone /> , ),
-  getItem(" Rạp phim", "3", <VideoCameraTwoTone />, ),
-  getItem(" Lịch chiếu", "4", <CalendarTwoTone />, ),
-  getItem(" Suất chiếu", "5", <ClockCircleTwoTone />,),
-  getItem(" Giá vé", "6", <DollarTwoTone />, ),
-  getItem(" Vé", "7", <TagTwoTone />,),
-  getItem(<Link to="/admin/list-promocode">Khuyến mãi</Link>, "8", <FireTwoTone />, ),
-  getItem(<Link to="/admin/list-product">Combo</Link>, "9", <LikeTwoTone />, ),
+  getItem(" Phim", "2", <PlaySquareTwoTone />),
+  getItem(" Rạp phim", "3", <VideoCameraTwoTone />),
+  getItem(" Lịch chiếu", "4", <CalendarTwoTone />),
+  getItem(" Suất chiếu", "5", <ClockCircleTwoTone />),
+  getItem(" Giá vé", "6", <DollarTwoTone />),
+  getItem(" Vé", "7", <TagTwoTone />),
+  getItem(
+    <Link to="/admin/list-promocode">Khuyến mãi</Link>,
+    "8",
+    <FireTwoTone />
+  ),
+  getItem(<Link to="/admin/list-product">Combo</Link>, "9", <LikeTwoTone />),
   getItem(" Bài viết", "10", <PictureTwoTone />, [
     getItem(
       <Link to="/admin/products">Tất cả bài viết</Link>,
@@ -52,11 +56,9 @@ const items = [
       "10.3",
       <PlusOutlined />
     ),
-   
   ]),
-  getItem(" Người dùng", "11", <IdcardTwoTone />, ),
-  getItem(" Nhân viên", "12", <ContactsTwoTone />, ),
-  
+  getItem(" Người dùng", "11", <IdcardTwoTone />),
+  getItem(" Nhân viên", "12", <ContactsTwoTone />),
 ];
 
 const LayoutAdmin = () => {
@@ -118,9 +120,7 @@ const LayoutAdmin = () => {
           style={{
             textAlign: "center",
           }}
-        >
-        
-        </Footer>
+        ></Footer>
       </Layout>
     </Layout>
   );
