@@ -1,49 +1,58 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select, DatePicker } from "antd";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import dayjs from "dayjs";
 
 const { Option } = Select;
-const UpdateShow = () => {
-  const { id } = useParams();
+const EditShow = () => {
   const nav = useNavigate();
+  const { id } = useParams(); // Get the showtime ID from the URL
   const [screens, setScreens] = useState([]);
   const [movies, setMovies] = useState([]);
-  const [showtimeData, setShowTime] = useState([]);
+  const [showtime, setShowtime] = useState(null);
 
   useEffect(() => {
     axios
       .get("http://filmgo.io.vn/api/screens")
       .then((res) => setScreens(res.data.data));
   }, []);
+
   useEffect(() => {
     axios
       .get("http://filmgo.io.vn/api/movies")
       .then((res) => setMovies(res.data.data));
   }, []);
+
   useEffect(() => {
     if (id) {
       axios.get(`http://filmgo.io.vn/api/showtimes/show/${id}`).then((res) => {
-        setShowTime(res.data.data); // Lưu dữ liệu rạp phim vào state
+        const showtimeData = res.data.data;
+        setShowtime(showtimeData);
       });
     }
   }, [id]);
+
   const { mutate } = useMutation({
-    mutationFn: async (showtime) => {
+    mutationFn: async (showtimeData) => {
       await axios.put(
-        `http://filmgo.io.vn/api/showtimes/update/${id}`,
-        showtime
+        `http://filmgo.io.vn/api/showtimes/show/${id}`,
+        showtimeData
       );
     },
     onSuccess: () => {
       nav(`/admin/list-showtime`);
     },
   });
+
   const onFinish = (values) => {
     mutate(values);
   };
-  console.log(showtimeData);
+
+  if (!showtime && id) {
+    return <div>Loading...</div>; // Show loading state while fetching data
+  }
 
   return (
     <Form
@@ -57,11 +66,17 @@ const UpdateShow = () => {
       style={{
         maxWidth: 600,
       }}
-      initialValues={showtimeData || {}}
+      initialValues={{
+        movie_id: showtime?.movie_id,
+        screen_id: showtime?.screen_id,
+        start_time: showtime ? dayjs(showtime.start_time, "HH:mm:ss") : null,
+        end_time: showtime ? dayjs(showtime.end_time, "HH:mm:ss") : null,
+        date: showtime ? dayjs(showtime.date) : null,
+      }}
       onFinish={onFinish}
       autoComplete="off"
     >
-      <h1 className="text-3xl mb-5">Cập nhật suất chiếu</h1>
+      <h1 className="text-3xl mb-5">Chỉnh sửa xuất chiếu</h1>
 
       <Form.Item
         name="movie_id"
@@ -76,6 +91,7 @@ const UpdateShow = () => {
           ))}
         </Select>
       </Form.Item>
+
       <Form.Item
         name="screen_id"
         label="Chọn phòng chiếu"
@@ -92,7 +108,7 @@ const UpdateShow = () => {
 
       <Form.Item
         label="Chọn giờ chiếu"
-        name="start_time" //date of birth
+        name="start_time"
         rules={[
           {
             required: true,
@@ -102,9 +118,10 @@ const UpdateShow = () => {
       >
         <Input type="time" />
       </Form.Item>
+
       <Form.Item
         label="Chọn giờ kết thúc"
-        name="end_time" //date of birth
+        name="end_time"
         rules={[
           {
             required: true,
@@ -114,9 +131,10 @@ const UpdateShow = () => {
       >
         <Input type="time" />
       </Form.Item>
+
       <Form.Item
         label="Chọn ngày chiếu"
-        name="date" //date of birth
+        name="date"
         rules={[
           {
             required: true,
@@ -124,7 +142,7 @@ const UpdateShow = () => {
           },
         ]}
       >
-        <Input type="date" format="yyyy-mm-dd" style={{ width: "100%" }} />
+        <DatePicker style={{ width: "100%" }} />
       </Form.Item>
 
       <Form.Item label={null}>
@@ -135,4 +153,5 @@ const UpdateShow = () => {
     </Form>
   );
 };
-export default UpdateShow;
+
+export default EditShow;

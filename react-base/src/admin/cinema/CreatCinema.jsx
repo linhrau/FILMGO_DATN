@@ -13,10 +13,22 @@ const CreatCinema = () => {
       .get("http://filmgo.io.vn/api/provinces")
       .then((res) => setProvinces(res.data.data));
   }, []);
-
+  const getAccessToken = () => {
+    return localStorage.getItem("access_token"); // Hoặc bạn có thể lấy từ Cookies hoặc bất kỳ nguồn lưu trữ nào khác
+  };
   const { mutate } = useMutation({
     mutationFn: async (cinema) => {
-      await axios.post(`http://filmgo.io.vn/api/cinemas/create`, cinema);
+      const token = getAccessToken(); // Lấy token
+      if (!token) {
+        throw new Error("Không có access token");
+      }
+
+      // Gửi yêu cầu POST với access_token trong header
+      await axios.post(`http://filmgo.io.vn/api/cinemas/create`, cinema, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Thêm Authorization header
+        },
+      });
     },
     onSuccess: () => {
       nav(`/admin/list-cinema`);
