@@ -23,10 +23,26 @@ const ListShow = () => {
   const queryClient = useQueryClient();
   const [selectedDate, setSelectedDate] = useState(null); // Trạng thái lưu trữ ngày được chọn
   const [selectedMovie, setSelectedMovie] = useState(null); // Trạng thái lưu trữ phim được chọn
-
+  const getAccessToken = () => {
+    return localStorage.getItem("access_token");
+  };
   const { mutate } = useMutation({
     mutationFn: async (id) => {
-      await axios.delete(`http://filmgo.io.vn/api/showtimes/delete/${id}`);
+      const token = getAccessToken(); // Lấy token
+      if (!token) {
+        throw new Error("Không có access token");
+      }
+
+      // Gửi yêu cầu POST với access_token trong header
+      await axios.delete(
+        `http://filmgo.io.vn/api/showtimes/delete/${id}`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Thêm Authorization header
+          },
+        }
+      );
     },
     onSuccess: () => {
       messageApi.open({

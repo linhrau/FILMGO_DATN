@@ -5,9 +5,27 @@ import { useNavigate } from "react-router-dom";
 
 const CreatProvince = () => {
   const nav = useNavigate();
+  const getAccessToken = () => {
+    return localStorage.getItem("access_token");
+  };
   const { mutate } = useMutation({
     mutationFn: async (province) => {
-      await axios.post(`http://filmgo.io.vn/api/provinces/create`, province);
+      const token = getAccessToken(); // Lấy token
+      if (!token) {
+        throw new Error("Không có access token");
+      }
+
+      // Gửi yêu cầu POST với access_token trong header
+      await axios.post(
+        `http://filmgo.io.vn/api/provinces/create`,
+        province,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Thêm Authorization header
+          },
+        }
+      );
     },
     onSuccess: () => {
       nav(`/admin/list-province`);

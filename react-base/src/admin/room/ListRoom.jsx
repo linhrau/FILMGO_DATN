@@ -16,10 +16,26 @@ const ListRoom = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const queryClient = useQueryClient();
   const [selectedCinema, setSelectedCinema] = useState(null); // State để lưu rạp phim đã chọn
-
+  const getAccessToken = () => {
+    return localStorage.getItem("access_token");
+  };
   const { mutate } = useMutation({
     mutationFn: async (id) => {
-      await axios.delete(`http://filmgo.io.vn/api/screens/delete/${id}`);
+      const token = getAccessToken(); // Lấy token
+      if (!token) {
+        throw new Error("Không có access token");
+      }
+
+      // Gửi yêu cầu POST với access_token trong header
+      await axios.delete(
+        `http://filmgo.io.vn/api/screens/delete/${id}`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Thêm Authorization header
+          },
+        }
+      );
     },
     onSuccess: () => {
       messageApi.open({

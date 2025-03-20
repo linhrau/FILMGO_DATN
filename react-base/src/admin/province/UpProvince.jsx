@@ -7,7 +7,9 @@ const UpProvince = () => {
   const nav = useNavigate();
   const queryClient = useQueryClient();
   const { id } = useParams(); // Lấy ID từ URL
-
+  const getAccessToken = () => {
+    return localStorage.getItem("access_token");
+  };
   const { data, isLoading } = useQuery({
     queryKey: ["provinces", id],
     queryFn: async () => {
@@ -19,10 +21,22 @@ const UpProvince = () => {
   });
   const { mutate } = useMutation({
     mutationFn: async (province) => {
+      const token = getAccessToken(); // Lấy token
+      if (!token) {
+        throw new Error("Không có access token");
+      }
+
+      // Gửi yêu cầu POST với access_token trong header
       await axios.put(
         `http://filmgo.io.vn/api/provinces/update/${id}`,
-        province
-      ); // Sử dụng PUT để cập nhật
+        province,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Thêm Authorization header
+          },
+        }
+      );
     },
     onSuccess: () => {
       nav(`/admin/list-province`);

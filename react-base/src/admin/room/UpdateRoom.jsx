@@ -24,10 +24,23 @@ const UpdateRoom = () => {
       });
     }
   }, [id]);
+  const getAccessToken = () => {
+    return localStorage.getItem("access_token"); // Hoặc bạn có thể lấy từ Cookies hoặc bất kỳ nguồn lưu trữ nào khác
+  };
 
   const { mutate } = useMutation({
     mutationFn: async (screen) => {
-      await axios.put(`http://filmgo.io.vn/api/screens/update/${id}`, screen); // Sử dụng PUT để cập nhật
+      const token = getAccessToken(); // Lấy token
+      if (!token) {
+        throw new Error("Không có access token");
+      }
+
+      // Gửi yêu cầu POST với access_token trong header
+      await axios.put(`http://filmgo.io.vn/api/screens/update/${id}`, screen, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Thêm Authorization header
+        },
+      });
     },
     onSuccess: () => {
       nav(`/admin/list-screen`);

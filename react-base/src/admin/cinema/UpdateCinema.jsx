@@ -10,7 +10,9 @@ const UpdateCinema = () => {
   const { id } = useParams(); // Lấy ID từ URL
   const [provinces, setProvinces] = useState([]);
   const [cinemaData, setCinemaData] = useState(null); // State để lưu dữ liệu rạp phim cần cập nhật
-
+  const getAccessToken = () => {
+    return localStorage.getItem("access_token");
+  };
   useEffect(() => {
     axios
       .get("http://filmgo.io.vn/api/provinces")
@@ -27,7 +29,22 @@ const UpdateCinema = () => {
 
   const { mutate } = useMutation({
     mutationFn: async (cinema) => {
-      await axios.put(`http://filmgo.io.vn/api/cinemas/update/${id}`, cinema); // Sử dụng PUT để cập nhật
+      const token = getAccessToken(); // Lấy token
+      if (!token) {
+        throw new Error("Không có access token");
+      }
+
+      // Gửi yêu cầu POST với access_token trong header
+      await axios.put(
+        `http://filmgo.io.vn/api/cinemas/update/${id}`,
+        cinema,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Thêm Authorization header
+          },
+        }
+      );
     },
     onSuccess: () => {
       nav(`/admin/list-cinema`);

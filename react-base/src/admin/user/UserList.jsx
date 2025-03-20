@@ -2,22 +2,51 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, message, Popconfirm, Skeleton, Space, Table } from "antd";
 import axios from "axios";
 
-const USerList = () => {
+const UserList = () => {
   const queryClient = useQueryClient();
   const [messageApi, contextHolder] = message.useMessage();
+
+  // Lấy token từ localStorage
+  const getAccessToken = () => {
+    return localStorage.getItem("access_token");
+  };
+
   const { data, isLoading } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const response = await axios.get(`http://filmgo.io.vn/api/users`);
+      const token = getAccessToken();
+
+      // Kiểm tra token có hợp lệ không
+      if (!token) {
+        throw new Error("Token không hợp lệ hoặc không tồn tại");
+      }
+
+      // Thêm token vào header của yêu cầu
+      const response = await axios.get(`http://filmgo.io.vn/api/users`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Thêm token vào header
+        },
+      });
+
       return response.data.data.map((user) => ({
         key: user.id,
         ...user,
       }));
     },
   });
+
   const { mutate } = useMutation({
     mutationFn: async (id) => {
-      return await axios.delete(`http://filmgo.io.vn/api/users/delete/${id}`);
+      const token = getAccessToken();
+      if (!token) {
+        throw new Error("Token không hợp lệ hoặc không tồn tại");
+      }
+
+      return await axios.delete(`http://filmgo.io.vn/api/users/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     },
     onSuccess: () => {
       messageApi.success("Xóa người dùng thành công");
@@ -29,9 +58,11 @@ const USerList = () => {
       messageApi.error("Xóa người dùng không thành công", error.message);
     },
   });
+
   const onHandleRemove = (id) => {
     mutate(id);
   };
+
   const columns = [
     {
       title: "Tên người dùng",
@@ -53,7 +84,6 @@ const USerList = () => {
       dataIndex: "role_name",
       key: "role",
     },
-
     {
       key: "action",
       render: (_, item) => (
@@ -70,11 +100,6 @@ const USerList = () => {
                 Xóa
               </Button>
             </Popconfirm>
-            {/* <Link to={`/admin/update-user/${item.id}`}>
-              <Button variant="solid" color="primary">
-                Cập nhật
-              </Button>
-            </Link> */}
           </Space>
         </div>
       ),
@@ -91,13 +116,5 @@ const USerList = () => {
     </>
   );
 };
-export default USerList;
 
-/**
- * Xóa người dùng:
- * Bước 1: Click vào button, lấy được id người dùng
- * Bước 2: Hiển thị confirm xác nhận xóa người dùng
- * Bước 3: Sử dụng useMutation để gọi API xóa người dùng dựa trên id vừa có
- * Bước 4: Nếu thành công thì hiển thị message, ngược lại hiển thị message lỗi
- * Bước 5: Cập nhật lại (refetching) danh sách người dùng
- */
+export default UserList;

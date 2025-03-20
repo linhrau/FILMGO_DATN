@@ -13,9 +13,22 @@ const CreatRoom = () => {
       .get("http://filmgo.io.vn/api/cinemas")
       .then((res) => setCinemas(res.data.data));
   }, []);
+  const getAccessToken = () => {
+    return localStorage.getItem("access_token");
+  };
   const { mutate } = useMutation({
     mutationFn: async (screen) => {
-      await axios.post(`http://filmgo.io.vn/api/screens/create`, screen);
+      const token = getAccessToken(); // Lấy token
+      if (!token) {
+        throw new Error("Không có access token");
+      }
+
+      // Gửi yêu cầu POST với access_token trong header
+      await axios.post(`http://filmgo.io.vn/api/screens/create`, screen, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Thêm Authorization header
+        },
+      });
     },
     onSuccess: () => {
       nav(`/admin/list-screen`);

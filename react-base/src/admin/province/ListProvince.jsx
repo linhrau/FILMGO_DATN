@@ -6,10 +6,26 @@ import { Link } from "react-router-dom";
 const ListProvince = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const queryClient = useQueryClient();
-
+  const getAccessToken = () => {
+    return localStorage.getItem("access_token");
+  };
   const { mutate } = useMutation({
     mutationFn: async (id) => {
-      await axios.delete(`http://filmgo.io.vn/api/provinces/delete/${id}`);
+      const token = getAccessToken(); // Lấy token
+      if (!token) {
+        throw new Error("Không có access token");
+      }
+
+      // Gửi yêu cầu POST với access_token trong header
+      await axios.delete(
+        `http://filmgo.io.vn/api/provinces/delete/${id}`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Thêm Authorization header
+          },
+        }
+      );
     },
     onSuccess: () => {
       messageApi.open({
