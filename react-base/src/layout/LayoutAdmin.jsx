@@ -18,7 +18,7 @@ import {
   VideoCameraTwoTone,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import PageNotFound from "./../PageNotFound";
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -189,6 +189,17 @@ const items = [
 ];
 
 const LayoutAdmin = () => {
+  const nav = useNavigate();
+  const handleLogout = () => {
+    // Xóa thông tin người dùng trong localStorage
+    localStorage.removeItem("user");
+    localStorage.removeItem("access_token");
+
+    // Cập nhật trạng thái đăng nhập
+
+    // Chuyển hướng về trang đăng nhập
+    nav(`/signin`);
+  };
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -205,6 +216,7 @@ const LayoutAdmin = () => {
       </>
     );
   }
+
   return (
     <Layout
       style={{
@@ -224,6 +236,11 @@ const LayoutAdmin = () => {
           items={items}
         />
       </Sider>
+      <div>
+        <button className="btn btn-primary" onClick={handleLogout}>
+          Đăng xuất
+        </button>
+      </div>
       <Layout>
         <Header
           style={{
@@ -231,6 +248,7 @@ const LayoutAdmin = () => {
             background: colorBgContainer,
           }}
         />
+
         <Content
           style={{
             margin: "0 16px",

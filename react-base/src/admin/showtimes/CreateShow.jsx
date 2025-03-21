@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, message, Select } from "antd";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -8,6 +8,8 @@ const { Option } = Select;
 
 const CreateShow = () => {
   const nav = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
+
   const [cinemas, setCinemas] = useState([]); // Danh sách các rạp
   const [screens, setScreens] = useState([]); // Danh sách phòng chiếu
   const [movies, setMovies] = useState([]); // Danh sách các phim
@@ -77,6 +79,13 @@ const CreateShow = () => {
     onSuccess: () => {
       nav(`/admin/list-showtime`);
     },
+    onError: () => {
+      messageApi.open({
+        type: "error",
+        content:
+          "Suất chiếu đã tồn tại hoặc thêm thất bại, vui lòng kiểm tra lại",
+      });
+    },
   });
 
   const onFinish = (values) => {
@@ -101,6 +110,7 @@ const CreateShow = () => {
       onFinish={onFinish}
       autoComplete="off"
     >
+      {contextHolder}
       <h1 className="text-3xl mb-5">Thêm xuất chiếu</h1>
 
       {/* Chọn phim */}
