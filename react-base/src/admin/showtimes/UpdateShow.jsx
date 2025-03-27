@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Input, Select, DatePicker } from "antd";
+import { Button, Form, Input, Select } from "antd";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -33,12 +33,26 @@ const EditShow = () => {
       });
     }
   }, [id]);
+  const getAccessToken = () => {
+    return localStorage.getItem("access_token"); // Hoặc bạn có thể lấy từ Cookies hoặc bất kỳ nguồn lưu trữ nào khác
+  };
 
   const { mutate } = useMutation({
     mutationFn: async (showtimeData) => {
+      const token = getAccessToken(); // Lấy token
+      if (!token) {
+        throw new Error("Không có access token");
+      }
+
+      // Gửi yêu cầu POST với access_token trong header
       await axios.put(
-        `http://filmgo.io.vn/api/showtimes/show/${id}`,
-        showtimeData
+        `http://filmgo.io.vn/api/showtimes/update/${id}`,
+        showtimeData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Thêm Authorization header
+          },
+        }
       );
     },
     onSuccess: () => {
@@ -142,7 +156,7 @@ const EditShow = () => {
           },
         ]}
       >
-        <DatePicker style={{ width: "100%" }} />
+        <Input type="date" format="yyyy-mm-dd" style={{ width: "100%" }} />
       </Form.Item>
 
       <Form.Item label={null}>
