@@ -28,37 +28,32 @@ function getItem(label, key, icon, children) {
 }
 const items = [
   getItem(<Link to="/admin">Thống kê</Link>, "1", <PieChartTwoTone />),
-  getItem(" Phim", "2", <PlaySquareTwoTone />),
-  getItem(" Rạp phim", "3", <VideoCameraTwoTone />),
-  getItem(" Lịch chiếu", "4", <CalendarTwoTone />),
-  getItem(" Suất chiếu", "5", <ClockCircleTwoTone />),
-  getItem(" Giá vé", "6", <DollarTwoTone />),
-  getItem(" Vé", "7", <TagTwoTone />),
-  getItem(
-    <Link to="/admin/list-promocode">Khuyến mãi</Link>,
-    "8",
-    <FireTwoTone />
-  ),
-  getItem(<Link to="/admin/list-product">Combo</Link>, "9", <LikeTwoTone />),
-  getItem(" Bài viết", "10", <PictureTwoTone />, [
+  getItem(<Link to="/admin/list-movie">Phim</Link>, "2", <PlaySquareTwoTone />),
+  getItem(<Link to="/admin/list-cinema">Rạp phim</Link>, "3", <VideoCameraTwoTone />),
+  getItem(<Link to="/admin/list-screen">Phòng chiếu</Link>, "4", <CalendarTwoTone />),
+  getItem(<Link to="/admin/list-showtime">Lịch chiếu</Link>, "5", <ClockCircleTwoTone />),
+  getItem(<Link to="/admin/list-ticket">Vé</Link>, "6", <TagTwoTone />),
+  getItem(<Link to="/admin/list-promocode">Khuyến mãi</Link>,"7",<FireTwoTone />),
+  getItem(<Link to="/admin/list-product">Combo</Link>, "8", <LikeTwoTone />),
+  getItem(" Bài viết", "9", <PictureTwoTone />, [
     getItem(
       <Link to="/admin/products">Tất cả bài viết</Link>,
-      "10.1",
+      "9.1",
       <UnorderedListOutlined />
     ),
     getItem(
       <Link to="/admin/products/add">Bài viết của tôi</Link>,
-      "10.2",
+      "9.2",
       <PlusOutlined />
     ),
     getItem(
       <Link to="/admin/products/add">Tạo bài viết</Link>,
-      "10.3",
+      "9.3",
       <PlusOutlined />
     ),
   ]),
-  getItem(" Người dùng", "11", <IdcardTwoTone />),
-  getItem(" Nhân viên", "12", <ContactsTwoTone />),
+  getItem(" Người dùng", "10", <IdcardTwoTone />),
+  getItem(" Nhân viên", "11", <ContactsTwoTone />),
 ];
 
 const LayoutAdmin = () => {
