@@ -136,13 +136,13 @@ const ListShow = () => {
       title: "Giờ bắt đầu",
       dataIndex: "start_time",
       key: "start_time",
-      render: (text) => moment(text).format("HH:mm"), // Định dạng lại giờ theo 'HH:mm'
+      render: (text) => <a>{text}</a>,
     },
     {
       title: "Giờ kết thúc",
       dataIndex: "end_time",
       key: "end_time",
-      render: (text) => moment(text).format("HH:mm"), // Định dạng lại giờ theo 'HH:mm'
+      render: (text) => <a>{text}</a>, // Định dạng lại giờ theo 'HH:mm'
     },
     {
       title: "Ngày chiếu",
