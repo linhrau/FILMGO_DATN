@@ -4,6 +4,19 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 const { Option } = Select;
+const axiosInstance = axios.create({
+  baseURL: "http://filmgo.io.vn/api",
+});
+
+// Interceptor để tự động thêm token vào headers
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("access_token");
+  console.log("📌 Token hiện tại:", token); // Kiểm tra token trong localStorage
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 const EditMovies = () => {
   const { id } = useParams();
@@ -15,41 +28,53 @@ const EditMovies = () => {
   const [genres, setGenres] = useState([]);
   const [movie, setMovie] = useState(null);
 
+  // Lấy thông tin phim cần chỉnh sửa
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await axios.get(
-          `http://filmgo.io.vn/api/movies/show/${id}`
-        );
-        console.log("📌 Dữ liệu từ API:", response.data); // Kiểm tra API trả về
-        setMovie(response.data.data); // Cập nhật state
+        const response = await axiosInstance.get(`/movies/show/${id}`);
+        console.log("📌 Dữ liệu phim từ API:", response.data);
+        setMovie(response.data.data);
       } catch (error) {
-        console.error("❌ Lỗi khi lấy phim:", error);
+        console.error(
+          "❌ Lỗi khi lấy phim:",
+          error.response?.data || error.message
+        );
       }
     };
 
     if (id) fetchMovie();
-  }, [id]); // Chạy khi `id` thay đổi
+  }, [id]);
+
+  // Lấy danh sách diễn viên & thể loại
   useEffect(() => {
     const fetchActorsAndGenres = async () => {
       try {
+        console.log("📌 Đang gọi API lấy danh sách diễn viên & thể loại...");
         const [actorsRes, genresRes] = await Promise.all([
-          axios.get("http://filmgo.io.vn/api/actors"),
-          axios.get("http://filmgo.io.vn/api/genres"),
+          axiosInstance.get("/actors"), // ✅ Dùng axiosInstance để có token
+          axiosInstance.get("/genres"),
         ]);
+        console.log("✅ Dữ liệu diễn viên:", actorsRes.data);
+        console.log("✅ Dữ liệu thể loại:", genresRes.data);
+
         setActors(actorsRes.data.data);
         setGenres(genresRes.data.data);
       } catch (error) {
-        console.error("❌ Lỗi khi lấy diễn viên & thể loại:", error);
+        console.error(
+          "❌ Lỗi khi lấy diễn viên & thể loại:",
+          error.response?.data || error.message
+        );
       }
     };
 
     fetchActorsAndGenres();
   }, []);
 
+  // Cập nhật form khi dữ liệu phim có sẵn
   useEffect(() => {
     if (movie) {
-      console.log("📌 Đang cập nhật form với dữ liệu:", movie);
+      console.log("📌 Cập nhật form với dữ liệu:", movie);
       form.setFieldsValue({
         title: movie.title || "",
         description: movie.description || "",
@@ -57,13 +82,13 @@ const EditMovies = () => {
         duration: movie.duration || "",
         rating: movie.rating || "",
         release_date: movie.release_date || "",
-        genres: movie.genres?.map((g) => g.genre_id) || [], // Sử dụng id thay vì name
-        actors: movie.actors?.map((a) => a.actor_id) || [], // Sử dụng id thay vì name
+        genres: movie.genres?.map((g) => g.genre_id) || [],
+        actors: movie.actors?.map((a) => a.actor_id) || [],
       });
     }
-    console.log("📌 Dữ liệu diễn viên từ API:", movie?.actors);
   }, [movie]);
 
+  // Xử lý submit form
   const onFinish = async (values) => {
     setLoading(true);
     try {
@@ -82,13 +107,9 @@ const EditMovies = () => {
         formData.append("poster", values.poster[0].originFileObj);
       }
 
-      await axios.post(
-        `http://filmgo.io.vn/api/movies/update/${id}`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      await axiosInstance.post(`/movies/update/${id}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       message.success("Cập nhật phim thành công!");
       navigate("/admin/list-movies");

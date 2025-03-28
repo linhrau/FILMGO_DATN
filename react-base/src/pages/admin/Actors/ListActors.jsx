@@ -8,24 +8,39 @@ import {
   Popconfirm,
   message,
 } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
-
 const API_ACTORS = "http://filmgo.io.vn/api/actors";
 
 const ApiList = () => {
   const [actors, setActors] = useState([]);
+  const navigate = useNavigate();
+
+  const getAccessToken = () => localStorage.getItem("access_token");
 
   useEffect(() => {
-    fetch(API_ACTORS)
+    const token = getAccessToken();
+    if (!token) {
+      message.error("Bạn cần đăng nhập để xem danh sách diễn viên!");
+      navigate("/login");
+      return;
+    }
+
+    fetch(API_ACTORS, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((res) => res.json())
-      .then((data) => setActors(data.data))
-      .catch((error) => console.error("Error fetching actors:", error));
-  }, []);
+      .then((data) => setActors(data.data || []))
+      .catch(() => message.error("Lỗi khi tải danh sách diễn viên!"));
+  }, [navigate]);
 
   const handleDelete = (id) => {
-    fetch(`${API_ACTORS}/delete/${id}`, { method: "DELETE" })
+    const token = getAccessToken();
+    fetch(`${API_ACTORS}/delete/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((res) => res.json())
       .then(() => {
         message.success("Diễn viên đã được xoá thành công");
@@ -37,49 +52,44 @@ const ApiList = () => {
   };
 
   const columns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    { title: "ID", dataIndex: "id", key: "id" },
     {
       title: "Avatar",
       dataIndex: "avatar",
       key: "avatar",
       render: (avatar) => <Avatar src={avatar} />,
     },
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
+    { title: "Name", dataIndex: "name", key: "name" },
     {
       title: "Actions",
       key: "actions",
       render: (_, actor) => (
-        <Popconfirm
-          title="Bạn có chắc muốn xoá diễn viên này?"
-          onConfirm={() => handleDelete(actor.id)}
-          okText="Có"
-          cancelText="Không"
-        >
-          <Button danger>Xoá</Button>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <Popconfirm
+            title="Bạn có chắc muốn xoá diễn viên này?"
+            onConfirm={() => handleDelete(actor.id)}
+            okText="Có"
+            cancelText="Không"
+          >
+            <Button danger>Xoá</Button>
+          </Popconfirm>
           <Link to={`/admin/update-actors/${actor.id}`}>
             <Button type="primary">Sửa</Button>
           </Link>
-        </Popconfirm>
+        </div>
       ),
     },
   ];
 
   return (
     <div style={{ padding: "20px" }}>
-      <Link to="/admin/create-actors" className="btn btn-primary">
-        Thêm dien vien
+      <Link to="/admin/create-actors">
+        <Button type="primary" style={{ marginBottom: "15px" }}>
+          Thêm diễn viên
+        </Button>
       </Link>
       <Card title={<Title level={2}>Actors List</Title>}>
-        <Table columns={columns} dataSource={actors} />
-        {/* rowKey="id" */}
+        <Table columns={columns} dataSource={actors} rowKey="id" />
       </Card>
     </div>
   );
