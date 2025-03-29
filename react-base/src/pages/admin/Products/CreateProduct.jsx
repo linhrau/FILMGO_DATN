@@ -10,6 +10,7 @@ const CreateProduct = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
+  const token = localStorage.getItem("access_token"); // Lấy token từ localStorage
 
   const beforeUpload = (file) => {
     const isValid = ["image/jpeg", "image/jpg", "image/png"].includes(
@@ -39,6 +40,9 @@ const CreateProduct = () => {
       setLoading(true);
       const response = await fetch(API_ADD_PRODUCT, {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`, // Thêm token vào header
+        },
         body: formData,
       });
       const result = await response.json();
@@ -47,7 +51,7 @@ const CreateProduct = () => {
         message.success("Thêm combo thành công!");
         form.resetFields();
         setFileList([]);
-        navigate("/admin/products");
+        navigate("/admin/list-product");
       } else {
         message.error(result.message || "Thêm thất bại!");
       }

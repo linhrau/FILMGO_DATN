@@ -10,9 +10,15 @@ const UpdateProduct = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("access_token"); // Lấy token từ localStorage
 
   useEffect(() => {
-    fetch(`${API_PRODUCTS}/show/${id}`)
+    fetch(`${API_PRODUCTS}/show/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`, // Thêm token vào header
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data && data.data) {
@@ -23,7 +29,7 @@ const UpdateProduct = () => {
         }
       })
       .catch(() => message.error("Lỗi khi lấy dữ liệu sản phẩm!"));
-  }, [id, form, navigate]);
+  }, [id, form, navigate, token]);
 
   const handleUpdate = (values) => {
     setLoading(true);
@@ -36,7 +42,10 @@ const UpdateProduct = () => {
 
     fetch(`${API_PRODUCTS}/update/${id}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Thêm token vào header
+      },
       body: JSON.stringify(updatedValues),
     })
       .then((res) => res.json())

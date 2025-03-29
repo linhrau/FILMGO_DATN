@@ -8,9 +8,15 @@ const API_PRODUCTS = "http://filmgo.io.vn/api/products";
 const ListProduct = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("access_token"); // Lấy token từ localStorage
 
   useEffect(() => {
-    fetch(API_PRODUCTS)
+    fetch(API_PRODUCTS, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Thêm token vào header
+        "Content-Type": "application/json",
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.data) {
@@ -24,7 +30,13 @@ const ListProduct = () => {
   }, []);
 
   const handleDelete = (id) => {
-    fetch(`${API_PRODUCTS}/delete/${id}`, { method: "DELETE" })
+    fetch(`${API_PRODUCTS}/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
       .then((res) => res.json())
       .then(() => {
         message.success("Combo đã được xoá thành công");
