@@ -16,10 +16,21 @@ import { Link } from "react-router-dom";
 const ListGenres = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const queryClient = useQueryClient();
+  const getAccessToken = () => {
+    return localStorage.getItem("access_token");
+  };
 
   const { mutate } = useMutation({
     mutationFn: async (id) => {
-      await axios.delete(`http://filmgo.io.vn/api/genres/delete/${id}`);
+      const token = getAccessToken(); // Lấy token
+      if (!token) {
+        throw new Error("Không có access token");
+      }
+      await axios.delete(`http://filmgo.io.vn/api/genres/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Thêm Authorization header
+        },
+      });
     },
     onSuccess: () => {
       messageApi.open({
