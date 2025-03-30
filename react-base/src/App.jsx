@@ -34,8 +34,10 @@ import UpdateShow from "./admin/showtimes/UpdateShow";
 import ListProduct from "./pages/admin/Products/ListProduct";
 import CreateProduct from "./pages/admin/Products/CreateProduct";
 import UpdateProduct from "./pages/admin/Products/UpdateProduct";
-
-// import './App.css'
+import "./App.css";
+import ListPromo from "./pages/admin/PromoCodes/ListPromo";
+import CreatePromo from "./pages/admin/PromoCodes/CreatePromo";
+import UpdatePromo from "./pages/admin/PromoCodes/UpdatePromo";
 
 function App() {
   return (
@@ -83,10 +85,13 @@ function App() {
           <Route path="list-product" element={<ListProduct />} />
           <Route path="creat-product" element={<CreateProduct />} />
           <Route path="update-product/:id" element={<UpdateProduct />} />
+          <Route path="list-promo" element={<ListPromo />} />
+          <Route path="create-promo" element={<CreatePromo />} />
+          <Route path="update-promo/:id" element={<UpdatePromo />} />
         </Route>
         <Route>
-          <Route path="signup" element={<Signup />} />
-          <Route path="signin" element={<Signin />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signin" element={<Signin />} />
         </Route>
       </Routes>
 
