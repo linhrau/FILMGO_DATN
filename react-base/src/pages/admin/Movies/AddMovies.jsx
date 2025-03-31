@@ -5,6 +5,18 @@ import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
+const axiosInstance = axios.create({
+  baseURL: "http://filmgo.io.vn/api",
+});
+
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("access_token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 const AddMovie = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -13,12 +25,8 @@ const AddMovie = () => {
   const [genres, setGenres] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://filmgo.io.vn/api/actors")
-      .then((res) => setActors(res.data.data));
-    axios
-      .get("http://filmgo.io.vn/api/genres")
-      .then((res) => setGenres(res.data.data));
+    axiosInstance.get("/actors").then((res) => setActors(res.data.data));
+    axiosInstance.get("/genres").then((res) => setGenres(res.data.data));
   }, []);
 
   const onFinish = async (values) => {
@@ -26,7 +34,6 @@ const AddMovie = () => {
     try {
       console.log("File ảnh trước khi gửi:", values.poster);
 
-      // Kiểm tra nếu ảnh chưa được chọn
       if (!values.poster || values.poster.length === 0) {
         message.error("Vui lòng chọn ảnh bìa hợp lệ!");
         setLoading(false);
@@ -49,8 +56,10 @@ const AddMovie = () => {
       values.actors.forEach((actor) => formData.append("actors[]", actor));
 
       console.log("📦 FormData trước khi gửi:", [...formData]);
-      await axios.post("http://filmgo.io.vn/api/movies/create", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      await axiosInstance.post("/movies/create", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       message.success("Thêm phim thành công!");
@@ -80,16 +89,15 @@ const AddMovie = () => {
         <Input.TextArea />
       </Form.Item>
 
-      {/* Upload ảnh bìa */}
       <Form.Item
         name="poster"
         label="Ảnh bìa"
         valuePropName="fileList"
-        getValueFromEvent={(e) => (e && e.fileList ? e.fileList : [])} // Fix lấy fileList đúng
+        getValueFromEvent={(e) => (e && e.fileList ? e.fileList : [])}
         rules={[{ required: true, message: "Vui lòng chọn ảnh bìa hợp lệ!" }]}
       >
         <Upload
-          beforeUpload={() => false} // Không tự động upload
+          beforeUpload={() => false}
           listType="picture-card"
           accept=".jpg,.jpeg,.png"
         >
@@ -114,7 +122,7 @@ const AddMovie = () => {
       <Form.Item
         name="rating"
         label="Đánh giá"
-        rules={[{ required: true, message: "Vui lòng dánh giá" }]}
+        rules={[{ required: true, message: "Vui lòng đánh giá" }]}
       >
         <Input type="number" step="0.1" max={10} min={0} />
       </Form.Item>
@@ -126,11 +134,10 @@ const AddMovie = () => {
         <Input type="date" />
       </Form.Item>
 
-      {/* Chọn thể loại */}
       <Form.Item
         name="genres"
         label="Thể loại"
-        rules={[{ required: true, message: "Vui lòng Không bỏ trống" }]}
+        rules={[{ required: true, message: "Vui lòng không bỏ trống" }]}
       >
         <Select mode="multiple" placeholder="Chọn thể loại">
           {genres.map((genre) => (
@@ -141,7 +148,6 @@ const AddMovie = () => {
         </Select>
       </Form.Item>
 
-      {/* Chọn diễn viên */}
       <Form.Item
         name="actors"
         label="Diễn viên"

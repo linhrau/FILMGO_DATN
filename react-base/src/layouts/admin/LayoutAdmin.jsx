@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import {
+  BankTwoTone,
   CalendarTwoTone,
   ClockCircleTwoTone,
   ContactsTwoTone,
   DollarTwoTone,
   FireTwoTone,
+  GiftTwoTone,
   IdcardTwoTone,
   LikeTwoTone,
   PictureTwoTone,
   PieChartTwoTone,
   PlaySquareTwoTone,
   PlusOutlined,
+  ProjectTwoTone,
   TagTwoTone,
   UnorderedListOutlined,
+  UserOutlined,
   VideoCameraTwoTone,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
@@ -33,26 +37,49 @@ const items = [
     "2",
     <PlaySquareTwoTone />
   ),
+
   getItem(
-    <Link to="/admin/list-genres">Thể loại</Link>,
-    "13",
-    <PlaySquareTwoTone />
+    <Link to="/admin/list-cinema">Rạp phim</Link>,
+    "3",
+    <VideoCameraTwoTone />
   ),
-  getItem(" Rạp phim", "3", <VideoCameraTwoTone />),
+  getItem(
+    <Link to="/admin/list-province">Khu vực</Link>,
+    "15",
+    <BankTwoTone />
+  ),
+  getItem(
+    <Link to="/admin/list-screen">Phòng chiếu</Link>,
+    "14",
+    <ProjectTwoTone />
+  ),
+
   getItem(" Lịch chiếu", "4", <CalendarTwoTone />),
-  getItem(" Suất chiếu", "5", <ClockCircleTwoTone />),
-  getItem(" Giá vé", "6", <DollarTwoTone />),
+
+  getItem(
+    <Link to="/admin/list-showtime">Suất chiếu</Link>,
+    "5",
+    <ClockCircleTwoTone />
+  ),
+  getItem(<Link to="/admin/seats">Ghế</Link>, "16", <UserOutlined />),
   getItem(" Vé", "7", <TagTwoTone />),
-  getItem(<Link to="/admin/promocodes">Khuyến mãi</Link>, "8", <FireTwoTone />),
-  getItem(<Link to="/admin/list-combos">Combo</Link>, "9", <LikeTwoTone />),
-  getItem(<Link to="/admin/list-banners">Banners</Link>, "10", <LikeTwoTone />),
-  // getItem(" Bài viết", "10", <PictureTwoTone />, []),
-  getItem(" Người dùng", "11", <IdcardTwoTone />),
-  // getItem(" Diễn viên", "12", <ContactsTwoTone />),
+  getItem(<Link to="/admin/list-promo">Khuyến mãi</Link>, "8", <FireTwoTone />),
+  getItem(<Link to="/admin/list-product">Combo</Link>, "9", <GiftTwoTone />),
+  // getItem(<Link to="/admin/list-banners">Banners</Link>, "10", <LikeTwoTone />),
+  getItem(
+    <Link to="/admin/list-user">Người dùng</Link>,
+    "11",
+    <IdcardTwoTone />
+  ),
   getItem(
     <Link to="/admin/list-actors">Diễn viên</Link>,
     "12",
     <ContactsTwoTone />
+  ),
+  getItem(
+    <Link to="/admin/list-genres">Thể loại</Link>,
+    "13",
+    <PlaySquareTwoTone />
   ),
 ];
 
