@@ -1,8 +1,8 @@
-import axiosClient from "./axiosClient";
+import api from "./index";
 
 const getSeatsByScreenId = async (screen_id) => {
   try {
-    const res = await axiosClient.post("/get-seat-by-screen", { screen_id });
+    const res = await api.post("/get-seat-by-screen", { screen_id });
     return res.data;
   } catch (error) {
     console.error("Lỗi khi gọi Api seats", error);
@@ -11,7 +11,7 @@ const getSeatsByScreenId = async (screen_id) => {
 
 const updateSeat = async (id, seatData) => {
   try {
-    const response = await axiosClient.put(`/seats/update/${id}`, seatData); // Hoặc patch nếu API dùng PATCH
+    const response = await api.put(`/seats/update/${id}`, seatData); // Hoặc patch nếu API dùng PATCH
     return response.data;
   } catch (error) {
     console.error("Lỗi khi cập nhật ghế:", error);
@@ -21,7 +21,7 @@ const updateSeat = async (id, seatData) => {
 
 const deleteSeat = async (id) => {
   try {
-    const response = await axiosClient.delete(`/seats/delete/${id}`); // Hoặc patch nếu API dùng PATCH
+    const response = await api.delete(`/seats/delete/${id}`); // Hoặc patch nếu API dùng PATCH
     return response.data;
   } catch (error) {
     console.error("Lỗi khi cập nhật ghế:", error);

@@ -7,12 +7,19 @@ import axios from "axios";
 const AddSeatForm = ({ screenId, setShowAddForm, refetchSeats }) => {
   const nav = useNavigate();
   const [form] = Form.useForm();
+
+  const getAccessToken = () => {
+    return localStorage.getItem("access_token");
+  };
+
   const { mutate } = useMutation({
     mutationFn: async (seat) => {
+      const token = getAccessToken();
       await axios.post(`http://filmgo.io.vn/api/seats/create`, seat, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
     },

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { getProvinces } from "@/apis/provincesService";
-import { getCinemasByProvinceId } from "@/apis/cinemasService";
-import { getScreensByCinemaId } from "@/apis/screensService";
+import { getProvinces } from "@/api/provincesService";
+import { getCinemasByProvinceId } from "@/api/cinemasService";
+import { getScreensByCinemaId } from "@/api/screensService";
 import { Select, Button } from "antd";
-import { getSeatsByScreenId } from "@/apis/seatsService";
+import { getSeatsByScreenId } from "@/api/seatsService";
 import SeatLayout from "@/components/admin/SeatPage/SeatLayout/SeatLayout";
 import AddSeatForm from "@/components/admin/SeatPage/AddSeatForm/AddSeatForm";
 import Modal from "react-modal"; // Import Modal

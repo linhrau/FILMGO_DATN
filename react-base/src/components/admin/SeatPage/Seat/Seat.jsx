@@ -7,8 +7,8 @@ import seatNormalImageErr from "@/assets/images/seat-error-normal.png";
 import seatCoupleImage from "@/assets/images/seatcouple.png";
 import seatCoupleImageErr from "@/assets/images/seat-error-double.png";
 import UpdateSeatForm from "@/components/admin/SeatPage/UpdateSeatForm/UpdateSeatForm";
-import { updateSeat } from "@/apis/seatsService";
-import { deleteSeat } from "@/apis/seatsService";
+import { updateSeat } from "@/api/seatsService";
+import { deleteSeat } from "@/api/seatsService";
 import { message } from "antd"; // Import message
 
 const Seat = ({ seat, refetchSeats }) => {
