@@ -19,6 +19,8 @@ import PageNotFound from "./PageNotFound";
 import CreateShow from "./admin/showtimes/CreateShow";
 import UpdateShow from "./admin/showtimes/UpdateShow";
 import ListShow from "./admin/showtimes/ListShow";
+import FogotPass from "./FogotPass";
+import Changepass from "./Changepass";
 
 function App() {
   return (
@@ -58,6 +60,8 @@ function App() {
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/signin" element={<SignIn />}></Route>
         <Route path="/pagenot" element={<PageNotFound />}></Route>
+        <Route path="/fogotpass" element={<FogotPass />}></Route>
+        <Route path="/changepass" element={<Changepass />}></Route>
       </Routes>
     </>
   );
