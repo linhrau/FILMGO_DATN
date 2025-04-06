@@ -82,12 +82,12 @@ const items = [
       <ClockCircleFilled />,
       [
         getItem(
-          <Link to="/admin/products">Danh sách</Link>,
+          <Link to="/admin/list-showtime">Danh sách</Link>,
           "2.5.1",
           <UnorderedListOutlined />
         ),
         getItem(
-          <Link to="/admin/products">Thêm mới</Link>,
+          <Link to="/admin/creat-showtime">Thêm mới</Link>,
           "2.5.2",
           <PlusOutlined />
         ),

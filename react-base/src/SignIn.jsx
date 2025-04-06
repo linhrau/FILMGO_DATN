@@ -22,8 +22,13 @@ const Signin = () => {
         type: "success",
         content: "Đăng nhập thành công!",
       });
+      const user = JSON.parse(localStorage.getItem("user") || "[]");
 
-      nav(`/`);
+      if (user[0].role_name === "admin") {
+        nav(`/admin`); // Redirect to the admin page if role is 'admin'
+      } else {
+        nav(`/`); // Redirect to the homepage or another page if the user is not admin
+      }
     },
     onError: () => {
       messageApi.open({
