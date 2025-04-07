@@ -61,19 +61,19 @@ const ListMovies = () => {
 
   const columns = [
     {
-      title: "STT",
+      title: "ID",
       dataIndex: "id",
       key: "id",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Tên phim",
+      title: "Name",
       dataIndex: "title",
       key: "title",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Ảnh bìa",
+      title: "Ảnh",
       dataIndex: "poster",
       key: "poster",
       render: (poster) => <Image width={50} src={poster} />,
@@ -161,8 +161,6 @@ const ListMovies = () => {
       <Link to="/admin/create-movies" className="btn btn-primary">
         Thêm phim
       </Link>
-      <br />
-      <br />
       {isLoading ? (
         <Skeleton active />
       ) : (

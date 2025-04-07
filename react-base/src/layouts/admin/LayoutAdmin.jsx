@@ -1,26 +1,34 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
+  AlertFilled,
   BankTwoTone,
   CalendarTwoTone,
+  ClockCircleFilled,
   ClockCircleTwoTone,
   ContactsTwoTone,
-  DollarTwoTone,
+  EnvironmentFilled,
   FireTwoTone,
+  FolderAddFilled,
+  FolderOpenFilled,
   GiftTwoTone,
+  HddFilled,
   IdcardTwoTone,
-  LikeTwoTone,
-  PictureTwoTone,
   PieChartTwoTone,
   PlaySquareTwoTone,
   PlusOutlined,
   ProjectTwoTone,
+  RocketFilled,
+  ScheduleFilled,
   TagTwoTone,
+  TeamOutlined,
   UnorderedListOutlined,
   UserOutlined,
   VideoCameraTwoTone,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import PageNotFound from "../../PageNotFound";
+
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -84,21 +92,37 @@ const items = [
 ];
 
 const LayoutAdmin = () => {
+  const nav = useNavigate();
+  const handleLogout = () => {
+    // Xóa thông tin người dùng trong localStorage
+    localStorage.removeItem("user");
+    localStorage.removeItem("access_token");
+
+    // Cập nhật trạng thái đăng nhập
+
+    // Chuyển hướng về trang đăng nhập
+    nav(`/signin`);
+  };
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const user = JSON.parse(localStorage.getItem("user") || "[]");
+  // console.log(user);
+  // const role = user[0].role_name;
+  // console.log(role);
+  if (!user || user[0].role_name !== "admin") {
+    return (
+      <>
+        <PageNotFound />
+      </>
+    );
+  }
+
   return (
-    <Layout
-      style={{
-        minHeight: "100vh",
-      }}
-    >
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
-      >
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
         <div className="demo-logo-vertical" />
         <Menu
           theme="dark"
@@ -107,42 +131,41 @@ const LayoutAdmin = () => {
           items={items}
         />
       </Sider>
+
       <Layout>
         <Header
           style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        />
-        <Content
-          style={{
-            margin: "0 16px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "0 16px",
+            background: "#fff",
           }}
         >
-          <Breadcrumb
-            style={{
-              margin: "16px 0",
-            }}
-          >
-            {/* <Breadcrumb.Item>User</Breadcrumb.Item> */}
-            {/* <Breadcrumb.Item>Bill</Breadcrumb.Item> */}
+          <h2 style={{ color: "#000", margin: 0 }}>Quản lý hệ thống</h2>
+          <button className="btn btn-primary" onClick={handleLogout}>
+            Đăng xuất
+          </button>
+        </Header>
+
+        <Content style={{ margin: "16px" }}>
+          <Breadcrumb style={{ margin: "10px 0" }}>
+            {/* <Breadcrumb.Item>User</Breadcrumb.Item>
+          <Breadcrumb.Item>Bill</Breadcrumb.Item> */}
           </Breadcrumb>
           <div
             style={{
               padding: 24,
               minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
+              background: "#fff",
+              borderRadius: "8px",
             }}
           >
             <Outlet />
           </div>
         </Content>
-        <Footer
-          style={{
-            textAlign: "center",
-          }}
-        ></Footer>
+
+        <Footer style={{ textAlign: "center" }}>FilmGo ©2025</Footer>
       </Layout>
     </Layout>
   );

@@ -39,6 +39,8 @@ import ListPromo from "./pages/admin/PromoCodes/ListPromo";
 import CreatePromo from "./pages/admin/PromoCodes/CreatePromo";
 import UpdatePromo from "./pages/admin/PromoCodes/UpdatePromo";
 import Seat from "./pages/admin/Seat";
+import GoogleCallback from "@/api/googleCallBack";
+import PageNotFound from "./PageNotFound";
 
 function App() {
   return (
@@ -94,6 +96,8 @@ function App() {
         <Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
+          <Route path="/auth/google" element={<GoogleCallback />}></Route>
+          <Route path="/pagenot" element={<PageNotFound />}></Route>
         </Route>
       </Routes>
 
