@@ -42,7 +42,7 @@ const CheckTicket = () => {
     try {
       // Gửi yêu cầu đến API kiểm tra vé
       const response = await fetch(
-        "http://filmgo.io.vn/api/admin/tickets/check/",
+        "http://filmgo.io.vn/api/admin/tickets/check",
         {
           method: "POST",
           headers: {
@@ -54,6 +54,7 @@ const CheckTicket = () => {
       );
 
       const data = await response.json();
+      console.log(data);
 
       if (response.ok) {
         // Nếu API trả về vé hợp lệ, hiển thị thông tin vé
@@ -168,13 +169,13 @@ const CheckTicket = () => {
         <div style={styles.ticketInfo}>
           <h2>Thông tin Vé:</h2>
           <p>
-            <strong>Tên Phim:</strong> {ticketInfo.movieName}
+            <strong>Tên Phim:</strong> {ticketInfo.movie_name}
           </p>
           <p>
             <strong>Giờ Chiếu:</strong> {ticketInfo.showtime}
           </p>
           <p>
-            <strong>Số Ghế:</strong> {ticketInfo.seat}
+            <strong>Số Ghế:</strong> {ticketInfo.total_amount}
           </p>
           <p>
             <strong>Mã Vé:</strong> {ticketInfo.ticketId}

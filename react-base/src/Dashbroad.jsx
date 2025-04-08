@@ -35,10 +35,11 @@ const Dashboard = () => {
       }));
     },
   });
-
+  console.log(data);
   // Tính toán doanh thu tổng
   const totalRevenue = data?.reduce(
-    (acc, ticket) => acc + ticket.total_amount,
+    (acc, ticket) =>
+      acc + parseFloat(ticket.total_amount.replace(".", "").replace(",", ".")),
     0
   );
 
@@ -75,7 +76,7 @@ const Dashboard = () => {
       key: "status",
     },
     {
-      title: "Doanh thu",
+      title: "Đơn giá",
       dataIndex: "total_amount",
       key: "total_amount",
       render: (text) => <span>{text.toLocaleString()} VNĐ</span>,
