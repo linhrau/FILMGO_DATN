@@ -22,6 +22,7 @@ import ListShow from "./admin/showtimes/ListShow";
 import FogotPass from "./FogotPass";
 import Changepass from "./Changepass";
 import ListTiket from "./admin/ticket/ListTiket";
+import CheckTicket from "./admin/ticket/CheckTiket";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
             element={<UpdateShow />}
           ></Route>
           <Route path="/admin/list-tiket" element={<ListTiket />}></Route>
+          <Route path="/admin/check-tiket" element={<CheckTicket />}></Route>
         </Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/signin" element={<SignIn />}></Route>

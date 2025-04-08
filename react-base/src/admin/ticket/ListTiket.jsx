@@ -42,9 +42,15 @@ const ListTiket = () => {
   const columns = [
     {
       title: "Mã vé",
+      dataIndex: "ticket_id",
+      key: "ticket_id",
+    },
+    {
+      title: "Code",
       dataIndex: "ticket_code",
       key: "ticket_code",
     },
+
     {
       title: "Tên người dùng",
       dataIndex: "user_name",
@@ -65,23 +71,16 @@ const ListTiket = () => {
       dataIndex: "status",
       key: "status",
     },
-    {
-      title: "",
-      key: "action",
-      render: (_, province) => (
-        <Space>
-          <Link to={`/admin/update-province/${province.id}`}>
-            <Button type="primary">Sửa</Button>
-          </Link>
-        </Space>
-      ),
-    },
   ];
 
   return (
     <>
       {/* {contextHolder} */}
+
       <h1 className="text-3xl mb-5">Quản lý vé</h1>
+      <button className="btn btn-primary">
+        <Link to="/admin/check-tiket">Quét mã barcode</Link>
+      </button>
       <Skeleton active loading={isLoading}>
         <Table columns={columns} dataSource={data} />
       </Skeleton>

@@ -236,18 +236,35 @@ const LayoutAdmin = () => {
           items={items}
         />
       </Sider>
-      <div>
-        <button className="btn btn-primary" onClick={handleLogout}>
-          Đăng xuất
-        </button>
-      </div>
+
       <Layout>
         <Header
           style={{
             padding: 0,
             background: colorBgContainer,
           }}
-        />
+        >
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                fontSize: "30px",
+                padding: "10px",
+              }}
+            >
+              <h1 style={{ margin: 0 }}>Hello @{user[0].name}</h1>
+              <button
+                className="btn btn-danger"
+                onClick={handleLogout}
+                style={{ fontSize: "15px" }}
+              >
+                Đăng xuất
+              </button>
+            </div>
+          </div>
+        </Header>
 
         <Content
           style={{
