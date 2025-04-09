@@ -62,7 +62,7 @@ const items = [
     <ProjectTwoTone />
   ),
 
-  getItem(" Lịch chiếu", "4", <CalendarTwoTone />),
+  // getItem(" Lịch chiếu", "4", <CalendarTwoTone />),
 
   getItem(
     <Link to="/admin/list-showtime">Suất chiếu</Link>,
@@ -70,7 +70,8 @@ const items = [
     <ClockCircleTwoTone />
   ),
   getItem(<Link to="/admin/seats">Ghế</Link>, "16", <UserOutlined />),
-  getItem(" Vé", "7", <TagTwoTone />),
+  // getItem(" Vé", "7", <TagTwoTone />),
+  getItem(<Link to="/admin/list-ticket">Vé</Link>, "7", <TagTwoTone />),
   getItem(<Link to="/admin/list-promo">Khuyến mãi</Link>, "8", <FireTwoTone />),
   getItem(<Link to="/admin/list-product">Combo</Link>, "9", <GiftTwoTone />),
   // getItem(<Link to="/admin/list-banners">Banners</Link>, "10", <LikeTwoTone />),

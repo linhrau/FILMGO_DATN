@@ -2,6 +2,8 @@
 // import { Button, Form, Input, message, Card, Col } from "antd";
 // import axios from "axios";
 // import { useNavigate } from "react-router-dom";
+// import googleIcon from "@/assets/images/Google_Icons-09-512.webp";
+// import { getUrlLoginWithGoogle } from "@/api/authService";
 
 // const Signin = () => {
 //   const nav = useNavigate();
@@ -22,8 +24,13 @@
 //         type: "success",
 //         content: "Đăng nhập thành công!",
 //       });
+//       const user = JSON.parse(localStorage.getItem("user") || "[]");
 
-//       nav(`/`);
+//       if (user[0].role_name === "admin") {
+//         nav(`/admin`); // Redirect to the admin page if role is 'admin'
+//       } else {
+//         nav(`/`); // Redirect to the homepage or another page if the user is not admin
+//       }
 //     },
 //     onError: () => {
 //       messageApi.open({
@@ -35,6 +42,17 @@
 
 //   const onFinish = (values) => {
 //     mutate(values);
+//   };
+//   const handleLoginWithGoogle = async () => {
+//     try {
+//       const response = await getUrlLoginWithGoogle();
+//       // Xử lý response, ví dụ: chuyển hướng người dùng đến URL đăng nhập Google
+//       // console.log(response);
+//       window.location.href = response.url;
+//     } catch (error) {
+//       // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi cho người dùng
+//       console.error("Lỗi đăng nhập Google:", error);
+//     }
 //   };
 
 //   return (
@@ -119,6 +137,21 @@
 //               Đăng nhập
 //             </Button>
 //           </Form.Item>
+//           <Form.Item>
+//             <Button
+//               style={{
+//                 borderRadius: "8px",
+//                 fontWeight: "bold",
+//                 padding: "12px 0",
+//                 transition: "all 0.3s ease",
+//                 width: "100%",
+//               }}
+//               onClick={handleLoginWithGoogle}
+//             >
+//               Đăng nhập bằng Google
+//               <img src={googleIcon} alt="Google Icon" className="w-[24px]" />
+//             </Button>
+//           </Form.Item>
 //         </Form>
 //       </Card>
 //     </div>
@@ -130,8 +163,6 @@ import { useMutation } from "@tanstack/react-query";
 import { Button, Form, Input, message, Card, Col } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { getUrlLoginWithGoogle } from "@/api/authService";
-import googleIcon from "@/assets/images/Google_Icons-09-512.webp";
 
 const Signin = () => {
   const nav = useNavigate();
@@ -152,8 +183,13 @@ const Signin = () => {
         type: "success",
         content: "Đăng nhập thành công!",
       });
+      const user = JSON.parse(localStorage.getItem("user") || "[]");
 
-      nav(`/`);
+      if (user[0].role_name === "admin") {
+        nav(`/admin`); // Redirect to the admin page if role is 'admin'
+      } else {
+        nav(`/`); // Redirect to the homepage or another page if the user is not admin
+      }
     },
     onError: () => {
       messageApi.open({
@@ -167,25 +203,13 @@ const Signin = () => {
     mutate(values);
   };
 
-  const handleLoginWithGoogle = async () => {
-    try {
-      const response = await getUrlLoginWithGoogle();
-      // Xử lý response, ví dụ: chuyển hướng người dùng đến URL đăng nhập Google
-      // console.log(response);
-      window.location.href = response.url;
-    } catch (error) {
-      // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi cho người dùng
-      console.error("Lỗi đăng nhập Google:", error);
-    }
-  };
-
   return (
     <div
       style={{ display: "flex", justifyContent: "center", marginTop: "50px" }}
     >
       {contextHolder}
       <Card
-        title="ĐĂNG NHẬP"
+        title="ĐĂNG NHẬP ADMIN"
         bordered={false}
         style={{
           width: "100%",
@@ -259,22 +283,6 @@ const Signin = () => {
               onMouseLeave={(e) => (e.target.style.backgroundColor = "#1890ff")}
             >
               Đăng nhập
-            </Button>
-          </Form.Item>
-
-          <Form.Item>
-            <Button
-              style={{
-                borderRadius: "8px",
-                fontWeight: "bold",
-                padding: "12px 0",
-                transition: "all 0.3s ease",
-                width: "100%",
-              }}
-              onClick={handleLoginWithGoogle}
-            >
-              Đăng nhập bằng Google
-              <img src={googleIcon} alt="Google Icon" className="w-[24px]" />
             </Button>
           </Form.Item>
         </Form>

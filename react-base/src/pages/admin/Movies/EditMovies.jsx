@@ -103,8 +103,11 @@ const EditMovies = () => {
       values.genres.forEach((genre) => formData.append("genres[]", genre));
       values.actors.forEach((actor) => formData.append("actors[]", actor));
 
-      if (values.poster && values.poster.length > 0) {
-        formData.append("poster", values.poster[0].originFileObj);
+      // if (values.poster && values.poster.length > 0) {
+      //   formData.append("poster", values.poster[0].originFileObj);
+      // }
+      if (fileList.length > 0 && fileList[0].originFileObj) {
+        formData.append("poster", fileList[0].originFileObj);
       }
 
       await axiosInstance.post(`/movies/update/${id}`, formData, {

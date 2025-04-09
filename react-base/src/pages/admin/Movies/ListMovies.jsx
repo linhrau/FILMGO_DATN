@@ -60,12 +60,12 @@ const ListMovies = () => {
   });
 
   const columns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      render: (text) => <a>{text}</a>,
-    },
+    // {
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    //   render: (text) => <a>{text}</a>,
+    // },
     {
       title: "Name",
       dataIndex: "title",
@@ -134,7 +134,7 @@ const ListMovies = () => {
       title: "Hành động",
       key: "action",
       render: (_, movie) => (
-        <Space>
+        <Space direction="vertical">
           <Popconfirm
             title="Bạn có chắc muốn xoá phim này?"
             onConfirm={() => mutate(movie.id)}
@@ -143,7 +143,6 @@ const ListMovies = () => {
           >
             <Button danger>Xoá</Button>
           </Popconfirm>
-          {/* <Link to={`/admin/movies/${movie.id}/update`}> */}
           <Link to={`/admin/update-movies/${movie.id}`}>
             <Button type="primary">Sửa</Button>
           </Link>
