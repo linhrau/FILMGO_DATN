@@ -122,7 +122,7 @@ const PromoCodeList = () => {
             </Button>{" "}
             {/* Nút Xoá có màu đỏ */}
           </Popconfirm>
-          <Link to={`/admin/update-promocode/${promocode.id}`}>
+          <Link to={`/admin/update-promo/${promocode.id}`}>
             <Button
               type="default"
               style={{ backgroundColor: "#1890ff", color: "#fff" }}
