@@ -23,6 +23,7 @@ import FogotPass from "./FogotPass";
 import Changepass from "./Changepass";
 import ListTiket from "./admin/ticket/ListTiket";
 import CheckTicket from "./admin/ticket/CheckTiket";
+import DetailTiket from "./admin/ticket/DetailTiket";
 
 function App() {
   return (
@@ -60,6 +61,10 @@ function App() {
           ></Route>
           <Route path="/admin/list-tiket" element={<ListTiket />}></Route>
           <Route path="/admin/check-tiket" element={<CheckTicket />}></Route>
+          <Route
+            path="/admin/detail-tiket/:id"
+            element={<DetailTiket />}
+          ></Route>
         </Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/signin" element={<SignIn />}></Route>
