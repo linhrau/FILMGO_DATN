@@ -4,16 +4,13 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 const ListTiket = () => {
-  //   const queryClient = useQueryClient();
-  //   const [messageApi, contextHolder] = message.useMessage();
-
   // Lấy token từ localStorage
   const getAccessToken = () => {
     return localStorage.getItem("access_token");
   };
 
   const { data, isLoading } = useQuery({
-    queryKey: ["tikets"],
+    queryKey: ["tickets"],
     queryFn: async () => {
       const token = getAccessToken();
 
@@ -32,9 +29,9 @@ const ListTiket = () => {
         }
       );
 
-      return response.data.data.map((tiket) => ({
-        key: tiket.id,
-        ...tiket,
+      return response.data.data.map((ticket) => ({
+        ...ticket,
+        key: ticket.id,
       }));
     },
   });
@@ -50,7 +47,6 @@ const ListTiket = () => {
       dataIndex: "ticket_code",
       key: "ticket_code",
     },
-
     {
       title: "Tên người dùng",
       dataIndex: "user_name",
@@ -71,15 +67,25 @@ const ListTiket = () => {
       dataIndex: "status",
       key: "status",
     },
+    {
+      title: "",
+
+      key: "action",
+      render: (_, ticket) => (
+        <Space>
+          <Link to={`/admin/detail-ticket/${ticket.ticket_id}`}>
+            <Button type="primary">Xem chi tiết</Button>
+          </Link>
+        </Space>
+      ),
+    },
   ];
 
   return (
     <>
-      {/* {contextHolder} */}
-
       <h1 className="text-3xl mb-5">Quản lý vé</h1>
       <button className="btn btn-primary">
-        <Link to="/admin/check-tiket">Quét mã barcode</Link>
+        <Link to="/admin/check-ticket">Quét mã barcode</Link>
       </button>
       <Skeleton active loading={isLoading}>
         <Table columns={columns} dataSource={data} />

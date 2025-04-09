@@ -58,7 +58,10 @@ const DetailTiket = () => {
           <strong>Code:</strong> {data.ticket_code}
         </p>
         <p>
-          <strong>Tên người dùng:</strong> {data.user_name}
+          <strong>Tên người dùng:</strong> {data.screen}
+        </p>
+        <p>
+          <strong>Tên người dùng:</strong> {data.cinema}
         </p>
         <p>
           <strong>Tên phim:</strong> {data.movie_name}
@@ -66,9 +69,15 @@ const DetailTiket = () => {
         <p>
           <strong>Thời gian:</strong> {data.showtime}
         </p>
-        <p>
-          <strong>Trạng thái:</strong> {data.status}
-        </p>
+
+        {data.seats.map((seat, index) => (
+          <div key={index}>
+            <p>
+              <strong>Ghế:</strong> {seat.seat_row}
+              {seat.seat_number}
+            </p>
+          </div>
+        ))}
       </Card>
     </div>
   );

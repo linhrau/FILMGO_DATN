@@ -59,10 +59,10 @@ function App() {
             path="/admin/update-showtime/:id"
             element={<UpdateShow />}
           ></Route>
-          <Route path="/admin/list-tiket" element={<ListTiket />}></Route>
-          <Route path="/admin/check-tiket" element={<CheckTicket />}></Route>
+          <Route path="/admin/list-ticket" element={<ListTiket />}></Route>
+          <Route path="/admin/check-ticket" element={<CheckTicket />}></Route>
           <Route
-            path="/admin/detail-tiket/:id"
+            path="/admin/detail-ticket/:id"
             element={<DetailTiket />}
           ></Route>
         </Route>

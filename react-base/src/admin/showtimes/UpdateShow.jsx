@@ -101,7 +101,7 @@ const UpdateShow = () => {
         label="Chọn phim"
         rules={[{ required: true, message: "Vui lòng Không bỏ trống" }]}
       >
-        <Select placeholder="Chọn phim">
+        <Select placeholder="Chọn phim" disabled>
           {movies.map((movie) => (
             <Option key={movie.id} value={movie.id}>
               {movie.title}
@@ -115,7 +115,7 @@ const UpdateShow = () => {
         label="Chọn phòng chiếu"
         rules={[{ required: true, message: "Vui lòng Không bỏ trống" }]}
       >
-        <Select placeholder="Chọn phòng chiếu">
+        <Select placeholder="Chọn phòng chiếu" disabled>
           {screens.map((screen) => (
             <Option key={screen.id} value={screen.id}>
               {screen.name}

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
+import { Link } from "react-router-dom";
 
 const CheckTicket = () => {
   const [loading, setLoading] = useState(false);
@@ -54,11 +55,12 @@ const CheckTicket = () => {
       );
 
       const data = await response.json();
+
       console.log(data);
 
       if (response.ok) {
         // Nếu API trả về vé hợp lệ, hiển thị thông tin vé
-        setTicketInfo(data.ticket); // Giả sử `data.ticket` chứa thông tin vé
+        setTicketInfo(data.data); // Giả sử `data.ticket` chứa thông tin vé
         setMessage("Vé hợp lệ!");
       } else {
         setMessage(`Lỗi: ${data.message || "Có lỗi xảy ra."}`);
@@ -162,24 +164,32 @@ const CheckTicket = () => {
         {loading ? "Đang kiểm tra..." : "Kiểm tra Vé"}
       </button>
 
-      {message && <p>{message}</p>}
+      {/* {message && <p>{message}</p>} */}
 
       {/* Hiển thị thông tin vé nếu vé hợp lệ */}
       {ticketInfo && (
         <div style={styles.ticketInfo}>
-          <h2>Thông tin Vé:</h2>
-          <p>
-            <strong>Tên Phim:</strong> {ticketInfo.movie_name}
-          </p>
-          <p>
-            <strong>Giờ Chiếu:</strong> {ticketInfo.showtime}
-          </p>
-          <p>
-            <strong>Số Ghế:</strong> {ticketInfo.total_amount}
-          </p>
-          <p>
-            <strong>Mã Vé:</strong> {ticketInfo.ticketId}
-          </p>
+          <button className="btn btn-warning">
+            <Link to={`/admin/detail-ticket/${ticketInfo.ticket_id}`}>
+              xem chi tiết
+            </Link>
+          </button>
+          {/* <h2>Thông tin Vé:</h2>
+          <div style={{ marginBottom: "10px" }}>
+            <strong>Tên Phim:</strong> <span>{ticketInfo.movie_name}</span>
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <strong>Số vé:</strong> <span>{ticketInfo.ticket_id}</span>
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <strong>Giờ Chiếu:</strong> <span>{ticketInfo.showtime}</span>
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <strong>Số Ghế:</strong> <span>{ticketInfo.total_amount}</span>
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <strong>Mã Vé:</strong> <span>{ticketInfo.ticket_code}</span>
+          </div> */}
         </div>
       )}
 
