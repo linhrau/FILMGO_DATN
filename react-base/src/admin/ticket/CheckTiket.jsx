@@ -1,8 +1,6 @@
-// src/CheckTicket.js
-
 import React, { useState } from "react";
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Thêm useNavigate
 
 const CheckTicket = () => {
   const [loading, setLoading] = useState(false);
@@ -11,6 +9,7 @@ const CheckTicket = () => {
   const [ticketInfo, setTicketInfo] = useState(null); // Dữ liệu vé
   const [error, setError] = useState(null);
   const [cameraActive, setCameraActive] = useState(false); // Trạng thái camera (mở/đóng)
+  const navigate = useNavigate(); // Khai báo useNavigate
 
   // Hàm xử lý quét barcode
   const handleBarcodeScan = (data) => {
@@ -55,13 +54,15 @@ const CheckTicket = () => {
       );
 
       const data = await response.json();
-
-      console.log(data);
+      // console.log(data) kiểm tra dữ liệu data trả về
 
       if (response.ok) {
         // Nếu API trả về vé hợp lệ, hiển thị thông tin vé
         setTicketInfo(data.data); // Giả sử `data.ticket` chứa thông tin vé
         setMessage("Vé hợp lệ!");
+
+        // Tự động chuyển đến trang chi tiết vé
+        navigate(`/admin/detail-ticket/${data.data.ticket_id}`);
       } else {
         setMessage(`Lỗi: ${data.message || "Có lỗi xảy ra."}`);
         setError(data.message || "Có lỗi xảy ra.");
@@ -79,7 +80,6 @@ const CheckTicket = () => {
     setCameraActive(!cameraActive);
   };
 
-  // Các style trực tiếp trong code
   const styles = {
     container: {
       fontFamily: "Arial, sans-serif",
@@ -154,7 +154,7 @@ const CheckTicket = () => {
       )}
 
       {/* Hiển thị mã barcode đã quét */}
-      {barcode && <p>Mã Barcode: {barcode}</p>}
+      {barcode && !loading && <p>Mã Barcode: {barcode}</p>}
 
       <button
         style={styles.button}
@@ -163,35 +163,6 @@ const CheckTicket = () => {
       >
         {loading ? "Đang kiểm tra..." : "Kiểm tra Vé"}
       </button>
-
-      {/* {message && <p>{message}</p>} */}
-
-      {/* Hiển thị thông tin vé nếu vé hợp lệ */}
-      {ticketInfo && (
-        <div style={styles.ticketInfo}>
-          <button className="btn btn-warning">
-            <Link to={`/admin/detail-ticket/${ticketInfo.ticket_id}`}>
-              xem chi tiết
-            </Link>
-          </button>
-          {/* <h2>Thông tin Vé:</h2>
-          <div style={{ marginBottom: "10px" }}>
-            <strong>Tên Phim:</strong> <span>{ticketInfo.movie_name}</span>
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <strong>Số vé:</strong> <span>{ticketInfo.ticket_id}</span>
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <strong>Giờ Chiếu:</strong> <span>{ticketInfo.showtime}</span>
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <strong>Số Ghế:</strong> <span>{ticketInfo.total_amount}</span>
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <strong>Mã Vé:</strong> <span>{ticketInfo.ticket_code}</span>
-          </div> */}
-        </div>
-      )}
 
       {/* Hiển thị lỗi nếu có */}
       {error && <p style={styles.errorMessage}>Lỗi: {error}</p>}
