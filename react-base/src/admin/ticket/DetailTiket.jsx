@@ -153,8 +153,15 @@ const DetailTicket = () => {
             {data.seats.map((seat, index) => (
               <Col span={8} key={index}>
                 <Card bordered={false} style={{ backgroundColor: "#fafafa" }}>
-                  <Text strong>Ghế:</Text> {seat.seat_row}
-                  {seat.seat_number}
+                  <Row>
+                    <Col span={12}>
+                      <Text strong>Ghế:</Text> {seat.seat_row}
+                      {seat.seat_number}
+                    </Col>
+                    <Col span={12} style={{ textAlign: "right" }}>
+                      <Text strong>Giá:</Text> {seat.price}
+                    </Col>
+                  </Row>
                 </Card>
               </Col>
             ))}
@@ -208,8 +215,15 @@ const DetailTicket = () => {
             {data.seats.map((seat, index) => (
               <Col span={8} key={index}>
                 <Card bordered={false} style={{ backgroundColor: "#fafafa" }}>
-                  <Text strong>Ghế:</Text> {seat.seat_row}
-                  {seat.seat_number}
+                  <Row>
+                    <Col span={12}>
+                      <Text strong>Ghế:</Text> {seat.seat_row}
+                      {seat.seat_number}
+                    </Col>
+                    <Col span={12} style={{ textAlign: "right" }}>
+                      <Text strong>Giá:</Text> {seat.price}
+                    </Col>
+                  </Row>
                 </Card>
               </Col>
             ))}
