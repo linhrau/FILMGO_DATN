@@ -1,43 +1,57 @@
 import { useMutation } from "@tanstack/react-query";
-import { Button, DatePicker, Form, Input, InputNumber, Switch } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  Switch,
+  message,
+} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const PromoCodeAdd = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("access_token"); // Lấy token từ localStorage
+  const token = localStorage.getItem("access_token");
 
   const axiosInstance = axios.create({
-    baseURL: "http://filmgo.io.vn/api", // Cấu hình baseURL
+    baseURL: "http://filmgo.io.vn/api",
     headers: {
-      Authorization: `Bearer ${token}`, // Thêm Access Token vào headers
+      Authorization: `Bearer ${token}`,
     },
   });
 
   const { mutate } = useMutation({
     mutationFn: async (promocode) => {
-      await axiosInstance.post(
-        "http://filmgo.io.vn/api/promocodes/create",
-        promocode
-      );
+      const response = await axiosInstance.post("/promocodes/create", promocode);
+      return response.data;
     },
     onSuccess: () => {
+      message.success("Thêm mã khuyến mãi thành công!");
       navigate("/admin/list-promo");
     },
     onError: (error) => {
-      console.error("Error submitting promocode:", error.response.data);
+      const errors = error.response?.data?.errors;
+      const firstError = errors ? Object.values(errors)[0][0] : "Có lỗi xảy ra";
+      message.error(firstError);
+
+      console.error("Error submitting promocode:", error.response?.data);
+      console.log("Validation Errors:", errors);
     },
   });
 
   const onFinish = (values) => {
     const formattedValues = {
       ...values,
-      status: values.status ? "active" : "inactive", // ✅ Chuyển đổi giá trị status
+      status: values.status ? "active" : "inactive",
       start_date: values.start_date
         ? values.start_date.format("YYYY-MM-DD")
         : null,
-      end_date: values.end_date ? values.end_date.format("YYYY-MM-DD") : null,
+      end_date: values.end_date
+        ? values.end_date.format("YYYY-MM-DD")
+        : null,
     };
 
     console.log("Submitting:", formattedValues);
@@ -54,7 +68,7 @@ const PromoCodeAdd = () => {
         layout="horizontal"
         style={{ maxWidth: 600 }}
         onFinish={onFinish}
-        initialValues={{ status: false }} // ✅ Mặc định trạng thái là "inactive"
+        initialValues={{ status: false }}
       >
         <Form.Item
           label="Mã khuyến mãi"
@@ -67,9 +81,7 @@ const PromoCodeAdd = () => {
         <Form.Item
           label="Mô tả"
           name="description"
-          rules={[
-            { required: true, message: "Vui lòng nhập mô tả mã khuyến mãi" },
-          ]}
+          rules={[{ required: true, message: "Vui lòng nhập mô tả mã khuyến mãi" }]}
         >
           <TextArea rows={4} />
         </Form.Item>
@@ -89,7 +101,7 @@ const PromoCodeAdd = () => {
         <Form.Item
           label="Ngày bắt đầu"
           name="start_date"
-          rules={[{ required: true, message: "Vui lòng nhập ngày bắt đầu" }]}
+          rules={[{ required: true, message: "Vui lòng chọn ngày bắt đầu" }]}
         >
           <DatePicker format="YYYY-MM-DD" />
         </Form.Item>
@@ -97,12 +109,12 @@ const PromoCodeAdd = () => {
         <Form.Item
           label="Ngày kết thúc"
           name="end_date"
-          rules={[{ required: true, message: "Vui lòng nhập ngày kết thúc" }]}
+          rules={[{ required: true, message: "Vui lòng chọn ngày kết thúc" }]}
         >
           <DatePicker format="YYYY-MM-DD" />
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item wrapperCol={{ offset: 4, span: 14 }}>
           <Button type="primary" htmlType="submit">
             Thêm mới
           </Button>

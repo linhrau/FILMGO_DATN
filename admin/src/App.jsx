@@ -41,6 +41,11 @@ import UpdatePromo from "./pages/admin/PromoCodes/UpdatePromo";
 import Seat from "./pages/admin/Seat";
 import GoogleCallback from "@/api/googleCallBack";
 import PageNotFound from "./PageNotFound";
+import ListTiket from "./admin/ticket/ListTiket";
+import CheckTicket from "./admin/ticket/CheckTiket";
+import DetailTiket from "./admin/ticket/DetailTiket";
+import FogotPass from "./FogotPass";
+import Changepass from "./Changepass";
 
 function App() {
   return (
@@ -92,12 +97,17 @@ function App() {
           <Route path="create-promo" element={<CreatePromo />} />
           <Route path="update-promo/:id" element={<UpdatePromo />} />
           <Route path="seats" element={<Seat />} />
+          <Route path="list-ticket" element={<ListTiket />} />
+          <Route path="check-ticket" element={<CheckTicket />} />
+          <Route path="detail-ticket/:id" element={<DetailTiket />} />
         </Route>
         <Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/auth/google" element={<GoogleCallback />}></Route>
           <Route path="/pagenot" element={<PageNotFound />}></Route>
+          <Route path="/fogotpass" element={<FogotPass />}></Route>
+          <Route path="/changepass" element={<Changepass />}></Route>
         </Route>
       </Routes>
 

@@ -6,7 +6,8 @@ import axios from "axios";
 import dayjs from "dayjs";
 
 const { Option } = Select;
-const EditShow = () => {
+
+const UpdateShow = () => {
   const nav = useNavigate();
   const { id } = useParams(); // Get the showtime ID from the URL
   const [screens, setScreens] = useState([]);
@@ -33,6 +34,7 @@ const EditShow = () => {
       });
     }
   }, [id]);
+
   const getAccessToken = () => {
     return localStorage.getItem("access_token"); // Hoặc bạn có thể lấy từ Cookies hoặc bất kỳ nguồn lưu trữ nào khác
   };
@@ -83,9 +85,11 @@ const EditShow = () => {
       initialValues={{
         movie_id: showtime?.movie_id,
         screen_id: showtime?.screen_id,
-        start_time: showtime ? dayjs(showtime.start_time, "HH:mm:ss") : null,
-        end_time: showtime ? dayjs(showtime.end_time, "HH:mm:ss") : null,
-        date: showtime ? dayjs(showtime.date) : null,
+        start_time: showtime
+          ? dayjs(showtime.start_time).format("HH:mm")
+          : null,
+        end_time: showtime ? dayjs(showtime.end_time).format("HH:mm") : null,
+        date: showtime ? dayjs(showtime.date).format("YYYY-MM-DD") : null,
       }}
       onFinish={onFinish}
       autoComplete="off"
@@ -97,7 +101,7 @@ const EditShow = () => {
         label="Chọn phim"
         rules={[{ required: true, message: "Vui lòng Không bỏ trống" }]}
       >
-        <Select placeholder="Chọn phim">
+        <Select placeholder="Chọn phim" disabled>
           {movies.map((movie) => (
             <Option key={movie.id} value={movie.id}>
               {movie.title}
@@ -111,7 +115,7 @@ const EditShow = () => {
         label="Chọn phòng chiếu"
         rules={[{ required: true, message: "Vui lòng Không bỏ trống" }]}
       >
-        <Select placeholder="Chọn phòng chiếu">
+        <Select placeholder="Chọn phòng chiếu" disabled>
           {screens.map((screen) => (
             <Option key={screen.id} value={screen.id}>
               {screen.name}
@@ -156,7 +160,7 @@ const EditShow = () => {
           },
         ]}
       >
-        <Input type="date" format="yyyy-mm-dd" style={{ width: "100%" }} />
+        <Input type="date" style={{ width: "100%" }} />
       </Form.Item>
 
       <Form.Item label={null}>
@@ -168,4 +172,4 @@ const EditShow = () => {
   );
 };
 
-export default EditShow;
+export default UpdateShow;
