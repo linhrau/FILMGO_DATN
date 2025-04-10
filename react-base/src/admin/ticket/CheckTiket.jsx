@@ -54,7 +54,7 @@ const CheckTicket = () => {
       );
 
       const data = await response.json();
-      // console.log(data) kiểm tra dữ liệu data trả về
+      console.log(data); //kiểm tra dữ liệu data trả về
 
       if (response.ok) {
         // Nếu API trả về vé hợp lệ, hiển thị thông tin vé

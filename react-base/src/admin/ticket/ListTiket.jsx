@@ -1,9 +1,12 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Button, message, Popconfirm, Skeleton, Space, Table } from "antd";
+import { useQuery } from "@tanstack/react-query";
+import { Button, Input, message, Skeleton, Space, Table } from "antd";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const ListTiket = () => {
+  const [searchTerm, setSearchTerm] = useState(""); // Lưu ticket_code cần tìm
+
   // Lấy token từ localStorage
   const getAccessToken = () => {
     return localStorage.getItem("access_token");
@@ -13,18 +16,13 @@ const ListTiket = () => {
     queryKey: ["tickets"],
     queryFn: async () => {
       const token = getAccessToken();
+      if (!token) throw new Error("Token không hợp lệ hoặc không tồn tại");
 
-      // Kiểm tra token có hợp lệ không
-      if (!token) {
-        throw new Error("Token không hợp lệ hoặc không tồn tại");
-      }
-
-      // Thêm token vào header của yêu cầu
       const response = await axios.get(
         `http://filmgo.io.vn/api/admin/tickets`,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Thêm token vào header
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -35,6 +33,11 @@ const ListTiket = () => {
       }));
     },
   });
+
+  // Lọc dữ liệu theo ticket_code
+  const filteredData = data?.filter((ticket) =>
+    ticket.ticket_code.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const columns = [
     {
@@ -69,7 +72,6 @@ const ListTiket = () => {
     },
     {
       title: "",
-
       key: "action",
       render: (_, ticket) => (
         <Space>
@@ -84,11 +86,20 @@ const ListTiket = () => {
   return (
     <>
       <h1 className="text-3xl mb-5">Quản lý vé</h1>
-      <button className="btn btn-primary">
-        <Link to="/admin/check-ticket">Quét mã barcode</Link>
-      </button>
+      <div className="mb-4 flex gap-4 items-center">
+        <Button type="primary">
+          <Link to="/admin/check-ticket">Quét mã barcode</Link>
+        </Button>
+        <Input.Search
+          placeholder="Tìm theo ticket code..."
+          onSearch={(value) => setSearchTerm(value)}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          enterButton
+          style={{ maxWidth: 300 }}
+        />
+      </div>
       <Skeleton active loading={isLoading}>
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={filteredData} />
       </Skeleton>
     </>
   );
