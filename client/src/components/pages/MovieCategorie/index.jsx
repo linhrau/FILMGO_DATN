@@ -4,11 +4,11 @@ import { handleReBuildGenres } from '../../../helpers/handleReBuildGenres';
 import { handleBuilderMovies } from '../../../helpers/handleReBuildMovies';
 import { useGetAllGenres } from '../../../services/genres/getAllGenres';
 import { useGetAllMovies } from '../../../services/movie/useGetOneMovie';
-import SearchInput from '../../atoms/Input/SearchInput';
 import LabelCommon from '../../atoms/LabelCommon';
 import Card from '../../molecules/Card/Card';
 import ListCategories from '../../molecules/ListCategories';
 import ListFilm from '../../organisms/ListFilm';
+import ProductSearchPopover from '../../organisms/ProductSearchPopover';
 import ContainerWapper from '../../templates/ContainerWapper';
 import MainTemplate from '../../templates/MainTemplate';
 import './styles.css';
@@ -45,6 +45,8 @@ const MovieCate = () => {
                 .slice(0, 10) || [],
         [dataMovies],
     );
+
+    const listMoviesArr = useMemo(() => (dataMovies?.data ? dataMovies.data : []), [dataMovies]);
 
     return (
         <MainTemplate>
@@ -88,10 +90,10 @@ const MovieCate = () => {
                         className="lg:w-[24%] w-[95%] rounded-[10px] p-[24px] bg-white"
                         style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
                     >
-                        <SearchInput />
-                        <LabelCommon label={'browse title'} />
+                        <ProductSearchPopover products={listMoviesArr} />
+                        {/* <LabelCommon label={'browse title'} />
 
-                        <ListCategories data={genres} />
+                        <ListCategories data={genres} /> */}
                     </div>
                     <div className="lg:w-[70%] w-[95%] rounded-[10px] overflow-hidden flex-1">
                         <Title level={4} className="uppercase font-bold">
@@ -111,7 +113,7 @@ const MovieCate = () => {
                     </div>
                 </div>
             </ContainerWapper>
-            <div className='bg-[url("/images/content/theater_bg.jpg")] bg-no-repeat custom_card py-10 backdrop-brightness-50'>
+            {/* <div className='bg-[url("/images/content/theater_bg.jpg")] bg-no-repeat custom_card py-10 backdrop-brightness-50'>
                 <Title
                     level={2}
                     className="uppercase font-bold text-[#fff] text-center pb-5"
@@ -134,7 +136,7 @@ const MovieCate = () => {
                         );
                     })}
                 </Carousel>
-            </div>
+            </div> */}
         </MainTemplate>
     );
 };

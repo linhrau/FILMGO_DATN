@@ -3,9 +3,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { handleLoginUserSuccess, handleLogoutUser } from '../../../app/slices/appSlice';
-import { useLoginUser } from '../../../services/auth/login';
-import LoginModal from '../ModalAuth';
+import { handleLogoutUser, handleToggleModalAuth } from '../../../app/slices/appSlice';
 import MovieProDrawer from '../ModalNav';
 
 export default function Header() {
@@ -785,7 +783,6 @@ export default function Header() {
         },
     ];
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
     // const [isMenuOpenMobile, setIsMenuOpenMobile] = useState(false);
     const [open, setOpen] = useState(false);
 
@@ -797,40 +794,7 @@ export default function Header() {
         setOpen(false);
     };
 
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
-
     const dispatch = useDispatch();
-
-    const loginUserMutation = useLoginUser({
-        mutationConfig: {
-            onSuccess(data) {
-                dispatch(
-                    handleLoginUserSuccess({
-                        user: data.user,
-                        tokens: {
-                            accessToken: data.access_token,
-                            refreshToken: data.refresh_token,
-                        },
-                    }),
-                );
-                Swal.fire({
-                    icon: 'success',
-                    text: 'Chúc mừng bạn đã đăng nhập thành công',
-                }).then(() => {
-                    window.location.href = '/';
-                });
-            },
-            onError: () => {
-                alert('Có lỗi xảy ra vui lòng đăng nhập lại');
-            },
-        },
-    });
-
-    const onFinish = (values) => {
-        loginUserMutation.mutate(values);
-    };
 
     const { isLoginIn, user } = useSelector((state) => state.app.auth);
     const contentUserLogin = (
@@ -843,6 +807,9 @@ export default function Header() {
                         fontSize: '16px',
                         padding: '6px 0',
                         cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                        window.location.href = '/me';
                     }}
                 >
                     Xem tài khoản
@@ -894,7 +861,7 @@ export default function Header() {
                 <div className="flex items-center gap-3">
                     <div className=""></div>
                     <Fragment>
-                        <div style={{}} className="h-[50px] rounded-[10px] overflow-hidden lg:flex hidden items-center">
+                        {/* <div style={{}} className="h-[50px] rounded-[10px] overflow-hidden lg:flex hidden items-center">
                             <Select
                                 className="h-[100%] select-ant-none-radius"
                                 style={{ width: 140, borderRadius: 0 }}
@@ -913,13 +880,13 @@ export default function Header() {
                             <button className="bg-[#000] text-[#fff] h-full w-[50px]">
                                 <i className="bi bi-search-heart"></i>
                             </button>
-                        </div>
+                        </div> */}
                         {!isLoginIn && !user ? (
                             <button
-                                onClick={() => setIsModalOpen(true)}
+                                onClick={() => dispatch(handleToggleModalAuth())}
                                 className="bg-[#000] text-[#fff] h-[50px] w-[180px] rounded-[10px] lg:block hidden"
                             >
-                                sign up
+                                Đăng nhập
                             </button>
                         ) : (
                             <Popover content={contentUserLogin} title="Thông tin tài khoản">
@@ -943,7 +910,11 @@ export default function Header() {
                                             width: 40,
                                             height: 40,
                                         }}
-                                        src={user[0]?.avatar}
+                                        src={
+                                            user[0]?.avatar == 'http://filmgo.io.vn/images/avatars/default.jpg'
+                                                ? 'https://static.thenounproject.com/png/4154905-200.png'
+                                                : user[0]?.avatar
+                                        }
                                         alt="hình ảnh người dùng"
                                     />
                                     <p>Welcome {user[0]?.name}</p>
@@ -952,12 +923,12 @@ export default function Header() {
                         )}
                     </Fragment>
 
-                    <button
+                    {/* <button
                         onClick={showDrawer}
                         className="w-[50px] h-[50px]  bg-[rgba(0,0,0,0.2)] rounded-[10px] flex justify-center items-center"
                     >
                         <img src="/images/header/bars.png" className="object-contain" alt="" />
-                    </button>
+                    </button> */}
                     {/* 
                     <button className="w-[50px] h-[50px] pc-hidden bg-[rgba(0,0,0,0.2)] rounded-[10px] flex justify-center items-center">
                         <img src="/images/header/bars.png" className="object-contain" alt="" />
@@ -993,13 +964,7 @@ export default function Header() {
                     ></iframe>
                 </div>
             </Modal>
-            <LoginModal
-                handleCancel={handleCancel}
-                isModalOpen={isModalOpen}
-                onFinish={onFinish}
-                setIsModalOpen={setIsModalOpen}
-            />
-            <MovieProDrawer onClose={onClose} open={open} showModal={() => setIsModalOpen(true)} />
+            <MovieProDrawer onClose={onClose} open={open} showModal={() => dispatch(handleToggleModalAuth())} />
         </header>
     );
 }
