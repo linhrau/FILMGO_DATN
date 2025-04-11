@@ -4,7 +4,7 @@ import setScreenImage from "@/assets/images/ic-screen.png";
 import SeatTypePanel from "@/components/admin/SeatPage/SeatTypePanel/SeatTypePanel";
 
 const SeatLayout = ({ seats, refetchSeats }) => {
-  // Nhóm ghế theo row
+  // Nhóm ghế theo row và số thứ tự của ghế
   const groupedSeats = seats.reduce((acc, seat) => {
     if (!acc[seat.row]) {
       acc[seat.row] = [];
@@ -13,14 +13,19 @@ const SeatLayout = ({ seats, refetchSeats }) => {
     return acc;
   }, {});
 
+  const orderedGroups = {};
+  for (const row in groupedSeats) {
+    orderedGroups[row] = groupedSeats[row].sort((a, b) => a.number - b.number);
+  }
+
   return (
     <div className="w-full mx-auto mt-5">
       <div className="grid place-items-center">
         <img src={setScreenImage} alt="Seat" className="w-full" />
       </div>
-      {Object.keys(groupedSeats).map((row) => (
+      {Object.keys(orderedGroups).map((row) => (
         <div key={row} className="flex justify-center flex-wrap">
-          {groupedSeats[row].slice(0, 20).map((seat) => (
+          {orderedGroups[row].slice(0, 20).map((seat) => (
             <Seat key={seat.id} seat={seat} refetchSeats={refetchSeats} />
           ))}
         </div>
