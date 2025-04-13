@@ -24,6 +24,7 @@ import Changepass from "./Changepass";
 import ListTiket from "./admin/ticket/ListTiket";
 import CheckTicket from "./admin/ticket/CheckTiket";
 import DetailTiket from "./admin/ticket/DetailTiket";
+import LayoutStaff from "./layout/LayoutStaff";
 
 function App() {
   return (
@@ -66,6 +67,10 @@ function App() {
             element={<DetailTiket />}
           ></Route>
         </Route>
+        <Route path="/staff" element={<LayoutStaff />}>
+          <Route path="/staff/list-ticket" element={<ListTiket />}></Route>
+        </Route>
+
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/signin" element={<SignIn />}></Route>
         <Route path="/pagenot" element={<PageNotFound />}></Route>
