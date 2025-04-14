@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { Skeleton, Table } from "antd";
+import { Button, Skeleton, Space, Table } from "antd";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const UserList = () => {
   // Lấy token từ localStorage
@@ -52,6 +53,22 @@ const UserList = () => {
       title: "Vai trò",
       dataIndex: "role_name",
       key: "role",
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "status",
+      key: "status",
+    },
+    {
+      title: "",
+      key: "action",
+      render: (_, user) => (
+        <Space>
+          <Link to={`/admin/update-user/${user.id}`}>
+            <Button type="primary">Sửa</Button>
+          </Link>
+        </Space>
+      ),
     },
   ];
 

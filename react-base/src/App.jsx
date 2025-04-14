@@ -25,6 +25,7 @@ import ListTiket from "./admin/ticket/ListTiket";
 import CheckTicket from "./admin/ticket/CheckTiket";
 import DetailTiket from "./admin/ticket/DetailTiket";
 import LayoutStaff from "./layout/LayoutStaff";
+import UpdateUser from "./admin/user/UpdateUser";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/admin" element={<LayoutAdmin />}>
           <Route index element={<Dashbroad />} />
           <Route path="/admin/list-user" element={<UserList />}></Route>
+          <Route path="/admin/update-user/:id" element={<UpdateUser />}></Route>
           <Route path="/admin/list-cinema" element={<ListCinema />}></Route>
           <Route path="/admin/creat-cinema" element={<CreatCinema />}></Route>
           <Route
