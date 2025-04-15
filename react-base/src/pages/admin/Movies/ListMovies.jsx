@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Image,
+  Input,
   message,
   Popconfirm,
+  Select,
   Skeleton,
   Space,
   Table,
@@ -12,10 +14,14 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Search from "antd/es/transfer/search";
 
 const ListMovies = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const queryClient = useQueryClient();
+  const [searchTerm, setSearchTerm] = useState(""); // 👈 Thêm state để tìm kiếm
+  const [selectedGenre, setSelectedGenre] = useState("");
+  const [allGenres, setAllGenres] = useState([]);
 
   const getAccessToken = () => {
     return localStorage.getItem("access_token");
@@ -58,14 +64,36 @@ const ListMovies = () => {
       }));
     },
   });
+  // Gọi API lấy danh sách thể loại
+  useEffect(() => {
+    axios
+      .get("http://filmgo.io.vn/api/genres")
+      .then((res) => {
+        setAllGenres(res.data.data); // bạn có thể cần check lại cấu trúc data nếu khác
+      })
+      .catch((err) => {
+        console.error("Lỗi lấy thể loại:", err);
+      });
+  }, []);
 
+  // 👉 Lọc dữ liệu theo từ khoá tìm kiếm
+  const filteredData = data?.filter((movie) => {
+    const matchesSearch =
+      movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      movie.id.toString().includes(searchTerm);
+    const matchesGenre =
+      !selectedGenre ||
+      movie.genres.some((genre) => genre.name === selectedGenre);
+
+    return matchesSearch && matchesGenre;
+  });
   const columns = [
-    // {
-    //   title: "ID",
-    //   dataIndex: "id",
-    //   key: "id",
-    //   render: (text) => <a>{text}</a>,
-    // },
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      render: (text) => <a>{text}</a>,
+    },
     {
       title: "Name",
       dataIndex: "title",
@@ -92,6 +120,12 @@ const ListMovies = () => {
       title: "Ngày phát hành",
       dataIndex: "release_date",
       key: "release_date",
+      render: (text) => <Tag color="blue">{text}</Tag>,
+    },
+    {
+      title: "Ngày kết thúc",
+      dataIndex: "end_date",
+      key: "end_date",
       render: (text) => <Tag color="blue">{text}</Tag>,
     },
     {
@@ -160,10 +194,45 @@ const ListMovies = () => {
       <Link to="/admin/create-movies" className="btn btn-primary">
         Thêm phim
       </Link>
+      <br />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          margin: "20px 0",
+          width: "400px",
+        }}
+      >
+        {/* 🔍 Tìm kiếm */}
+        <Search
+          placeholder="Tìm kiếm theo tên hoặc ID..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          enterButton
+          allowClear
+          style={{ width: 300 }}
+        />
+
+        {/* 🎯 Lọc thể loại */}
+        <Select
+          allowClear
+          style={{ width: 200 }}
+          placeholder="Lọc theo thể loại"
+          onChange={(value) => setSelectedGenre(value)}
+          value={selectedGenre || undefined}
+        >
+          {allGenres.map((genre) => (
+            <Select.Option key={genre.id} value={genre.name}>
+              {genre.name}
+            </Select.Option>
+          ))}
+        </Select>
+      </div>
+
       {isLoading ? (
         <Skeleton active />
       ) : (
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={filteredData} />
       )}
     </>
   );
