@@ -46,6 +46,8 @@ import CheckTicket from "./admin/ticket/CheckTiket";
 import DetailTiket from "./admin/ticket/DetailTiket";
 import FogotPass from "./FogotPass";
 import Changepass from "./Changepass";
+import UpdateUser from "./admin/user/UpdateUser";
+import LayoutStaff from "./layouts/admin/LayoutStaff";
 
 function App() {
   return (
@@ -66,6 +68,7 @@ function App() {
           <Route path="list-banners" element={<ListBanners />} />
           <Route path="create-banners" element={<AddBanners />} />
           <Route path="list-user" element={<UserList />} />
+          <Route path="update-user/:id" element={<UpdateUser />} />
           <Route path="list-cinema" element={<ListCinema />} />
           <Route path="creat-cinema" element={<CreatCinema />} />
           <Route path="update-cinema/:id" element={<UpdateCinema />} />
@@ -102,6 +105,9 @@ function App() {
           <Route path="detail-ticket/:id" element={<DetailTiket />} />
         </Route>
         <Route>
+          <Route path="/staff" element={<LayoutStaff />}>
+            <Route path="/staff/list-ticket" element={<ListTiket />}></Route>
+          </Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/auth/google" element={<GoogleCallback />}></Route>
