@@ -79,11 +79,22 @@ const CreateShow = () => {
     onSuccess: () => {
       nav(`/admin/list-showtime`);
     },
-    onError: () => {
+    onError: (error) => {
+      let errorMessage = "Đã có lỗi xảy ra";
+
+      if (error.response?.data) {
+        const data = error.response.data;
+
+        // Laravel trả về errors (object) -> join tất cả messages
+        if (data.errors) {
+          const messages = Object.values(data.errors).flat();
+          errorMessage = messages.join(", ");
+        }
+      }
+
       messageApi.open({
         type: "error",
-        content:
-          "Suất chiếu đã tồn tại hoặc thêm thất bại, vui lòng kiểm tra lại",
+        content: errorMessage,
       });
     },
   });
