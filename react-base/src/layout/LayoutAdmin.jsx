@@ -1,0 +1,302 @@
+import { useState } from "react";
+import {
+  AlertFilled,
+  ClockCircleFilled,
+  EnvironmentFilled,
+  FolderAddFilled,
+  FolderOpenFilled,
+  HddFilled,
+  IdcardTwoTone,
+  PieChartTwoTone,
+  PlaySquareTwoTone,
+  PlusOutlined,
+  RocketFilled,
+  ScheduleFilled,
+  TeamOutlined,
+  UnorderedListOutlined,
+  UserOutlined,
+  VideoCameraTwoTone,
+} from "@ant-design/icons";
+import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import PageNotFound from "./../PageNotFound";
+const { Header, Content, Footer, Sider } = Layout;
+function getItem(label, key, icon, children) {
+  return {
+    key,
+    icon,
+    children,
+    label,
+  };
+}
+const items = [
+  getItem(<Link to="/admin">Bảng Thồng Kê</Link>, "1", <PieChartTwoTone />),
+  getItem("Phim", "2", <PlaySquareTwoTone />, [
+    getItem(
+      <Link to="/admin/products">Danh sách phim</Link>,
+      "2.1",
+      <FolderOpenFilled />
+    ),
+    getItem(
+      <Link to="/admin/products/add">Thêm mới </Link>,
+      "2.2",
+      <FolderAddFilled />
+    ),
+    getItem(
+      <Link to="/admin/products/category">Thể loại</Link>,
+      "2.3",
+      <HddFilled />,
+      [
+        getItem(
+          <Link to="/admin/products">Danh sách</Link>,
+          "2.3.1",
+          <UnorderedListOutlined />
+        ),
+        getItem(
+          <Link to="/admin/products">Thêm mới</Link>,
+          "2.3.2",
+          <PlusOutlined />
+        ),
+      ]
+    ),
+    getItem(
+      <Link to="/admin/products/category">Diễn viên</Link>,
+      "2.4",
+      <TeamOutlined />,
+      [
+        getItem(
+          <Link to="/admin/products">Danh sách</Link>,
+          "2.4.1",
+          <UnorderedListOutlined />
+        ),
+        getItem(
+          <Link to="/admin/products">Thêm mới</Link>,
+          "2.4.2",
+          <PlusOutlined />
+        ),
+      ]
+    ),
+    getItem(
+      <Link to="/admin/products/category">Xuất chiếu</Link>,
+      "2.5",
+      <ClockCircleFilled />,
+      [
+        getItem(
+          <Link to="/admin/list-showtime">Danh sách</Link>,
+          "2.5.1",
+          <UnorderedListOutlined />
+        ),
+        getItem(
+          <Link to="/admin/creat-showtime">Thêm mới</Link>,
+          "2.5.2",
+          <PlusOutlined />
+        ),
+      ]
+    ),
+    getItem(
+      <Link to="/admin/products/category">Vé </Link>,
+      "2.6",
+      <ScheduleFilled />,
+      [
+        getItem(
+          <Link to="/admin/products">Danh sách</Link>,
+          "2.6.1",
+          <UnorderedListOutlined />
+        ),
+        getItem(
+          <Link to="/admin/products">Thêm mới</Link>,
+          "2.6.2",
+          <PlusOutlined />
+        ),
+      ]
+    ),
+  ]),
+  getItem("Rạp phim", "3", <VideoCameraTwoTone />, [
+    getItem(
+      <Link to="/admin/list-cinema">Danh sách</Link>,
+      "3.1",
+      <FolderOpenFilled />
+    ),
+    getItem(
+      <Link to="/admin/creat-cinema">Thêm</Link>,
+      "3.2",
+      <FolderAddFilled />
+    ),
+    getItem(
+      <Link to="/admin/list-province">Thành phố/Tỉnh thành</Link>,
+      "3.3",
+      <EnvironmentFilled />,
+      [
+        getItem(
+          <Link to="/admin/list-province">Danh sách</Link>,
+          "3.3.1",
+          <UnorderedListOutlined />
+        ),
+        getItem(
+          <Link to="/admin/creat-province">Thêm mới</Link>,
+          "3.3.2",
+          <PlusOutlined />
+        ),
+      ]
+    ),
+    getItem(
+      <Link to="/admin/list-screen">Phòng chiếu</Link>,
+      "3.4",
+      <AlertFilled />,
+      [
+        getItem(
+          <Link to="/admin/list-screen">Danh sách</Link>,
+          "3.4.1",
+          <UnorderedListOutlined />
+        ),
+        getItem(
+          <Link to="/admin/creat-screen">Thêm mới</Link>,
+          "3.4.2",
+          <PlusOutlined />
+        ),
+      ]
+    ),
+    getItem(
+      <Link to="/admin/products/category">Ghế</Link>,
+      "3.5",
+      <RocketFilled />,
+      [
+        getItem(
+          <Link to="/admin/products">Danh sách</Link>,
+          "3.5.1",
+          <UnorderedListOutlined />
+        ),
+        getItem(
+          <Link to="/admin/products">Thêm mới</Link>,
+          "3.5.2",
+          <PlusOutlined />
+        ),
+      ]
+    ),
+  ]),
+  getItem("Người dùng", "4", <IdcardTwoTone />, [
+    getItem(
+      <Link to="/admin/list-user">Khách hàng</Link>,
+      "4.1",
+      <UserOutlined />
+    ),
+    getItem(
+      <Link to="/admin/products/add">Nhân viên</Link>,
+      "4.2",
+      <UserOutlined />
+    ),
+  ]),
+];
+
+const LayoutAdmin = () => {
+  const nav = useNavigate();
+  const handleLogout = () => {
+    // Xóa thông tin người dùng trong localStorage
+    localStorage.removeItem("user");
+    localStorage.removeItem("access_token");
+
+    // Cập nhật trạng thái đăng nhập
+
+    // Chuyển hướng về trang đăng nhập
+    nav(`/signin`);
+  };
+  const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
+
+  const user = JSON.parse(localStorage.getItem("user") || "[]");
+  // console.log(user);
+  // const role = user[0].role_name;
+  // console.log(role);
+  if (!user || user[0].role_name !== "admin") {
+    return (
+      <>
+        <PageNotFound />
+      </>
+    );
+  }
+
+  return (
+    <Layout
+      style={{
+        minHeight: "100vh",
+      }}
+    >
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+      >
+        <div className="demo-logo-vertical" />
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={["1"]}
+          mode="inline"
+          items={items}
+        />
+      </Sider>
+
+      <Layout>
+        <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+          }}
+        >
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                fontSize: "30px",
+                padding: "10px",
+              }}
+            >
+              <h1 style={{ margin: 0 }}>Hello @{user[0].name}</h1>
+              <button
+                className="btn btn-danger"
+                onClick={handleLogout}
+                style={{ fontSize: "15px" }}
+              >
+                Đăng xuất
+              </button>
+            </div>
+          </div>
+        </Header>
+
+        <Content
+          style={{
+            margin: "0 16px",
+          }}
+        >
+          <Breadcrumb
+            style={{
+              margin: "16px 0",
+            }}
+          >
+            {/* <Breadcrumb.Item>User</Breadcrumb.Item> */}
+            {/* <Breadcrumb.Item>Bill</Breadcrumb.Item> */}
+          </Breadcrumb>
+          <div
+            style={{
+              padding: 24,
+              minHeight: 360,
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
+            }}
+          >
+            <Outlet />
+          </div>
+        </Content>
+        <Footer
+          style={{
+            textAlign: "center",
+          }}
+        ></Footer>
+      </Layout>
+    </Layout>
+  );
+};
+export default LayoutAdmin;
