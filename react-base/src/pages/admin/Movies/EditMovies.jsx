@@ -82,6 +82,8 @@ const EditMovies = () => {
         duration: movie.duration || "",
         rating: movie.rating || "",
         release_date: movie.release_date || "",
+        end_date: movie.end_date || "",
+
         genres: movie.genres?.map((g) => g.genre_id) || [],
         actors: movie.actors?.map((a) => a.actor_id) || [],
       });
@@ -100,6 +102,7 @@ const EditMovies = () => {
       formData.append("duration", values.duration);
       formData.append("rating", values.rating);
       formData.append("release_date", values.release_date);
+      formData.append("end_date", values.end_date);
       values.genres.forEach((genre) => formData.append("genres[]", genre));
       values.actors.forEach((actor) => formData.append("actors[]", actor));
 
@@ -182,6 +185,13 @@ const EditMovies = () => {
         name="release_date"
         label="Ngày phát hành"
         rules={[{ required: true, message: "Vui lòng ghi ngày phát hành" }]}
+      >
+        <Input type="date" />
+      </Form.Item>
+      <Form.Item
+        name="end_date"
+        label="Ngày kết thúc"
+        rules={[{ required: true, message: "Vui lòng ghi ngày kết thúc" }]}
       >
         <Input type="date" />
       </Form.Item>

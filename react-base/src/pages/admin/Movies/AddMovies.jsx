@@ -51,6 +51,7 @@ const AddMovie = () => {
       formData.append("duration", values.duration);
       formData.append("rating", values.rating);
       formData.append("release_date", values.release_date);
+      formData.append("end_date", values.end_date);
 
       values.genres.forEach((genre) => formData.append("genres[]", genre));
       values.actors.forEach((actor) => formData.append("actors[]", actor));
@@ -130,6 +131,13 @@ const AddMovie = () => {
         name="release_date"
         label="Ngày phát hành"
         rules={[{ required: true, message: "Vui lòng ghi ngày phát hành" }]}
+      >
+        <Input type="date" />
+      </Form.Item>
+      <Form.Item
+        name="end_date"
+        label="Ngày kết thúc"
+        rules={[{ required: true, message: "Vui lòng ghi ngày kết thúc" }]}
       >
         <Input type="date" />
       </Form.Item>
