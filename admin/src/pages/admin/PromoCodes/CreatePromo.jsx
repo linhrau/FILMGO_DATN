@@ -87,12 +87,22 @@ const PromoCodeAdd = () => {
         </Form.Item>
 
         <Form.Item
-          label="Giá trị giảm"
+          label="Số tiền giảm (VND)"
           name="discount_amount"
-          rules={[{ required: true, message: "Vui lòng nhập giá trị giảm" }]}
+          rules={[{ required: true, message: "Vui lòng nhập số tiền giảm" }]}
         >
-          <InputNumber min={0} />
+          <InputNumber
+            min={1000}
+            step={1000}
+            style={{ width: "100%" }}
+            formatter={(value) =>
+              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            }
+            parser={(value) => value.replace(/\./g, "")}
+            addonAfter="VND"
+          />
         </Form.Item>
+
 
         <Form.Item label="Trạng thái" name="status" valuePropName="checked">
           <Switch checkedChildren="Active" unCheckedChildren="Inactive" />

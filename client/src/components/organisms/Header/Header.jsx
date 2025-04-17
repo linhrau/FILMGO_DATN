@@ -151,7 +151,7 @@ export default function Header() {
                 <div className="flex items-center gap-3">
                     <div className=""></div>
                     <Fragment>
-                        {/* <div style={{}} className="h-[50px] rounded-[10px] overflow-hidden lg:flex hidden items-center">
+                        <div style={{}} className="h-[50px] rounded-[10px] overflow-hidden lg:flex hidden items-center">
                             <Select
                                 className="h-[100%] select-ant-none-radius"
                                 style={{ width: 140, borderRadius: 0 }}
@@ -170,7 +170,7 @@ export default function Header() {
                             <button className="bg-[#000] text-[#fff] h-full w-[50px]">
                                 <i className="bi bi-search-heart"></i>
                             </button>
-                        </div> */}
+                        </div>
                         {!isLoginIn && !user ? (
                             <button
                                 onClick={() => dispatch(handleToggleModalAuth())}

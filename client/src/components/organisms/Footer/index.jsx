@@ -8,59 +8,34 @@ import p4 from '../../../../public/images/content/p4.jpg';
 import p5 from '../../../../public/images/content/p5.jpg';
 import p6 from '../../../../public/images/content/p6.jpg';
 import { FacebookOutlined, LinkedinOutlined, TwitterSquareFilled, YoutubeOutlined } from '@ant-design/icons';
-import { Fragment, useRef } from 'react';
-import f1 from '../../../../public/images/content/f1.jpg';
-import f2 from '../../../../public/images/content/f2.jpg';
-import Indicator from '../../atoms/Indicator';
+import { useRef } from 'react';
 import Slider from 'react-slick';
+import Indicator from '../../atoms/Indicator';
 import './styles.css';
 
 const cates = [
     {
-        label: 'Language Movies',
-        values: [
-            'English movie',
-            'Tamil movie',
-            'Punjabi Movie',
-            'Hindi movie',
-            'Malayalam movie',
-            'English Action movie',
-            'Hindi Action movie',
-        ],
+        label: '',
+        logo: '/images/logo-removebg.png',
+        description: 'Website đặt vé xem phim trực tuyến chất lượng cao.',
     },
     {
-        label: 'Movies by Presenter',
-        values: [
-            'Action movie',
-            'Romantic movie',
-            'Adult movie',
-            'Comedy movie',
-            'Drama movie',
-            'Musical movie',
-            'Classical movie',
-        ],
+        label: 'QUY ĐỊNH & ĐIỀU KHOẢN',
+        values: ['Chính sách bảo mật', 'Tin tức', 'Liên hệ'],
     },
     {
-        label: 'Booking Online',
-        values: [
-            'www.example.com',
-            'www.hello.com',
-            'www.example.com',
-            'www.hello.com',
-            'www.example.com',
-            'www.hello.com',
-        ],
+        label: 'CHI NHÁNH',
+        values: ['Hà Nội', 'Hồ Chí Minh', 'Đà Nẵng', 'Nha Trang', 'Hải Phòng', 'Cần Thơ'],
     },
     {
-        label: 'App Available On',
+        label: 'THÔNG TIN WEBSITE',
+        values: [
+            'Địa chỉ: Tòa nhà FPT Polytechnic, Phố Trịnh Văn Bô, Nam Từ Liêm, Hà Nội',
+            'Điện thoại: 0988 886 666',
+            'Email: filmgo1102@gmail.com',
+            'Giờ làm việc: 8:00 - 22:00 (T2 - CN)',
+        ],
     },
-];
-
-const socials = [
-    <FacebookOutlined className="text-[24px]" />,
-    <TwitterSquareFilled className="text-[24px] bg-[#000]" />,
-    <LinkedinOutlined className="text-[24px]" />,
-    <YoutubeOutlined className="text-[24px]" />,
 ];
 
 const Footer = () => {
@@ -76,118 +51,57 @@ const Footer = () => {
         autoplaySpeed: 2000,
         arrows: true,
         responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 1,
-                },
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                },
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                },
-            },
+            { breakpoint: 1024, settings: { slidesToShow: 4 } },
+            { breakpoint: 768, settings: { slidesToShow: 2 } },
+            { breakpoint: 480, settings: { slidesToShow: 1 } },
         ],
     };
 
-    const handlePrev = () => {
-        if (sliderRef.current) {
-            sliderRef.current.slickPrev();
-        }
-    };
-
-    const handleNext = () => {
-        if (sliderRef.current) {
-            sliderRef.current.slickNext();
-        }
-    };
     return (
-        <div className="w-[100%] shadow">
-            <div className="pt-[90px] pb-[80px] w-[100%] bg-white">
+        <div className="w-full">
+            {/* Slider Partner */}
+            <div className="pt-[90px] pb-[80px] bg-white">
                 <ContainerWapper>
                     <div className="flex flex-col items-center">
-                        <p className="text-[32px] font-[500] text-center cursor-pointer mb-[16px]">Our Patner’s</p>
+                        <p className="text-[32px] font-[500] text-center mb-[16px]">Our Partner’s</p>
                         <div className="flex justify-center items-center w-[200px] mb-[60px]">
                             <div className="w-[40%] h-[2px] bg-[#ccc]"></div>
                             <div className="w-[20%] h-[4px] bg-[#f44343]"></div>
                             <div className="w-[40%] h-[2px] bg-[#ccc]"></div>
                         </div>
 
-                        <div className="w-[100%] flex justify-between items-center sm:px-0 px-[10px]">
+                        <div className="w-full flex justify-between items-center">
                             <button
-                                className="bg-[#ff4444] text-white w-[50px] h-[50px] rounded-[100px] text-[28px]"
-                                onClick={handlePrev}
+                                className="bg-[#ff4444] text-white w-[50px] h-[50px] rounded-full text-[28px]"
+                                onClick={() => sliderRef.current?.slickPrev()}
                             >
                                 <i className="bi bi-caret-left"></i>
                             </button>
-                            <div className="sm:w-[80%] w-[60%]">
+                            <div className="w-[80%]">
                                 <Slider {...settings} ref={sliderRef}>
                                     {[p1, p2, p3, p4, p5, p6].map((item, index) => (
-                                        <img alt="" src={item} key={index} className="" />
+                                        <img key={index} src={item} alt={`partner-${index}`} />
                                     ))}
                                 </Slider>
                             </div>
                             <button
-                                className="bg-[#ff4444] text-white w-[50px] h-[50px] rounded-[100px] text-[28px]"
-                                onClick={handleNext}
+                                className="bg-[#ff4444] text-white w-[50px] h-[50px] rounded-full text-[28px]"
+                                onClick={() => sliderRef.current?.slickNext()}
                             >
                                 <i className="bi bi-caret-right"></i>
                             </button>
                         </div>
-                        <div className="w-[100%]"></div>
                     </div>
                 </ContainerWapper>
             </div>
 
-            <div className="bg-[#f44343] h-[160px]">
+            {/* Footer Content */}
+            <div className="bg-[#1a1a1a] py-[60px]">
                 <ContainerWapper>
-                    <div className="flex lg:flex-row flex-col justify-between items-center">
-                        <p className="uppercase lg:text-[30px] text-[24px] font-[500] text-white lg:mb-0 mb-[8px]">
-                            get update sign up now !
-                        </p>
-                        <div className="border-solid border-[1px] border-[#f3c600] lg:w-auto w-[90%]">
-                            <input
-                                type="text"
-                                className="bg-[#f44343] text-[#ffffff61] py-[8px] px-[16px] lg:w-[400px] w-[70%] outline-none"
-                                placeholder="Enter Your Email"
-                            />
-                            <button className="bg-white text-[16px] text-[#f44343] py-[8px] px-[20px] lg:w-auto w-[30%]">
-                                Submit
-                            </button>
-                        </div>
-                    </div>
-                </ContainerWapper>
-            </div>
-
-            <div className="bg-[#000] py-[60px]">
-                <ContainerWapper>
-                    <div className="w-[100%] text-[#ffffff61]">
-                        <div className="w-[100%] md:grid md:grid-cols-2 lg:flex lg:flex-row flex-col justify-between items-start mb-[40px] lg:px-0 px-[20px]">
-                            {cates.map((item, index) => {
-                                return <ItemCommon key={index} data={item} isUl={index !== cates.length - 1} />;
-                            })}
-                        </div>
-                        <div className="w-[100%] flex lg:flex-row flex-col justify-between items-center lg:px-0 px-[20px] lg:gap-0 gap-[20px]">
-                            <p className="text-[16px] text-center">
-                                Copyright 2022-23 <span className="text-[#f44343] text-[14px]">Movie Pro</span>. All
-                                rights reserved - Design by <span className="text-[#f44343]">FStack</span>
-                            </p>
-                            <div className="flex justify-end items-center gap-[8px]">
-                                {socials.map((item, index) => {
-                                    return <Fragment key={index}>{item}</Fragment>;
-                                })}
-                            </div>
-                        </div>
+                    <div className="w-full text-[#ccc] grid lg:grid-cols-5 sm:grid-cols-2 grid-cols-1 gap-[30px] px-[20px] lg:px-0">
+                        {cates.map((item, index) => (
+                            <ItemCommon key={index} data={item} />
+                        ))}
                     </div>
                 </ContainerWapper>
             </div>
@@ -197,38 +111,38 @@ const Footer = () => {
 
 export default Footer;
 
-const ItemCommon = ({ data, isUl = true }) => {
-    return (
-        <div className="lg:mb-0 mb-[28px]">
-            <p className="text-white text-[16px] font-[400] uppercase mb-[15px]">{data?.label}</p>
-            <Indicator />
-            {isUl ? (
-                <ul className="mt-[20px]">
-                    {data?.values.map((item, index) => {
-                        return (
-                            <li
-                                key={index}
-                                className="mb-[10px] cursor-pointer hover:text-[#f44343] flex items-center justify-start gap-[4px]"
-                            >
-                                <i className="bi bi-circle-fill text-[10px] text-[#f44343]"></i>
-                                {item}
-                            </li>
-                        );
-                    })}
-                </ul>
-            ) : (
-                <div className="pt-[40px]">
-                    <p className="mb-[10px]">Download App and Get Free Movie Ticket !</p>
-                    <div className="flex justify-start items-center gap-[10px] mb-[10px]">
-                        <img src={f1} alt="google play" className="rounded-[4px]" />
-                        <img src={f2} alt="app store" className="rounded-[4px]" />
-                    </div>
-
-                    <p>
-                        <span className="text-[#f44343]">$50</span> Payback an App Download
-                    </p>
+const ItemCommon = ({ data }) => {
+    if (data.logo) {
+        return (
+            <div className="flex flex-col items-start">
+                <div className="bg-white p-2 rounded-full w-[160px] flex items-center justify-center mb-[16px]">
+                    <img
+                        src={data.logo}
+                        alt="Logo"
+                        className="w-full h-auto object-contain"
+                    />
                 </div>
-            )}
+                <p className="text-[#bbbbbb] text-[14px] max-w-[220px] leading-[1.6]">{data.description}</p>
+            </div>
+        );
+    }
+
+    return (
+        <div>
+            <p className="text-white text-[16px] font-[500] uppercase mb-[15px]">{data.label}</p>
+            <Indicator />
+            <ul className="mt-[20px]">
+                {data.values.map((val, idx) => (
+                    <li
+                        key={idx}
+                        className="mb-[10px] text-[#ccc] hover:text-white transition-all flex gap-[8px]"
+                    >
+                        <i className="bi bi-circle-fill text-[8px] text-[#ff4d4d] mt-[5px]" />
+                        {val}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };
+

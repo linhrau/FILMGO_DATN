@@ -66,14 +66,14 @@ function App() {
 
     return (
         <>
-            <Routes>
+            {/* <Routes>
                 <Route path="/admin" element={<LayoutAdmin />}>
                     <Route index element={<Dashboard />} />
                     <Route path="cinemas" element={<CinemaList />} />
                     <Route path="cinemas/add" element={<CinemaAdd />} />
                     <Route path="cinemas/edit/:id" element={<CinemaEdit />} />
                 </Route>
-            </Routes>
+            </Routes> */}
             <Routes>
                 <Route path={routes.film_detail} element={<FilmDetail />}></Route>
                 <Route path={routes.movie_booking} element={<MovieBooking />} />

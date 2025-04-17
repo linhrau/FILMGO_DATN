@@ -6,20 +6,18 @@ import { Link } from "react-router-dom";
 const PromoCodeList = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const queryClient = useQueryClient();
-  const token = localStorage.getItem("access_token"); // Lấy token từ localStorage
+  const token = localStorage.getItem("access_token");
 
   const axiosInstance = axios.create({
-    baseURL: "http://filmgo.io.vn/api", // Cấu hình baseURL
+    baseURL: "http://filmgo.io.vn/api",
     headers: {
-      Authorization: `Bearer ${token}`, // Thêm Access Token vào headers
+      Authorization: `Bearer ${token}`,
     },
   });
 
   const { mutate } = useMutation({
     mutationFn: async (id) => {
-      await axiosInstance.delete(
-        `http://filmgo.io.vn/api/promocodes/delete/${id}`
-      );
+      await axiosInstance.delete(`/promocodes/delete/${id}`);
     },
     onSuccess: () => {
       messageApi.open({
@@ -39,10 +37,8 @@ const PromoCodeList = () => {
   const { isLoading, data } = useQuery({
     queryKey: ["promocodes"],
     queryFn: async () => {
-      const response = await axiosInstance.get(
-        `http://filmgo.io.vn/api/promocodes`
-      );
-      console.log("Dữ liệu từ API:", response.data); // Kiểm tra dữ liệu
+      const response = await axiosInstance.get(`/promocodes`);
+      console.log("Dữ liệu từ API:", response.data);
       return response.data.data.map((promocode) => ({
         ...promocode,
         key: promocode.id,
@@ -62,10 +58,11 @@ const PromoCodeList = () => {
       key: "description",
     },
     {
-      title: "Phần trăm giảm giá",
+      title: "Số tiền giảm",
       dataIndex: "discount_amount",
       key: "discount_amount",
-      render: (text) => `${Math.round(text)}%`, // Làm tròn giá trị
+      render: (amount) =>
+        `${parseInt(amount).toLocaleString("vi-VN")} VND`,
     },
     {
       title: "Trạng thái",
@@ -119,8 +116,7 @@ const PromoCodeList = () => {
           >
             <Button danger type="primary">
               Xoá
-            </Button>{" "}
-            {/* Nút Xoá có màu đỏ */}
+            </Button>
           </Popconfirm>
           <Link to={`/admin/update-promo/${promocode.id}`}>
             <Button
@@ -128,8 +124,7 @@ const PromoCodeList = () => {
               style={{ backgroundColor: "#1890ff", color: "#fff" }}
             >
               Sửa
-            </Button>{" "}
-            {/* Nút Sửa có màu xanh */}
+            </Button>
           </Link>
         </Space>
       ),
@@ -148,8 +143,7 @@ const PromoCodeList = () => {
           style={{ backgroundColor: "#52c41a", color: "#fff" }}
         >
           Thêm mã khuyến mãi
-        </Button>{" "}
-        {/* Nút Thêm có màu xanh lá */}
+        </Button>
       </Link>
       <br />
       <br />

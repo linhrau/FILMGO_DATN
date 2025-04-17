@@ -32,13 +32,16 @@ const MovieBooking = () => {
     );
 
     const handleBuilderShowtimesForDate = (dataBuider) => {
-        console.log(dataBuider);
         let dataBuild = [];
         dataBuider.forEach((item) => {
             const date = item.date;
             const inputDateTime = new Date(`${date}T${item.start_time}:00`).getTime();
+            console.log('check inputDateTime : ', inputDateTime, `${date}T${item.start_time}:00`);
+            const dt = new Date();
             const isExp = inputDateTime < Date.now();
-            const isExpDate = new Date(date).getTime() < new Date().getTime();
+            const isExpDate =
+                new Date(date).getTime() <=
+                new Date(dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate()).getTime();
             if (!isExpDate) {
                 item.isExp = isExp;
                 const dataItem = {
