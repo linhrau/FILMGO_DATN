@@ -62,12 +62,12 @@ const Seat = ({ seat, refetchSeats }) => {
       >
         <img src={seatImage} alt="Seat" className="w-full h-full" />
         {seat.status === "available" && (
-          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-[10px]">
+          <span className="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-[10px]">
             {seat.seat_code}
           </span>
         )}
         {seat.status === "reserved" && (
-          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-[10px] text-white">
+          <span className="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-[10px] text-white">
             {seat.seat_code}
           </span>
         )}
