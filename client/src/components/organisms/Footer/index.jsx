@@ -60,40 +60,7 @@ const Footer = () => {
     return (
         <div className="w-full">
             {/* Slider Partner */}
-            <div className="pt-[90px] pb-[80px] bg-white">
-                <ContainerWapper>
-                    <div className="flex flex-col items-center">
-                        <p className="text-[32px] font-[500] text-center mb-[16px]">Our Partner’s</p>
-                        <div className="flex justify-center items-center w-[200px] mb-[60px]">
-                            <div className="w-[40%] h-[2px] bg-[#ccc]"></div>
-                            <div className="w-[20%] h-[4px] bg-[#f44343]"></div>
-                            <div className="w-[40%] h-[2px] bg-[#ccc]"></div>
-                        </div>
-
-                        <div className="w-full flex justify-between items-center">
-                            <button
-                                className="bg-[#ff4444] text-white w-[50px] h-[50px] rounded-full text-[28px]"
-                                onClick={() => sliderRef.current?.slickPrev()}
-                            >
-                                <i className="bi bi-caret-left"></i>
-                            </button>
-                            <div className="w-[80%]">
-                                <Slider {...settings} ref={sliderRef}>
-                                    {[p1, p2, p3, p4, p5, p6].map((item, index) => (
-                                        <img key={index} src={item} alt={`partner-${index}`} />
-                                    ))}
-                                </Slider>
-                            </div>
-                            <button
-                                className="bg-[#ff4444] text-white w-[50px] h-[50px] rounded-full text-[28px]"
-                                onClick={() => sliderRef.current?.slickNext()}
-                            >
-                                <i className="bi bi-caret-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </ContainerWapper>
-            </div>
+            
 
             {/* Footer Content */}
             <div className="bg-[#1a1a1a] py-[60px]">
