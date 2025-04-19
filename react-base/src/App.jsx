@@ -26,6 +26,7 @@ import CheckTicket from "./admin/ticket/CheckTiket";
 import DetailTiket from "./admin/ticket/DetailTiket";
 import LayoutStaff from "./layout/LayoutStaff";
 import UpdateUser from "./admin/user/UpdateUser";
+import StaffTiket from "./admin/ticket/StaffTicket";
 
 function App() {
   return (
@@ -70,7 +71,7 @@ function App() {
           ></Route>
         </Route>
         <Route path="/staff" element={<LayoutStaff />}>
-          <Route path="/staff/list-ticket" element={<ListTiket />}></Route>
+          <Route path="/staff/list-ticket" element={<StaffTiket />}></Route>
           <Route path="/staff/check-ticket" element={<CheckTicket />}></Route>
           <Route
             path="/staff/detail-ticket/:id"
