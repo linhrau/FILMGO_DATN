@@ -135,14 +135,14 @@ const MovieCate = () => {
     ];
 
     return (
-        <MainTemplate>
+        <MainTemplate isShowBanner={false}>
             <ContainerWapper>
-                <div className="text-center mb-10 mt-20">
+                {/* <div className="text-center mb-10 mt-20">
                     <Title level={2} className="uppercase font-bold">
                         Comming soon
                     </Title>
                     <div className="w-16 h-1 bg-red-500 mx-auto mt-2"></div>
-                </div>
+                </div> */}
                 {/* <ProductSearchPopover products={listMoviesArr} /> */}
                 <div className="pt-[20px] h-[400px]">
                     <Carousel autoplay arrows className="arrow_show">
@@ -196,7 +196,7 @@ const MovieCard = ({ movie }) => {
     return (
         <Card
             className="rounded-2xl shadow-lg overflow-hidden"
-            bodyStyle={{ padding: '1rem' }}
+            styles={{ body: { padding: '1rem' } }}
             cover={<img alt={movie.title} src={movie.poster} className="h-[400px] object-cover w-full" />}
         >
             <h2 className="text-lg font-semibold text-blue-900 mb-1 line-clamp-1">{movie.title}</h2>

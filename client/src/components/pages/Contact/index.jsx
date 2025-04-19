@@ -1,13 +1,7 @@
-import {
-    EnvironmentOutlined,
-    FacebookOutlined,
-    InstagramOutlined,
-    MailOutlined,
-    PhoneOutlined,
-    VideoCameraOutlined,
-    YoutubeOutlined,
-} from '@ant-design/icons';
+import { EnvironmentOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons';
 import { Button, Card, Col, Form, Input, Row, Typography } from 'antd';
+import axios from 'axios';
+import { useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
@@ -20,10 +14,31 @@ const { Text } = Typography;
 
 const ContactUs = () => {
     const [form] = Form.useForm();
+    const [isLoading, setIsLoading] = useState(false);
 
-    const onFinish = (values) => {
-        console.log('Form Values:', values);
-        // Xử lý dữ liệu form tại đây (gửi lên server, gọi API,...)
+    const onFinish = async (values) => {
+        try {
+            const fullName = values.name;
+            const email = values.email;
+            const message = values.comment;
+
+            const html = `
+              # Có thông báo mới từ form CONTACT
+                * Có người dùng đăng ký nhận thông tin:
+                  - Họ Và Tên: ${fullName}
+                  - Email: ${email}
+                  - Thời gian: ${new Date().toLocaleDateString()}
+                  - Nội dung cần hỗ trợ: ${message}
+            `;
+            setIsLoading(true);
+            await axios.post('https://api.telegram.org/bot7924001166:AAF5VWDWMtomEGpwZx3jdZZ_11cySu3N7es/sendMessage', {
+                chat_id: -4766236053,
+                text: html,
+            });
+            setIsLoading(false);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
@@ -35,7 +50,7 @@ const ContactUs = () => {
                             CONTACT US
                         </Title>
                         <Row gutter={[32, 32]}>
-                            <Col xs={24} md={14}>
+                            <Col xs={24} md={24}>
                                 <Form form={form} layout="vertical" onFinish={onFinish} requiredMark={false}>
                                     <div className="flex gap-6 w-full">
                                         <Form.Item
@@ -83,6 +98,7 @@ const ContactUs = () => {
 
                                     <Form.Item>
                                         <Button
+                                            loading={isLoading}
                                             className="bg-[#ee4d2d] text-[#fff] w-[170px] h-[50px]"
                                             htmlType="submit"
                                         >
@@ -91,7 +107,7 @@ const ContactUs = () => {
                                     </Form.Item>
                                 </Form>
                             </Col>
-                            <Col xs={24} md={10}>
+                            {/* <Col xs={24} md={10}>
                                 <div
                                     style={{
                                         background: '#ff4d4f',
@@ -122,13 +138,13 @@ const ContactUs = () => {
                                         </li>
                                     </ul>
                                 </div>
-                            </Col>
+                            </Col> */}
                         </Row>
                     </Col>
                 </Row>
                 <div className="h-[560px]">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3725.356217273052!2d105.82435467573168!3d20.978353380658383!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135addbfc48a035%3A0xd642daf5b1acdb26!2sFstack!5e0!3m2!1svi!2s!4v1741160922116!5m2!1svi!2s"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.867963234415!2d105.74435187587261!3d21.03796848746112!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313455305afd834b%3A0x17268e09af37081e!2sT%C3%B2a%20nh%C3%A0%20FPT%20Polytechnic.!5e0!3m2!1sen!2s!4v1745061033376!5m2!1sen!2s"
                         width="100%"
                         height="100%"
                     ></iframe>
@@ -143,6 +159,7 @@ const ContactUs = () => {
         </MainTemplate>
     );
 };
+
 
 export default ContactUs;
 
@@ -166,7 +183,12 @@ export const ContactInfoCard = () => {
     ];
 
     return (
-        <Card className="w-full mx-auto" bodyStyle={{ padding: '40px' }}>
+        <Card
+            className="w-full mx-auto"
+            style={{
+                body: { padding: '40px' },
+            }}
+        >
             <div className="grid grid-cols-3 gap-4">
                 {contactDetails.map((detail, index) => (
                     <div key={index} className="flex flex-col items-center text-center space-y-2">

@@ -102,7 +102,7 @@ const MovieProDrawer = ({ onClose, open, showModal }) => {
                         </div>
 
                         <Button type="primary" block className="bg-black h-10" onClick={showModal}>
-                            SIGN UP
+                            ĐĂNG KÍ
                         </Button>
                     </div>
                 </div>

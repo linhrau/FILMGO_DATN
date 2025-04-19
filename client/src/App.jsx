@@ -26,6 +26,8 @@ import MovieBooking from './components/pages/MovieBooking';
 import MovieCate from './components/pages/MovieCategorie';
 import MovieSingle from './components/pages/MovieSingle';
 import MovieSingleSecond from './components/pages/MovieSingleSecond';
+import Policy from './components/pages/Policy';
+import TicketPricing from './components/pages/Seat';
 import SeatBooking from './components/pages/SeatBooking';
 import { routes } from './routes';
 import './style.css';
@@ -66,14 +68,14 @@ function App() {
 
     return (
         <>
-            {/* <Routes>
+            <Routes>
                 <Route path="/admin" element={<LayoutAdmin />}>
                     <Route index element={<Dashboard />} />
                     <Route path="cinemas" element={<CinemaList />} />
                     <Route path="cinemas/add" element={<CinemaAdd />} />
                     <Route path="cinemas/edit/:id" element={<CinemaEdit />} />
                 </Route>
-            </Routes> */}
+            </Routes>
             <Routes>
                 <Route path={routes.film_detail} element={<FilmDetail />}></Route>
                 <Route path={routes.movie_booking} element={<MovieBooking />} />
@@ -89,6 +91,8 @@ function App() {
                 <Route path={routes.movie_single} element={<MovieSingle />} />
                 <Route path={routes.me} element={<Me />} />
                 <Route path={routes.forgotPassword} element={<ForgotPassword />} />
+                <Route path={routes.policy} element={<Policy />} />
+                <Route path={routes.seat} element={<TicketPricing />} />
             </Routes>
             <PreviewTrailler isModalOpen={isOpenModalPriviewVideo} url={url} handleCancel={handleCancelPreviewVideo} />
             {!isLoginIn && <LoginModal />}

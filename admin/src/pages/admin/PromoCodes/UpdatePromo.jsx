@@ -103,7 +103,6 @@ const PromoCodeEdit = () => {
           />
         </Form.Item>
 
-
         <Form.Item label="Trạng thái" name="status" valuePropName="checked">
           <Switch checkedChildren="Active" unCheckedChildren="Inactive" />
         </Form.Item>
