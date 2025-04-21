@@ -107,6 +107,10 @@ function App() {
         <Route>
           <Route path="/staff" element={<LayoutStaff />}>
             <Route path="/staff/list-ticket" element={<ListTiket />}></Route>
+            <Route
+              path="/staff/detail-ticket/:id"
+              element={<DetailTiket />}
+            ></Route>
           </Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
