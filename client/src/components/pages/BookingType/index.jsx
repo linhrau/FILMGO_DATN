@@ -58,22 +58,22 @@ const MovieTicketBooking = ({ handleCreateOrder, dataOrder, className, setStep, 
                     <div className="flex flex-col md:flex-row gap-6">
                         <Card className="flex-1">
                             <div className="grid grid-cols-2 gap-y-4">
-                                <div className="font-semibold">DATE</div>
+                                <div className="font-semibold">Ngày</div>
                                 <div>{firm ? firm?.date : ''}</div>
 
-                                <div className="font-semibold">TIME</div>
+                                <div className="font-semibold">Thời gian</div>
                                 <div>
                                     {firm?.showTime
                                         ? `${firm?.showTime?.start_time} - ${firm?.showTime?.end_time}`
                                         : ''}
                                 </div>
 
-                                <div className="font-semibold">THEATER</div>
+                                <div className="font-semibold">Rạp</div>
                                 <div>{firm?.screen ? firm?.screen?.cinema?.name : ''}</div>
 
-                                <div className="font-semibold">SEAT</div>
+                                <div className="font-semibold">Ghế</div>
                                 <div>
-                                    PLATINUM -{' '}
+                                    {' '}
                                     {bookings?.map((item, index) => (
                                         <span
                                             className="mx-2 border-collapse border-cyan-300 border"
@@ -102,7 +102,7 @@ const MovieTicketBooking = ({ handleCreateOrder, dataOrder, className, setStep, 
                         <div className="md:w-80">
                             <Card>
                                 <Title level={5} className="text-center mb-4">
-                                    Booking summary
+                                    Thông tin vé
                                 </Title>
 
                                 <div className="flex justify-between mb-1">
@@ -139,7 +139,7 @@ const MovieTicketBooking = ({ handleCreateOrder, dataOrder, className, setStep, 
                                 </div>
 
                                 <div className="flex justify-between mt-4 mb-2">
-                                    <Text className="font-semibold">Payable Amount</Text>
+                                    <Text className="font-semibold">Thanh toán</Text>
                                     <Text className="font-semibold">
                                         <div className={`${percentDiscount ? 'line-through text-[#666]' : ''}`}>
                                             {formatVND(
@@ -174,7 +174,7 @@ const MovieTicketBooking = ({ handleCreateOrder, dataOrder, className, setStep, 
                                     className="mt-2 bg-blue-600"
                                     onClick={() => handleCreateOrder(dataOrder, discountCode)}
                                 >
-                                    Proceed to Pay
+                                    Tiến hành thanh toán
                                 </Button>
                             </Card>
                         </div>

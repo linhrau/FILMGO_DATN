@@ -123,7 +123,7 @@ const LoginModal = () => {
                 onCancel={handleToggle}
                 footer={null}
                 closeIcon={<CloseOutlined className="text-gray-600" />}
-                title={<div className="text-center font-bold text-lg">{isLogin ? 'LOG IN' : 'Resgister'}</div>}
+                title={<div className="text-center font-bold text-lg">{isLogin ? 'Đăng nhập' : 'Resgister'}</div>}
                 centered
                 width={400}
             >
@@ -149,7 +149,7 @@ const LoginModal = () => {
 
                         <div className="text-right mb-4">
                             <a href="/forgot-password" className="text-red-400 text-sm">
-                                Forgot Password?
+                                Quên mật khẩu?
                             </a>
                         </div>
 
@@ -159,7 +159,7 @@ const LoginModal = () => {
                                 htmlType="submit"
                                 className="w-full py-5 h-auto bg-gray-200 font-medium"
                             >
-                                LOGIN
+                               ĐĂNG NHẬP
                             </Button>
                         </Form.Item>
 
@@ -169,9 +169,7 @@ const LoginModal = () => {
                             </div>
                         </Divider>
 
-                        <Button className="w-full mb-3 h-10 bg-blue-600 text-white flex items-center justify-center">
-                            <FacebookFilled className="mr-2" /> Connect With Facebook
-                        </Button>
+                     
 
                         <Button
                             className="w-full mb-4 h-10 bg-white border flex items-center justify-center"
@@ -180,26 +178,17 @@ const LoginModal = () => {
                                 setUserFireBase(true);
                             }}
                         >
-                            <GoogleOutlined className="mr-2" /> Connect With Google
+                            <GoogleOutlined className="mr-2" /> Đăng nhập Google
                         </Button>
 
                         <div className="text-center text-sm mt-2 mb-4">
-                            Don&apos;t Have An Account?{' '}
+                            Chưa có tài khoản?{' '}
                             <a href="#" className="text-red-400" onClick={() => setIsLogin(!isLogin)}>
-                                {isLogin ? ' Sign Up' : 'Login'}
+                                {isLogin ? ' Đăng kí' : 'Đăng nhập'}
                             </a>
                         </div>
 
-                        <div className="text-center text-xs text-gray-500">
-                            I agree to the{' '}
-                            <a href="#" className="text-gray-500">
-                                Terms & Conditions
-                            </a>{' '}
-                            &{' '}
-                            <a href="#" className="text-gray-500">
-                                Privacy Policy
-                            </a>
-                        </div>
+                       
                     </Form>
                 ) : (
                     <Form form={form} name="register" layout="vertical" onFinish={onFinish} className="pt-4">
@@ -283,26 +272,17 @@ const LoginModal = () => {
                                 htmlType="submit"
                                 className="w-full py-5 h-auto bg-gray-200 font-medium"
                             >
-                                REGISTER
+                                Đăng kí
                             </Button>
                         </Form.Item>
                         <div className="text-center text-sm mt-2 mb-4">
-                            Don&apos;t Have An Account?{' '}
+                           Đã có tài khoản?{' '}
                             <a href="#" className="text-red-400" onClick={() => setIsLogin(!isLogin)}>
-                                {isLogin ? ' Sign Up' : 'Login'}
+                                {isLogin ? ' Đăng kí' : 'Đăng nhập'}
                             </a>
                         </div>
 
-                        <div className="text-center text-xs text-gray-500">
-                            I agree to the{' '}
-                            <a href="#" className="text-gray-500">
-                                Terms & Conditions
-                            </a>{' '}
-                            &{' '}
-                            <a href="#" className="text-gray-500">
-                                Privacy Policy
-                            </a>
-                        </div>
+                       
                     </Form>
                 )}
             </Modal>

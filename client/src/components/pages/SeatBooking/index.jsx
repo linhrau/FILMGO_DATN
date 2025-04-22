@@ -566,7 +566,7 @@ const SeatBooking = () => {
                                         { bg: '#7331d6', label: 'Ghế thường' },
                                         { bg: '#f14052', label: 'Ghế VIP' },
                                         { bg: '#ffc107', label: 'Ghế Đôi' },
-                                        { bg: '#0dcaf0', label: 'Ghế Đang Giữ' },
+                                        { bg: '#1d59a2', label: 'Ghế Đang Chọn' },
                                     ].map((item, index) => {
                                         return (
                                             <div className="flex justify-start items-center gap-[10px]" key={index}>
@@ -602,7 +602,7 @@ const SeatBooking = () => {
                                 {[
                                     {
                                         icon: 'bi bi-film',
-                                        label: 'thể loại',
+                                        label: 'Thể loại',
                                         value: movie?.categories.map((item) => item.name).join(', '),
                                     },
                                     { icon: 'bi bi-stopwatch', label: 'Thời lượng', value: movie?.duration },
