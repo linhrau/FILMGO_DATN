@@ -195,50 +195,52 @@ const MovieCard = ({ movie }) => {
 
     return (
         <Card
-            className="rounded-2xl shadow-lg overflow-hidden"
-            styles={{ body: { padding: '1rem' } }}
-            cover={<img alt={movie.title} src={movie.poster} className="h-[400px] object-cover w-full" />}
-        >
+        className="rounded-2xl shadow-lg overflow-hidden"
+        bodyStyle={{ padding: '1rem' }}
+        cover={<img alt={movie.title} src={movie.poster} className="h-[400px] object-cover w-full" />}
+    >
+        <button onClick={() => (window.location.href = `/film_detail/${movie.id}`)}>
+            {' '}
             <h2 className="text-lg font-semibold text-blue-900 mb-1 line-clamp-1">{movie.title}</h2>
+        </button>
 
-            <div className="text-sm mb-2">
-                <span className="font-semibold text-gray-700">Thể loại: </span>
-                {movie.genres.map((genre, index) => (
-                    <Tag color="blue" key={index}>
-                        {genre.name}
-                    </Tag>
-                ))}
-            </div>
+        <div className="text-sm mb-2">
+            <span className="font-semibold text-gray-700">Thể loại: </span>
+            {movie.genres.map((genre, index) => (
+                <Tag color="blue" key={index}>
+                    {genre.name}
+                </Tag>
+            ))}
+        </div>
 
-            <p className="text-sm">
-                <span className="font-semibold text-gray-700">Thời lượng:</span> {movie.duration} phút
-            </p>
+        <p className="text-sm">
+            <span className="font-semibold text-gray-700">Thời lượng:</span> {movie.duration} phút
+        </p>
 
-            <p className="text-sm mb-3">
-                <span className="font-semibold text-gray-700">Ngày khởi chiếu:</span>{' '}
-                {new Date(movie.release_date).toLocaleDateString('vi-VN')}
-            </p>
+        <p className="text-sm mb-3">
+            <span className="font-semibold text-gray-700">Ngày khởi chiếu:</span>{' '}
+            {new Date(movie.release_date).toLocaleDateString('vi-VN')}
+        </p>
 
-            <div className="flex justify-between gap-2">
-                <Button
-                    type="primary"
-                    icon={<PlayCircleOutlined />}
-                    className="w-full flex-1"
-                    onClick={() => handlePreviewTrailler(movie?.trailer)}
-                >
-                    Xem Trailer
-                </Button>
+        <div className="flex justify-between gap-2">
+            <Button
+                type="primary"
+                icon={<PlayCircleOutlined />}
+                className="w-full flex-1"
+                onClick={() => handlePreviewTrailler(movie?.trailer)}
+            >
+                Xem Trailer
+            </Button>
 
-                <Button
-                    type="default"
-                    icon={<InfoCircleOutlined />}
-                    onClick={() => (window.location.href = `/movie_booking/${movie.id}`)}
-                    className="flex-1"
-                >
-                    Chi tiết
-                </Button>
-            </div>
-        </Card>
+            <Button
+                type="default"
+                onClick={() => (window.location.href = `/movie_booking/${movie.id}`)}
+                className="flex-1 bg-red-500 text-white hover:bg-red-600"
+            >
+                Đặt vé
+            </Button>
+        </div>
+    </Card>
     );
 };
 

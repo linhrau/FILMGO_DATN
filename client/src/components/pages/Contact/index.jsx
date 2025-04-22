@@ -47,7 +47,7 @@ const ContactUs = () => {
                 <Row justify="center" className="p-[50px]">
                     <Col xs={24} md={16} style={{ padding: '30px', borderRadius: '8px' }}>
                         <Title level={2} style={{ marginBottom: '30px' }}>
-                            CONTACT US
+                            Liên hệ với chúng tôi
                         </Title>
                         <Row gutter={[32, 32]}>
                             <Col xs={24} md={24}>
@@ -189,7 +189,7 @@ export const ContactInfoCard = () => {
                 body: { padding: '40px' },
             }}
         >
-            <div className="grid grid-cols-3 gap-4">
+            {/* <div className="grid grid-cols-3 gap-4">
                 {contactDetails.map((detail, index) => (
                     <div key={index} className="flex flex-col items-center text-center space-y-2">
                         <div className="bg-red-500/20 p-3 rounded-full mb-2">{detail.icon}</div>
@@ -203,7 +203,7 @@ export const ContactInfoCard = () => {
                         ))}
                     </div>
                 ))}
-            </div>
+            </div> */}
         </Card>
     );
 };
@@ -261,14 +261,14 @@ export const PartnersCarousel = () => {
     return (
         <div className="w-full py-16 bg-white">
             <div className="container mx-auto px-4">
-                <div className="text-center mb-8">
+                {/* <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold text-gray-800 relative inline-block mb-8">
                         OUR PATNER&apos;S
                         <span className="absolute bottom-0 left-0 right-0 h-1 bg-red-500 transform -translate-y-1/2"></span>
                     </h2>
-                </div>
+                </div> */}
 
-                <Slider {...settings}>
+                {/* <Slider {...settings}>
                     {partners.map((partner, index) => (
                         <div key={index} className="px-4 flex justify-center items-center">
                             <div className="grayscale hover:grayscale-0 transition-all duration-300 ease-in-out">
@@ -280,7 +280,7 @@ export const PartnersCarousel = () => {
                             </div>
                         </div>
                     ))}
-                </Slider>
+                </Slider> */}
             </div>
         </div>
     );
