@@ -16,9 +16,13 @@ const API_ACTORS = "http://filmgo.io.vn/api/actors";
 const ApiList = () => {
   const [actors, setActors] = useState([]);
   const navigate = useNavigate();
-
+  // Lấy token từ localStorage để xác thực khi gọi API.
   const getAccessToken = () => localStorage.getItem("access_token");
-
+  //   Khi component load lần đầu:
+  // Kiểm tra xem có token chưa. Nếu không có thì điều hướng về trang login.
+  // Nếu có, gọi API lấy danh sách diễn viên.
+  // Nếu gọi thành công: set dữ liệu vào state actors.
+  // Nếu lỗi: hiển thị thông báo.
   useEffect(() => {
     const token = getAccessToken();
     if (!token) {
@@ -34,7 +38,11 @@ const ApiList = () => {
       .then((data) => setActors(data.data || []))
       .catch(() => message.error("Lỗi khi tải danh sách diễn viên!"));
   }, [navigate]);
-
+  // Gửi request DELETE tới API.
+  // Nếu xoá thành công thì:
+  // Hiển thị thông báo.
+  // Xoá diễn viên ra khỏi danh sách trong state actors (cập nhật UI ngay mà không cần reload).
+  // Nếu lỗi thì hiển thị thông báo lỗi.
   const handleDelete = (id) => {
     const token = getAccessToken();
     fetch(`${API_ACTORS}/delete/${id}`, {
